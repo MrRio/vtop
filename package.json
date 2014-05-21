@@ -16,6 +16,7 @@
   "dependencies": {
     "drawille": "*",
     "bresenham": "*",
-    "window-size": "*"
+    "window-size": "*",
+    "os-utils": "*"
   }
 }
