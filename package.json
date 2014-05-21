@@ -1,0 +1,20 @@
+{
+  "name": "Parastats",
+  "version": "0.0.1",
+  "description": "Awesomely simple stats",
+  "main": "run.js",
+  "author": {
+    "name": "James Hall",
+    "email": "james@parall.ax"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:MrRio/fitstats.git"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "drawille": "*",
+    "bresenham": "*"
+  }
+}

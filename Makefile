@@ -1,0 +1,2 @@
+all:
+	npm install
