@@ -1,8 +1,3 @@
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-var util = require('util');
-
-
 var Canvas = require('drawille');
 var line = require('bresenham');
 
@@ -43,7 +38,7 @@ var drawFooter = function(){
     for (var i = 1; i <= ticks.length - 1; i++) {
       output += ' '.repeat(spaces / (ticks.length)) + ticks[i];
     }
-    console.log(output + ' '.repeat(size.width - output.length - 3) + '0s');
+    console.log(output + ' '.repeat(size.width - output.length - 2) + '0s');
 };
 
 
@@ -128,20 +123,5 @@ function draw() {
   console.log(m.frame());
   drawFooter();
 }
- 
+
 draw();
-
-
-// Listen for key presses
-
-  process.stdin.on('data', function (text) {
-    console.log('received data:', util.inspect(text));
-    var intervalInput = parseInt(text);
-    if (intervalInput) {
-      cpuPositions.length = 0;
-      memPositions.length = 0;
-      drawInterval = (text / size.width) * 1000;
-    }
-
-  });
-
