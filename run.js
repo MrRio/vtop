@@ -28,7 +28,8 @@ var drawHeader = function(left, right) {
 }
 
 var drawFooter = function(){
-    var period = ((drawInterval * size.width) / 1000);
+    var period = ((drawInterval * size.width * 2) / 1000);
+
     var ticks = [];
     for (var i = 5; i > 0; i--) {
       var tick = ((period / 5) * i).toFixed(1) + 's';
@@ -140,7 +141,7 @@ draw();
     if (intervalInput) {
       cpuPositions.length = 0;
       memPositions.length = 0;
-      drawInterval = (text / size.width) * 1000;
+      drawInterval = (text / size.width) * 500;
     }
 
   });
