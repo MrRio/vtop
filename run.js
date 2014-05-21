@@ -5,7 +5,7 @@ var size = require('window-size');
 
 var width = Math.floor(size.width / 2) * 4;
 var height = Math.floor((size.height) / 16) * 36;
-var drawInterval = 100;
+
 
 var c = new Canvas(width, height);
 var m = new Canvas(width, height);
@@ -15,31 +15,12 @@ var i = 0;
 
 String.prototype.repeat = function( num )
 {
-    return new Array( Math.round(num) + 1 ).join( this );
+    return new Array( num + 1 ).join( this );
 }
 
 var drawHeader = function(left, right) {
   console.log(left + ' '.repeat(size.width - (left.length + right.length)) + right);
 }
-
-var drawFooter = function(){
-    var period = ((drawInterval * size.width) / 1000);
-    var ticks = [];
-    for (var i = 5; i > 0; i--) {
-      var tick = ((period / 5) * i).toFixed(1) + 's';
-      ticks.push(tick);
-    }
-    period += 's';
-    var contentLength = (ticks.join('') + period).length;
-    var spaces = size.width - contentLength;
-    var output = '';
-
-    output += ticks[0];
-    for (var i = 1; i <= ticks.length - 1; i++) {
-      output += ' '.repeat(spaces / (ticks.length)) + ticks[i];
-    }
-    console.log(output + ' '.repeat(size.width - output.length - 2) + '0s');
-};
 
 
 var os  = require('os-utils');
@@ -54,7 +35,7 @@ setInterval(function() {
 var currentMemUsage = 0;
 setInterval(function() {
   currentMemUsage = 100 - Math.floor(os.freememPercentage() * 100);
-}, 1000);
+}, 100);
 
 var position = 0;
 var cpuPositions = [];
@@ -87,7 +68,7 @@ function draw() {
 
   position = position + 1;
 
-  setTimeout(draw, drawInterval);
+  setTimeout(draw, 100);
 
   for (var i = 0; i < 5; i ++) {
     console.log('');
@@ -106,7 +87,6 @@ function draw() {
 
   drawHeader('CPU', currentCpuUsage + '%');
   console.log(c.frame());
-  drawFooter();
 
   memPositions[position] = height - Math.floor((height / 100) * currentMemUsage) - 1;
 
@@ -121,7 +101,7 @@ function draw() {
 
   drawHeader('Memory', currentMemUsage + '%');
   console.log(m.frame());
-  drawFooter();
+
 }
 
 draw();
