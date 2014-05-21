@@ -44,25 +44,25 @@ var memPositions = [];
 function draw() {
   c.clear();
 
-  for (y = 1; y < height; y ++) {
-    c.set(1, y);
+  for (y = 0; y < height; y ++) {
+    c.set(0, y);
     c.set(width - 1, y);
   }
 
-  for (x = 1; x < width; x ++) {
-    c.set(x, 1);
+  for (x = 0; x < width; x ++) {
+    c.set(x, 0);
     c.set(x, height - 1);
   }
 
   m.clear();
 
-  for (y = 1; y < height; y ++) {
-    m.set(1, y);
+  for (y = 0; y < height; y ++) {
+    m.set(0, y);
     m.set(width - 1, y);
   }
 
-  for (x = 1; x < width; x ++) {
-    m.set(x, 1);
+  for (x = 0; x < width; x ++) {
+    m.set(x, 0);
     m.set(x, height - 1);
   }
 
@@ -79,7 +79,7 @@ function draw() {
 
   for (var pos in cpuPositions) {
     var p2 = parseInt(pos) + (width - cpuPositions.length);
-    if (p2 < 1) {
+    if (p2 < 1 || cpuPositions[pos] < 0) {
       continue;
     }
     c.set(p2, cpuPositions[pos]);
@@ -92,9 +92,10 @@ function draw() {
 
   for (var pos in memPositions) {
     var p2 = parseInt(pos) + (width - cpuPositions.length);
-    if (p2 < 1) {
+    if (p2 < 1 || memPositions[pos] < 0) {
       continue;
     }
+
     m.set(p2, memPositions[pos]);
   }
 

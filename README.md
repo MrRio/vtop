@@ -7,5 +7,8 @@ Usage:
 
 ```
 make
+```
+
+```
 node run.js
 ````
