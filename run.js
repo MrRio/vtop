@@ -64,7 +64,11 @@ function draw() {
   cpuPositions[position] = height - Math.floor((height / 100) * currentCpuUsage) - 2;
 
   for (var pos in cpuPositions) {
-    c.set(pos, cpuPositions[pos]);
+    var p2 = parseInt(pos) + (width - cpuPositions.length);
+    if (p2 < 1) {
+      continue;
+    }
+    c.set(p2, cpuPositions[pos]);
   }
 
   drawHeader('CPU', currentCpuUsage + '%');
