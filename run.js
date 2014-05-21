@@ -28,9 +28,10 @@ setInterval(function() {
   os.cpuUsage(function(v){
     currentCpuUsage = Math.floor(v * 100);
   });
-}, 1000);
+}, 100);
 
-
+var position = 0;
+var cpuPositions = [];
 
 function draw() {
   c.clear();
@@ -48,7 +49,9 @@ function draw() {
     c.set(x, height - 1);
   }
 
-  setTimeout(draw, 50);
+  position = position + 1;
+
+  setTimeout(draw, 100);
 
   for (var i = 0; i < 5; i ++) {
     console.log('');
@@ -57,6 +60,12 @@ function draw() {
 
   drawHeader('Network', '10%');
   console.log(c.frame());
+
+  cpuPositions[position] = height - Math.floor((height / 100) * currentCpuUsage) - 2;
+
+  for (var pos in cpuPositions) {
+    c.set(pos, cpuPositions[pos]);
+  }
 
   drawHeader('CPU', currentCpuUsage + '%');
   console.log(c.frame());
