@@ -1,0 +1,34 @@
+{
+  "author": "Jake Luer <jake@alogicalparadox.com>",
+  "name": "chai",
+  "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic.",
+  "keywords": [ "test", "assertion", "assert", "testing", "chai" ],
+  "homepage": "http://chaijs.com",
+  "license": "MIT",
+  "contributors": [
+    "Jake Luer <jake@alogicalparadox.com>",
+    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
+    "Veselin Todorov <hi@vesln.com>",
+    "John Firebaugh <john.firebaugh@gmail.com>"
+  ],
+  "version": "1.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chaijs/chai"
+  },
+  "bugs": {
+    "url": "https://github.com/chaijs/chai/issues"
+  },
+  "main": "./index",
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+      "folio": "0.3.x"
+    , "mocha": "*"
+  }
+}

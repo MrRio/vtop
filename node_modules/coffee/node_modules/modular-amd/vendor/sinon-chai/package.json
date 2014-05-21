@@ -1,0 +1,44 @@
+{
+  "name": "sinon-chai",
+  "description": "Extends Chai with assertions for the Sinon.JS mocking framework.",
+  "keywords": [
+    "sinon",
+    "chai",
+    "testing",
+    "spies",
+    "stubs",
+    "mocks"
+  ],
+  "version": "2.1.2",
+  "author": "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
+  "license": "WTFPL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domenic/sinon-chai"
+  },
+  "bugs": {
+    "url": "http://github.com/domenic/sinon-chai/issues"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "./lib/sinon-chai.js",
+  "scripts": {
+    "test": "mocha",
+    "lint": "jshint ./lib --show-non-errors",
+    "cover": "cover run node_modules/mocha/bin/_mocha && cover report html && start ./cover_html/index.html"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "sinon": ">=1.3.4 <2"
+  },
+  "devDependencies": {
+    "coffee-script": "1",
+    "mocha": "1",
+    "chai": "1",
+    "cover": "*",
+    "jshint": ">= 0.7.1"
+  }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modular Demo</title>
+
+        <script type="text/javascript" src="modular.js"></script>
+        <script type="text/javascript" src="vendor/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="vendor/jquery/jquery-1.7.2.min.js"></script>
+
+        <script type="text/javascript">
+            require({
+                versions: {
+                    "jquery": "1.7.1"
+                }
+            }, [
+                "jquery"
+            ], function (
+                $
+            ) {
+                $(function () {
+                    $("#jquery").append("<li>jQuery v1.7.1 requested: jQuery.fn.jquery = " + $().jquery + "</li>");
+                });
+            });
+
+            require({
+                versions: {
+                    "jquery": "1.7.2"
+                }
+            }, [
+                "jquery"
+            ], function (
+                $
+            ) {
+                $(function () {
+                    $("#jquery").append("<li>jQuery v1.7.2 requested: jQuery.fn.jquery = " + $().jquery + "</li>");
+                });
+            });
+
+            require([
+                "jquery"
+            ], function (
+                $
+            ) {
+                $(function () {
+                    $("#jquery").append("<li>Default jQuery requested: jQuery.fn.jquery = " + $().jquery + "</li>");
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <article>
+            <header>
+                <h1>Modular Demo</h1>
+            </header>
+
+            <section>
+                <header>
+                    <h1>jQuery test</h1>
+                    <p>Versioning system may be used with jQuery to request a particular version:</p>
+                </header>
+
+                <ul id="jquery"></ul>
+            </section>
+        </article>
+    </body>
+</html>

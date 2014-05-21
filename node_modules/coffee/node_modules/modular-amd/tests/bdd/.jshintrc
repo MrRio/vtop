@@ -1,0 +1,28 @@
+{
+    "globals": {
+        "afterEach": true,
+        "beforeEach": true,
+        "describe": true,
+        "it": true
+    },
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "es5": true,
+    "expr": true,
+    "forin": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "maxlen": false,
+    "maxparams": false,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "plusplus": false,
+    "quotmark": "double",
+    "trailing": true,
+    "undef": true,
+    "unused": true
+}

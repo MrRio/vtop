@@ -1,0 +1,22 @@
+--- 
+vendor/chai: 
+  branch: master
+  remote: master/braid/vendor/chai
+  revision: 9872815f8acebd4908d48fe4bd827ff70d45c30c
+  squashed: true
+  type: git
+  url: git://github.com/asmblah/chai.git
+vendor/mocha: 
+  branch: master
+  remote: master/braid/vendor/mocha
+  revision: 8a1555e24a543c05c6f3a99820f3d0b761bbb917
+  squashed: true
+  type: git
+  url: git://github.com/asmblah/mocha.git
+vendor/sinon-chai: 
+  branch: master
+  remote: master/braid/vendor/sinon-chai
+  revision: 80f550e6b5e87a8d123ae95581a15739df03dd48
+  squashed: true
+  type: git
+  url: git://github.com/domenic/sinon-chai.git
