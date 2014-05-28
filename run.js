@@ -83,6 +83,9 @@ function draw() {
       continue;
     }
     c.set(p2, cpuPositions[pos]);
+    for (var y = cpuPositions[pos]; y < height; y ++) {
+      c.set(p2, y);
+    }
   }
 
   drawHeader('CPU', currentCpuUsage + '%');
@@ -97,6 +100,9 @@ function draw() {
     }
 
     m.set(p2, memPositions[pos]);
+    for (var y = memPositions[pos]; y < height; y ++) {
+      m.set(p2, y);
+    }
   }
 
   drawHeader('Memory', currentMemUsage + '%');
