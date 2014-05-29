@@ -1,5 +1,8 @@
 /**
- * Velocity
+ * vtop – Velocity Top
+ 
+ *
+ * http://parall.ax/products/velocity
  * 
  * Because `top` just ain't cutting it anymore.
  *
@@ -8,3 +11,15 @@
  * @license MIT
  */
 
+var App = function() {
+
+	// Public function (just the entry point)
+	return {
+
+		init: function() {
+			
+		}
+	}
+}();
+
+App.init();

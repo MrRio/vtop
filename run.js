@@ -73,7 +73,7 @@ function draw() {
   for (var i = 0; i < 5; i ++) {
     console.log('');
   }
-  console.log('Parastats v0.0.1');
+  console.log('vtop');
 
   cpuPositions[position] = height - Math.floor((height / 100) * currentCpuUsage) - 1;
 

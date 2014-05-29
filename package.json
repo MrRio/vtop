@@ -1,22 +1,30 @@
 {
-  "name": "Parastats",
-  "version": "0.0.1",
-  "description": "Awesomely simple stats",
+  "name": "vtop",
+  "version": "0.0.2",
+  "description": "Wow such top. So stats",
   "main": "run.js",
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "bin": {
+    "vtop": "./bin/vtop.js"
+  },
   "author": {
     "name": "James Hall",
     "email": "james@parall.ax"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:MrRio/fitstats.git"
+    "url": "git@github.com:MrRio/vtop.git"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "drawille": "*",
-    "bresenham": "*",
-    "window-size": "*",
-    "os-utils": "*"
+    "drawille": "0.0.3",
+    "bresenham": "0.0.2",
+    "window-size": "0.1.0",
+    "os-utils": "0.0.14",
+    "read": "1.0.5"
   }
 }
