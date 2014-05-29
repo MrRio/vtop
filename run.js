@@ -13,14 +13,13 @@ var m = new Canvas(width, height);
 
 var i = 0;
 
-String.prototype.repeat = function( num )
-{
-    return new Array( num + 1 ).join( this );
-}
+String.prototype.repeat = function(num) {
+  return new Array(num + 1).join(this);
+};
 
 var drawHeader = function(left, right) {
   console.log(left + ' '.repeat(size.width - (left.length + right.length)) + right);
-}
+};
 
 
 var os  = require('os-utils');
@@ -78,7 +77,7 @@ function draw() {
   cpuPositions[position] = height - Math.floor((height / 100) * currentCpuUsage) - 1;
 
   for (var pos in cpuPositions) {
-    var p2 = parseInt(pos) + (width - cpuPositions.length);
+    var p2 = parseInt(pos, 10) + (width - cpuPositions.length);
     if (p2 < 1 || cpuPositions[pos] < 0) {
       continue;
     }
@@ -94,7 +93,7 @@ function draw() {
   memPositions[position] = height - Math.floor((height / 100) * currentMemUsage) - 1;
 
   for (var pos in memPositions) {
-    var p2 = parseInt(pos) + (width - cpuPositions.length);
+    var p2 = parseInt(pos, 10) + (width - cpuPositions.length);
     if (p2 < 1 || memPositions[pos] < 0) {
       continue;
     }
