@@ -58,7 +58,8 @@ var App = function() {
 
 
 	var drawChart = function(chartKey) {
-		var c = charts[chartKey].chart;
+		var chart = charts[chartKey];
+		var c = chart.chart;
 		c.clear();
 
 		for (y = 0; y < size.pixel.height; y ++) {
@@ -84,8 +85,7 @@ var App = function() {
 				c.set(p2, y);
 			}
 		}
-
-		drawHeader('CPU', '50%');
+		drawHeader(chart.plugin.title, '50%');
 		console.log(c.frame());
 	}
 
@@ -110,8 +110,6 @@ var App = function() {
 	return {
 
 		init: function() {
-			console.log(stringRepeat('.', 20));
-
 			size.character.width = windowSize.width;
 			size.character.height = windowSize.height;
 
@@ -119,14 +117,16 @@ var App = function() {
 			size.pixel.width = Math.floor(size.character.width / 2) * 4;
 			size.pixel.height = Math.floor((size.character.height) / 16) * 36;
 
-			charts[0] = {
-				chart: new canvas(size.pixel.width, size.pixel.height),
-				values: []
-			};
-			charts[1] = {
-				chart: new canvas(size.pixel.width, size.pixel.height),
-				values: []
-			};
+			var plugins = ['cpu', 'memory'];
+
+			for (var plugin in plugins) {
+				charts[plugin] = {
+					chart: new canvas(size.pixel.width, size.pixel.height),
+					values: [],
+					plugin: require('./sensors/' + plugins[plugin] + '.js')
+				}
+			}
+
 			setInterval(draw, 100);
 		}
 	};

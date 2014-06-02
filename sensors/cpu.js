@@ -26,4 +26,4 @@ var plugin = {
 	}
 };
 
-exports = plugin;
+module.exports = exports = plugin;
