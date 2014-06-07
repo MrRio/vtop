@@ -57,7 +57,7 @@ var App = function() {
 			width: '50%',
 			height: '1',
 			fg: '#a537fd',
-			content: '{bold}vtop{/bold} {white-fg} - http://parall.ax/vtop{/white-fg}',
+			content: ' {bold}vtop{/bold}',
 			tags: true
 		});
 		var date = blessed.text({
@@ -74,13 +74,25 @@ var App = function() {
 
 		var updateTime = function() {
 			var time = new Date();
-			date.setContent(time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2) + ':' + ('0' + time.getSeconds()).slice(-2));
+			date.setContent(time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2) + ':' + ('0' + time.getSeconds()).slice(-2) + ' ');
 			screen.render();
 		};
 
 		updateTime();
 		setInterval(updateTime, 1000);
 	};
+
+	var drawFooter = function() {
+		var footerRight = blessed.text({
+			bottom: '0',
+			left: '50%',
+			width: '50%',
+			align: 'right',
+			content: '(c) 2014 James Hall - http://parall.ax/vtop ',
+			fg: 'white'
+		});
+		screen.append(footerRight);
+	}
 
 
 	/**
@@ -156,6 +168,7 @@ var App = function() {
 			});
 
 			drawHeader();
+			drawFooter();
 
 			graph = blessed.box({
 				top: 1,
