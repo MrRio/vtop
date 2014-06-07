@@ -99,22 +99,12 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
-		// for (y = 0; y < size.pixel.height; y ++) {
-		// 	c.set(0, y);
-		// 	c.set(size.pixel.width - 1, y);
-		// }
-
-		// for (x = 0; x < size.pixel.width; x ++) {
-		// 	c.set(x, 0);
-		// 	c.set(x, size.pixel.height - 1);
-		// }
-
 		charts[chartKey].values[position] = chart.height - Math.floor((chart.height / 100) * charts[chartKey].plugin.currentValue) - 1;
 
 		for (var pos in charts[chartKey].values) {
 			var p2 = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
 			if (p2 > 1 && charts[chartKey].values[pos] > 0) {
-				c.set(p2, charts[chartKey].values[pos]);			
+				c.set(p2, charts[chartKey].values[pos]);
 			}
 
 			for (var y = charts[chartKey].values[pos]; y < chart.height; y ++) {
@@ -185,7 +175,7 @@ var App = function() {
 			var createBottom = function() {
 				if (graph2appended) {
 					screen.remove(graph2);
-					screen.remove(processList)
+					screen.remove(processList);
 				}
 				graph2appended = true;
 				graph2 = blessed.box({
@@ -261,7 +251,7 @@ var App = function() {
 					values: [],
 					plugin: require('./sensors/' + plugins[plugin] + '.js'),
 					width: width,
-					height: height 
+					height: height
 				};
 				charts[plugin].plugin.poll();
 
