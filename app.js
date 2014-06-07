@@ -224,40 +224,43 @@ var App = function() {
 			// Render the screen.
 			screen.render();
 
-			// @todo: Change to height of box in blessed
-			size.character.width = windowSize.width - 2;
-			size.character.height = windowSize.height + 4;
+			var setupCharts = function() {
+				// @todo: Change to height of box in blessed
+				size.character.width = windowSize.width - 2;
+				size.character.height = windowSize.height + 4;
 
-			// @todo: Fix these drunken magic numbers
-			size.pixel.width = (graph.width - 2) * 2;
-			size.pixel.height = (graph.height - 2) * 4;
+				// @todo: Fix these drunken magic numbers
+				size.pixel.width = (graph.width - 2) * 2;
+				size.pixel.height = (graph.height - 2) * 4;
 
-			var plugins = ['cpu', 'memory'];
+				var plugins = ['cpu', 'memory'];
 
-			for (var plugin in plugins) {
-				var width, height;
-				// @todo Refactor this
-				if (plugins[plugin] == 'cpu') {
-					width = (graph.width - 2) * 2;
-					height = (graph.height - 2) * 4;
+				for (var plugin in plugins) {
+					var width, height;
+					// @todo Refactor this
+					if (plugins[plugin] == 'cpu') {
+						width = (graph.width - 2) * 2;
+						height = (graph.height - 2) * 4;
+					}
+					if (plugins[plugin] == 'memory') {
+						width = (graph2.width - 3) * 2;
+						height = ((graph2.height - 2) * 4);
+					}
+					charts[plugin] = {
+						chart: new canvas(width, height),
+						values: [],
+						plugin: require('./sensors/' + plugins[plugin] + '.js'),
+						width: width,
+						height: height
+					};
+					charts[plugin].plugin.poll();
+
+
 				}
-				if (plugins[plugin] == 'memory') {
-					width = (graph2.width - 3) * 2;
-					height = ((graph2.height - 2) * 4);
-				}
-
-				charts[plugin] = {
-					chart: new canvas(width, height),
-					values: [],
-					plugin: require('./sensors/' + plugins[plugin] + '.js'),
-					width: width,
-					height: height
-				};
-				charts[plugin].plugin.poll();
-
-
 			}
 
+			setupCharts();
+			screen.on('resize', setupCharts);
 			setInterval(draw, 100);
 		}
 	};
