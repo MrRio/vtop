@@ -254,7 +254,7 @@ var App = function() {
 					var width, height;
 					// @todo Refactor this
 					if (plugins[plugin] == 'cpu') {
-						width = (graph.width - 2) * 2;
+						width = (graph.width - 3) * 2;
 						height = (graph.height - 2) * 4;
 					}
 					if (plugins[plugin] == 'memory') {

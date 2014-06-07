@@ -1,6 +1,6 @@
 {
   "name": "vtop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wow such top. So stats",
   "main": "run.js",
   "preferGlobal": true,
