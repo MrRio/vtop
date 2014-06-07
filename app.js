@@ -34,7 +34,10 @@ var App = function() {
 	// Private functions
 
 	/**
-	 * Draws the header
+	 * Draw header
+	 * @param  {string} left  This is the text to go on the left
+	 * @param  {string} right This is the text for the right
+	 * @return {void}
 	 */
 	var drawHeader = function(left, right) {
 		var output = left;
@@ -54,8 +57,6 @@ var App = function() {
 	};
 
 	var charts = [];
-	var position = 0;
-
 
 	var drawChart = function(chartKey) {
 		var chart = charts[chartKey];
@@ -104,7 +105,7 @@ var App = function() {
 		var chartKey = 0;
 		drawChart(chartKey);
 		drawChart(chartKey + 1);
-	}
+	};
 
 	// Public function (just the entry point)
 	return {
@@ -124,7 +125,7 @@ var App = function() {
 					chart: new canvas(size.pixel.width, size.pixel.height),
 					values: [],
 					plugin: require('./sensors/' + plugins[plugin] + '.js')
-				}
+				};
 			}
 
 			setInterval(draw, 100);
