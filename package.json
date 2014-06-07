@@ -25,6 +25,7 @@
     "bresenham": "0.0.2",
     "window-size": "0.1.0",
     "os-utils": "0.0.14",
-    "read": "1.0.5"
+    "read": "1.0.5",
+    "blessed": "0.0.33"
   }
 }
