@@ -15,7 +15,6 @@ var App = function() {
 
 	// Load in required libs
 	var canvas = require('drawille');
-	var windowSize = require('window-size');
 	var blessed = require('blessed');
 	var program = blessed.program();
 	var os = require("os");
@@ -115,24 +114,27 @@ var App = function() {
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
 
 		var computeValue = function(input) {
-			return chart.height - Math.floor((chart.height / 100) * input) - 1;
+			return chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1;
 		};
 
 		for (var pos in charts[chartKey].values) {
-			var p2 = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
-			if (p2 > 1 && computeValue(charts[chartKey].values[pos]) > 0) {
-				c.set(p2, computeValue(charts[chartKey].values[pos]));
+			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
+			if (p > 0 && computeValue(charts[chartKey].values[pos]) > 0) {
+				c.set(p, computeValue(charts[chartKey].values[pos]));
 			}
 
 			for (var y = computeValue(charts[chartKey].values[pos]); y < chart.height; y ++) {
-				if (p2 > 1 && y > 1) {
-					c.set(p2, y);
+				if (p > 0 && y > 0) {
+					c.set(p, y);
 				}
 			}
 		}
+		// Add percentage to top right of the chart by splicing it into the braille data
+		var textOutput = c.frame().split("\n");
+		var percent = '   ' + chart.plugin.currentValue;
+		textOutput[0] = textOutput[0].slice(0, textOutput[0].length - 4) + '{white-fg}' + percent.slice(-3) + '%{/white-fg}';
 
-		//drawHeader(chart.plugin.title, chart.plugin.currentValue + '%');
-		return c.frame();
+		return textOutput.join("\n");
 	};
 
 	/**
@@ -178,6 +180,7 @@ var App = function() {
 				height: '50%',
 				content: 'test',
 				fg: '#a537fd',
+				tags: true,
 				border: {
 					type: 'line',
 					fg: '#00ebbe'
@@ -201,6 +204,7 @@ var App = function() {
 					height: graph.height - 1,
 					content: 'test',
 					fg: '#a537fd',
+					tags: true,
 					border: {
 						type: 'line',
 						fg: '#00ebbe'
@@ -209,7 +213,7 @@ var App = function() {
 				screen.append(graph2);
 
 
-				processList = blessed.list({
+				processList = blessed.box({
 					top: graph.height + 1,
 					left: '50%',
 					width: screen.width - graph2.width,
@@ -217,13 +221,10 @@ var App = function() {
 					label: ' Process List ',
 					keys: true,
 					mouse: true,
-					selectedBg: 'white',
-					selectedFg: 'black',
 					border: {
 						type: 'line',
 						fg: '#00ebbe'
-					},
-					items: ['one', 'two', 'three']
+					}
 				});
 				screen.append(processList);
 			};
@@ -240,10 +241,6 @@ var App = function() {
 			screen.render();
 
 			var setupCharts = function() {
-				// @todo: Change to height of box in blessed
-				size.character.width = windowSize.width - 2;
-				size.character.height = windowSize.height + 4;
-
 				// @todo: Fix these drunken magic numbers
 				size.pixel.width = (graph.width - 2) * 2;
 				size.pixel.height = (graph.height - 2) * 4;
