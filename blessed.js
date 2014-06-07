@@ -49,9 +49,10 @@ screen.append(graph);
 var graph2;
 var graph2appended = false;
 
-var createGraphs = function() {
+var createBottom = function() {
 	if (graph2appended) {
 		screen.remove(graph2);
+		screen.remove(processList)
 	}
 	graph2appended = true;
 	graph2 = blessed.box({
@@ -68,14 +69,33 @@ var createGraphs = function() {
 	});
 	screen.append(graph2);
 
+
+	processList = blessed.list({
+		top: graph.bottom + 1,
+		left: '50%',
+		width: '50%',
+		height: '50%',
+		label: ' Process List ',
+		keys: true,
+		mouse: true,
+		selectedBg: 'white',
+		selectedFg: 'black',
+		border: {
+			type: 'line',
+			fg: '#00ebbe'
+		},
+		items: ['one', 'two', 'three']
+	});
+	screen.append(processList);
 };
 
 screen.on('resize', function() {
-	createGraphs();
+	createBottom();
 });
-createGraphs();
+createBottom();
 
 screen.append(graph);
+screen.append(processList);
 
 
 var updateTime = function() {
