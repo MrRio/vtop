@@ -161,9 +161,9 @@ var App = function() {
 			// Create a screen object.
 			screen = blessed.screen();
 
-			// configure 'q' and 'escape' for quit
+			// Configure 'q', esc, Ctrl+C for quit
 			screen.on('keypress', function(ch, key) {
-				if (key.name === 'q' || key.name === 'escape') {
+				if (key.name === 'q' || key.name === 'escape' || (key.name == 'c' && key.ctrl === true)) {
 					return process.exit(0);
 				}
 			});
