@@ -16,11 +16,13 @@ var plugin = {
 	 * More costly benchmarks should be polled less frequently.
 	 */
 	interval: 100,
+
+	currentValue: 0,
 	/**
 	 * Grab the current value, from 0-100
 	 */
-	poll: function(callback) {
-		callback(100 - Math.floor(os.freememPercentage() * 100));
+	poll: function() {
+		this.currentValue = (100 - Math.floor(os.freememPercentage() * 100));
 	}
 };
 

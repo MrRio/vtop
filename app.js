@@ -1,6 +1,6 @@
 /**
  * vtop – Velocity Top
- 
+ *
  *
  * http://parall.ax/products/velocity
  * 
@@ -73,8 +73,7 @@ var App = function() {
 			c.set(x, size.pixel.height - 1);
 		}
 
-		charts[chartKey].currentValue = 50;
-		charts[chartKey].values[position] = size.pixel.height - Math.floor((size.pixel.height / 100) * charts[chartKey].currentValue) - 1;
+		charts[chartKey].values[position] = size.pixel.height - Math.floor((size.pixel.height / 100) * charts[chartKey].plugin.currentValue) - 1;
 
 		for (var pos in charts[chartKey].values) {
 			var p2 = parseInt(pos, 10) + (size.pixel.width - charts[chartKey].values.length);
@@ -86,9 +85,10 @@ var App = function() {
 				c.set(p2, y);
 			}
 		}
-		drawHeader(chart.plugin.title, '50%');
+
+		drawHeader(chart.plugin.title, chart.plugin.currentValue + '%');
 		console.log(c.frame());
-	}
+	};
 
 	/**
 	 * Overall draw function, this should poll and draw results of 
@@ -105,6 +105,10 @@ var App = function() {
 		var chartKey = 0;
 		drawChart(chartKey);
 		drawChart(chartKey + 1);
+
+		for (var plugin in charts) {
+			charts[plugin].plugin.poll();
+		}
 	};
 
 	// Public function (just the entry point)
@@ -126,6 +130,7 @@ var App = function() {
 					values: [],
 					plugin: require('./sensors/' + plugins[plugin] + '.js')
 				};
+				charts[plugin].plugin.poll();
 			}
 
 			setInterval(draw, 100);

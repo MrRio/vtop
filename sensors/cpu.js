@@ -16,12 +16,14 @@ var plugin = {
 	 * More costly benchmarks should be polled less frequently.
 	 */
 	interval: 100,
+
+	currentValue: 0,
 	/**
 	 * Grab the current value, from 0-100
 	 */
-	poll: function(callback) {
+	poll: function() {
 		os.cpuUsage(function(v){
-			callback(Math.floor(v * 100));
+			plugin.currentValue = (Math.floor(v * 100));
 		});
 	}
 };
