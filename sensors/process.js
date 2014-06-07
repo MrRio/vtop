@@ -1,5 +1,6 @@
 /**
- * CPU Usage sensor
+ * 
+ * Process monitor sensor
  *
  * (c) 2014 James Hall
  */
@@ -10,26 +11,32 @@ var plugin = {
 	/**
 	 * This appears in the title of the graph
 	 */
-	title: 'CPU Usage',
+	title: 'Process List',
 	/**
 	 * The type of sensor
 	 * @type {String}
 	 */
-	type: 'chart',
+	type: 'table',
 	/**
 	 * The default interval time in ms that this plugin should be polled.
 	 * More costly benchmarks should be polled less frequently.
 	 */
 	interval: 100,
 
-	currentValue: 0,
+	columns: ['Name', 'Count', 'CPU', 'Memory'],
+	currentValue: [{
+		'Name': 'Google Chrome',
+		'Count': '4',
+		'CPU': '0.4%',
+		'Memory': '10%'
+	}],
+
+
 	/**
-	 * Grab the current value, from 0-100
+	 * Grab the current value for the table
 	 */
 	poll: function() {
-		os.cpuUsage(function(v){
-			plugin.currentValue = (Math.floor(v * 100));
-		});
+		// 
 	}
 };
 

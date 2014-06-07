@@ -12,6 +12,11 @@ var plugin = {
 	 */
 	title: 'Memory Usage',
 	/**
+	 * The type of sensor
+	 * @type {String}
+	 */
+	type: 'chart',
+	/**
 	 * The default interval time in ms that this plugin should be polled.
 	 * More costly benchmarks should be polled less frequently.
 	 */

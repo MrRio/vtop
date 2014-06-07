@@ -246,18 +246,23 @@ var App = function() {
 						width = (graph2.width - 3) * 2;
 						height = ((graph2.height - 2) * 4);
 					}
+					// If we're reconfiguring a plugin, then preserve the already recorded values
+					var values;
+					if (typeof charts[plugin] != 'undefined' && typeof charts[plugin].values != 'undefined') {
+						values = charts[plugin].values;
+					} else {
+						values = [];
+					}
 					charts[plugin] = {
 						chart: new canvas(width, height),
-						values: [],
+						values: values,
 						plugin: require('./sensors/' + plugins[plugin] + '.js'),
 						width: width,
 						height: height
 					};
 					charts[plugin].plugin.poll();
-
-
 				}
-			}
+			};
 
 			setupCharts();
 			screen.on('resize', setupCharts);
