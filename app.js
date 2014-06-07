@@ -18,6 +18,8 @@ var App = function() {
 	var windowSize = require('window-size');
 	var blessed = require('blessed');
 	var program = blessed.program();
+	var os = require("os");
+
 	/**
 	 * Instance of blessed screen
 	 */
@@ -57,7 +59,7 @@ var App = function() {
 			width: '50%',
 			height: '1',
 			fg: '#a537fd',
-			content: ' {bold}vtop{/bold}',
+			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + '{/white-fg}',
 			tags: true
 		});
 		var date = blessed.text({
@@ -92,8 +94,7 @@ var App = function() {
 			fg: 'white'
 		});
 		screen.append(footerRight);
-	}
-
+	};
 
 	/**
 	 * Repeats a string
