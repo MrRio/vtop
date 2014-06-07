@@ -1,55 +1,91 @@
-var blessed = require('blessed');
+var blessed = require('blessed'),
+	program = blessed.program();
 
 // Create a screen object.
 var screen = blessed.screen();
 
-// Create a box perfectly centered horizontally and vertically.
-var box = blessed.box({
-  top: 'center',
-  left: 'center',
-  width: '50%',
-  height: '50%',
-  content: 'Hello {bold}world{/bold}!',
-  tags: true,
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    bg: 'magenta',
-    border: {
-      fg: '#f0f0f0'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
+screen.on('keypress', function(ch, key) {
+	if (key.name === 'q' || key.name === 'escape') {
+		return process.exit(0);
+	}
 });
 
-// Append our box to the screen.
-screen.append(box);
+var header = blessed.text({
+	top: 'top',
+	left: 'left',
+	width: '50%',
+	height: '1',
+	fg: '#a537fd',
+	content: '{bold}vtop{/bold} {white-fg} - http://parall.ax/vtop{/white-fg}',
+	tags: true
+});
+var date = blessed.text({
+	top: 'top',
+	left: '50%',
+	width: '50%',
+	height: '1',
+	align: 'right',
+	content: '',
+	tags: true
+});
+screen.append(header);
+screen.append(date);
 
-// If our box is clicked, change the content.
-box.on('click', function(data) {
-  box.setContent('{center}Some different {red-fg}content{/red-fg}.{/center}');
-  screen.render();
+var graph = blessed.box({
+	top: 1,
+	left: 'left',
+	width: '100%',
+	height: '50%',
+	content: 'test',
+	label: ' CPU Usage ',
+	border: {
+		type: 'line',
+		fg: '#00ebbe'
+	}
 });
 
-// If box is focused, handle `enter`/`return` and give us some more content.
-box.key('enter', function(ch, key) {
-  box.setContent('{right}Even different {black-fg}content{/black-fg}.{/right}\n');
-  box.setLine(1, 'bar');
-  box.insertLine(1, 'foo');
-  screen.render();
-});
+screen.append(graph);
 
-// Quit on Escape, q, or Control-C.
-screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-  return process.exit(0);
-});
+var graph2;
+var graph2appended = false;
 
-// Focus our element.
-box.focus();
+var createGraphs = function() {
+	if (graph2appended) {
+		screen.remove(graph2);
+	}
+	graph2appended = true;
+	graph2 = blessed.box({
+		top: graph.bottom + 1,
+		left: 'left',
+		width: '50%',
+		height: '50%',
+		content: 'test',
+		label: ' Memory ',
+		border: {
+			type: 'line',
+			fg: '#00ebbe'
+		}
+	});
+	screen.append(graph2);
+
+};
+
+screen.on('resize', function() {
+	createGraphs();
+});
+createGraphs();
+
+screen.append(graph);
+
+
+var updateTime = function() {
+	var time = new Date();
+	date.setContent(time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2) + ':' + ('0' + time.getSeconds()).slice(-2));
+	screen.render();
+};
+
+updateTime();
+setInterval(updateTime, 1000);
 
 // Render the screen.
 screen.render();
