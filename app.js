@@ -99,15 +99,19 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
-		charts[chartKey].values[position] = chart.height - Math.floor((chart.height / 100) * charts[chartKey].plugin.currentValue) - 1;
+		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
+
+		var computeValue = function(input) {
+			return chart.height - Math.floor((chart.height / 100) * input) - 1;
+		};
 
 		for (var pos in charts[chartKey].values) {
 			var p2 = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
-			if (p2 > 1 && charts[chartKey].values[pos] > 0) {
-				c.set(p2, charts[chartKey].values[pos]);
+			if (p2 > 1 && computeValue(charts[chartKey].values[pos]) > 0) {
+				c.set(p2, computeValue(charts[chartKey].values[pos]));
 			}
 
-			for (var y = charts[chartKey].values[pos]; y < chart.height; y ++) {
+			for (var y = computeValue(charts[chartKey].values[pos]); y < chart.height; y ++) {
 				if (p2 > 1 && y > 1) {
 					c.set(p2, y);
 				}
@@ -127,10 +131,9 @@ var App = function() {
 
 		var chartKey = 0;
 		graph.setContent(drawChart(chartKey));
+		graph2.setContent(drawChart(chartKey + 1));
 
 		screen.render();
-
-		graph2.setContent(drawChart(chartKey + 1));
 
 		for (var plugin in charts) {
 			charts[plugin].plugin.poll();
@@ -160,7 +163,6 @@ var App = function() {
 				width: '100%',
 				height: '50%',
 				content: 'test',
-				label: ' CPU Usage ',
 				fg: '#a537fd',
 				border: {
 					type: 'line',
@@ -179,12 +181,11 @@ var App = function() {
 				}
 				graph2appended = true;
 				graph2 = blessed.box({
-					top: graph.bottom + 1,
+					top: graph.height + 1,
 					left: 'left',
 					width: '50%',
-					height: '50%',
+					height: graph.height - 1,
 					content: 'test',
-					label: ' Memory ',
 					fg: '#a537fd',
 					border: {
 						type: 'line',
@@ -195,10 +196,10 @@ var App = function() {
 
 
 				processList = blessed.list({
-					top: graph.bottom + 1,
+					top: graph.height + 1,
 					left: '50%',
-					width: '50%',
-					height: '50%',
+					width: screen.width - graph2.width,
+					height: graph.height - 1,
 					label: ' Process List ',
 					keys: true,
 					mouse: true,
@@ -262,6 +263,9 @@ var App = function() {
 					};
 					charts[plugin].plugin.poll();
 				}
+				// @TODO Make this less hard-codey
+				graph.setLabel(' ' + charts[0].plugin.title + ' ');
+				graph2.setLabel(' ' + charts[1].plugin.title + ' ');
 			};
 
 			setupCharts();
