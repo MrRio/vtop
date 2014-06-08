@@ -20,11 +20,16 @@ var App = function() {
 	var os = require("os");
 
 	/**
-	 * Instance of blessed screen
+	 * Instance of blessed screen, and the charts object
 	 */
-	var screen;
+	var screen, charts = [];
 
 	// Private variables
+
+	/**
+	 * This is the number of data points drawn
+	 * @type {Number}
+	 */
 	var position = 0;
 
 	var size = {
@@ -83,6 +88,11 @@ var App = function() {
 		setInterval(updateTime, 1000);
 	};
 
+	/**
+	 * Draw the footer
+	 *
+	 * @todo This appears to break on some viewports
+	 */
 	var drawFooter = function() {
 		var footerRight = blessed.text({
 			bottom: '0',
@@ -104,8 +114,11 @@ var App = function() {
 		return new Array(num + 1).join(string);
 	};
 
-	var charts = [];
-
+	/**
+	 * This draws a chart
+	 * @param  {int} chartKey The key of the chart.
+	 * @return {string}       The text output to draw.
+	 */
 	var drawChart = function(chartKey) {
 		var chart = charts[chartKey];
 		var c = chart.chart;
@@ -245,7 +258,7 @@ var App = function() {
 				size.pixel.width = (graph.width - 2) * 2;
 				size.pixel.height = (graph.height - 2) * 4;
 
-				var plugins = ['cpu', 'memory'];
+				var plugins = ['cpu', 'memory', 'process'];
 
 				for (var plugin in plugins) {
 					var width, height;
