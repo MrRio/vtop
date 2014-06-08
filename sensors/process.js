@@ -5,7 +5,7 @@
  * (c) 2014 James Hall
  */
 
-var os = require('os-utils'),
+var os = require('os'),
 	fs = require('fs'),
 	process = require('child_process');
 
@@ -14,6 +14,9 @@ var plugin = {
 	 * This appears in the title of the graph
 	 */
 	title: 'Process List',
+	description:
+		'This returns a process list, grouped by executable name. CPU % is divided by the number of cores. ' +
+		'100% CPU Usage is all cores being maxed out. Unlike other tools that define the maximum as 800% for 8 cores for example.',
 	/**
 	 * The type of sensor
 	 * @type {String}
@@ -25,7 +28,7 @@ var plugin = {
 	 */
 	interval: 2000,
 
-	columns: ['Command', 'CPU %', 'Count', 'Memory'],
+	columns: ['Command', 'CPU %', 'Count', 'Memory %'],
 	currentValue: [{
 		'Command': 'Google Chrome',
 		'Count': '4',
@@ -80,12 +83,14 @@ var plugin = {
 			}
 			var statsArray = new Array();
 			for (var stat in stats) {
-				var cpuRounded = parseFloat(stats[stat].cpu).toFixed(1);
+				// Divide by nuber of CPU cores
+				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
+				var memRounded = parseFloat(stats[stat].mem).toFixed(1);
 				statsArray.push({
 					'Command': stats[stat].comm,
 					'Count': stats[stat].count,
 					'CPU %': cpuRounded,
-					'Memory':  stats[stat].mem,
+					'Memory %':  memRounded,
 					'cpu': stats[stat].cpu // exact cpu for comparison
 				});
 			}

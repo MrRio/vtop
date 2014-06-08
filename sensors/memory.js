@@ -27,7 +27,7 @@ var plugin = {
 	 * Grab the current value, from 0-100
 	 */
 	poll: function() {
-		this.currentValue = (100 - Math.floor(os.freememPercentage() * 100));
+		plugin.currentValue = (100 - Math.floor(os.freememPercentage() * 100));
 	}
 };
 
