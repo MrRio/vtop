@@ -110,6 +110,9 @@ var App = function() {
 	 * @var integer The number of times to repeat
 	 */
 	var stringRepeat = function(string, num) {
+		if (num < 0) {
+			return '';
+		}
 		return new Array(num + 1).join(string);
 	};
 
@@ -302,7 +305,6 @@ var App = function() {
 					left: '50%',
 					width: screen.width - graph2.width,
 					height: graph.height - 1,
-					label: ' Process List ',
 					keys: true,
 					mouse: true,
 					fg: loadedTheme.table.fg,
@@ -369,6 +371,8 @@ var App = function() {
 				// @TODO Make this less hard-codey
 				graph.setLabel(' ' + charts[0].plugin.title + ' ');
 				graph2.setLabel(' ' + charts[1].plugin.title + ' ');
+				processList.setLabel(' ' + charts[2].plugin.title + ' ');
+
 			};
 
 			setupCharts();
