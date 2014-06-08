@@ -1,4 +1,4 @@
 vtop
 =========
 
-![](example.gif)
+![](docs/example.gif)
