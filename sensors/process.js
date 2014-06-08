@@ -89,7 +89,7 @@ var plugin = {
 					}
 				}
 			}
-			var statsArray = new [];
+			var statsArray = [];
 			for (var stat in stats) {
 				// Divide by nuber of CPU cores
 				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
