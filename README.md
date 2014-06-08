@@ -48,7 +48,7 @@ vtop --theme wizard
 
 This loads the theme file in themes/ with the same name. Make your own and send me a Pull Request :)
 
-You could add this to your aliases if you'd like to remember it.
+You could add this to your aliases if you'd like to use it always.
 
 ```
 alias vtop="vtop --theme brew"
