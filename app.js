@@ -13,10 +13,10 @@
 var App = function() {
 
 	// Load in required libs
-	var canvas = require('drawille');
-	var blessed = require('blessed');
-	var program = blessed.program();
-	var os = require("os");
+	var canvas = require('drawille'),
+		blessed = require('blessed'),
+		program = blessed.program(),
+		os = require("os");
 
 	/**
 	 * Instance of blessed screen, and the charts object
@@ -108,6 +108,7 @@ var App = function() {
 	 * Repeats a string
 	 * @var string The string to repeat
 	 * @var integer The number of times to repeat
+	 * @return {string} The repeated chars as a string.
 	 */
 	var stringRepeat = function(string, num) {
 		if (num < 0) {
@@ -241,10 +242,6 @@ var App = function() {
 		processList.setContent(drawTable(chartKey + 2));
 
 		screen.render();
-
-		for (var plugin in charts) {
-			charts[plugin].plugin.poll();
-		}
 	};
 
 	// Public function (just the entry point)
@@ -378,6 +375,12 @@ var App = function() {
 			setupCharts();
 			screen.on('resize', setupCharts);
 			setInterval(draw, 100);
+
+			// @todo Make this more sexy
+			setInterval(charts[0].plugin.poll, charts[0].plugin.interval);
+			setInterval(charts[1].plugin.poll, charts[1].plugin.interval);
+			setInterval(charts[2].plugin.poll, charts[2].plugin.interval);
+
 		}
 	};
 }();
