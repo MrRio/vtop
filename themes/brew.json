@@ -1,0 +1,24 @@
+{
+	"name": "Brew",
+	"author": "James Hall",
+	"title": {
+		"fg": "#187dc1"
+	},
+	"chart": {
+		"fg": "#187dc1",
+		"border": {
+			"type": "line",
+			"fg": "#56a0d1"
+		}
+	},
+	"table": {
+		"fg": "white",
+		"border": {
+			"type": "line",
+			"fg": "#56a0d1"
+		}
+	},
+	"footer": {
+		"fg": "white"
+	}
+}

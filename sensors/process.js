@@ -25,12 +25,12 @@ var plugin = {
 
 	columns: ['Command', 'Count', 'CPU', 'Memory'],
 	currentValue: [{
-		'Name': 'Google Chrome',
+		'Command': 'Google Chrome',
 		'Count': '4',
 		'CPU': '0.4%',
 		'Memory': '100 MB'
 	}, {
-		'Name': 'Sublime Text 2',
+		'Command': 'Sublime Text 2',
 		'Count': '1',
 		'CPU': '0.1%',
 		'Memory': '200MB'

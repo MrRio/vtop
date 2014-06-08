@@ -155,9 +155,64 @@ var App = function() {
 	 * @return {string}       The text output to draw.
 	 */
 	var drawTable = function(chartKey) {
-		var output = 
-			"Command               Count CPU Memory\n" +
-			"apache                6     12% 120MB\n"
+		var chart = charts[chartKey];
+		var columnLengths = {};
+
+		// Clone the column array
+		var columns = chart.plugin.columns.slice(0);
+		columns.reverse();
+		var i = 0;
+		var removeColumn = false;
+		var lastItem = columns[columns.length - 1];
+
+		var minimumWidth = 25;
+		var padding = 1;
+
+		if (chart.width > 50) {
+			padding = 2;
+		}
+
+		if (chart.width > 80) {
+			padding = 3;
+		}
+		// Keep trying to reduce the number of columns
+		do {
+			var totalUsed = 0;
+			var firstLength = 0;
+			var totalColumns = columns.length;
+			// Allocate space for each column in reverse order
+			columns.forEach(function(item) {
+				i ++;
+				// If on the last column (actually first because of array order)
+				// then use up all the available space
+				if (item == lastItem) {
+					columnLengths[item] = chart.width - totalUsed;
+					firstLength = columnLengths[item];
+				} else {
+					columnLengths[item] = item.length + padding;
+				}
+				totalUsed += columnLengths[item];
+			});
+			if (firstLength < minimumWidth && columns.length > 1) {
+				totalUsed = 0;
+				columns.shift();
+				removeColumn = true;
+			} else {
+				removeColumn = false;
+			}
+		} while (removeColumn);
+		
+		// And back again
+		columns.reverse();
+		var output = '{bold}';
+		for (column in columns) {
+			var colText = ' ' + columns[column];
+			output += colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length);
+		}
+		output += '{/bold}';
+		// var output = 
+		// 	"Command               Count CPU Memory\n" +
+		// 	"apache                6     12% 120MB\n"
 		return output;
 	};
 
@@ -173,7 +228,7 @@ var App = function() {
 		graph2.setContent(drawChart(chartKey + 1));
 		//console.log(processList.width);
 		//console.log(charts[2].plugin.currentValue);
-		processList.setContent(drawTable(chartKey + 3));
+		processList.setContent(drawTable(chartKey + 2));
 
 		screen.render();
 
@@ -283,8 +338,8 @@ var App = function() {
 							currentCanvas = new canvas(width, height);
 							break;
 						case 'process':
-							width = processList.width;
-							height = processList.height;
+							width = processList.width - 3;
+							height = processList.height - 2;
 							break;
 					}
 
