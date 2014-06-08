@@ -173,7 +173,7 @@ var App = function() {
 		var removeColumn = false;
 		var lastItem = columns[columns.length - 1];
 
-		var minimumWidth = 25;
+		var minimumWidth = 12;
 		var padding = 1;
 
 		if (chart.width > 50) {
