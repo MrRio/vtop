@@ -7,7 +7,7 @@
 
 var os = require('os'),
 	fs = require('fs'),
-	process = require('child_process');
+	child_process = require('child_process');
 
 var plugin = {
 	/**
@@ -48,7 +48,7 @@ var plugin = {
 	 */
 	poll: function() {
 		var stats = {};
-		var ps = process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
+		var ps = child_process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
 			var lines = stdout.split("\n");
 			// Ditch the first line
 			lines[0] = '';
