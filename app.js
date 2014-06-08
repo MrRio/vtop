@@ -1,8 +1,7 @@
 /**
  * vtop – Velocity Top
  *
- *
- * http://parall.ax/products/velocity
+ * http://parall.ax/vtop
  * 
  * Because `top` just ain't cutting it anymore.
  *
@@ -22,7 +21,7 @@ var App = function() {
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
-	var screen, charts = [];
+	var screen, charts = [], loadedTheme;
 
 	// Private variables
 
@@ -62,7 +61,7 @@ var App = function() {
 			left: 'left',
 			width: '50%',
 			height: '1',
-			fg: '#a537fd',
+			fg: loadedTheme.title.fg,
 			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + '{/white-fg}',
 			tags: true
 		});
@@ -96,11 +95,11 @@ var App = function() {
 	var drawFooter = function() {
 		var footerRight = blessed.text({
 			bottom: '0',
-			left: '50%',
-			width: '50%',
+			left: '0%',
+			width: '100%',
 			align: 'right',
 			content: '(c) 2014 James Hall - http://parall.ax/vtop ',
-			fg: 'white'
+			fg: loadedTheme.footer.fg
 		});
 		screen.append(footerRight);
 	};
@@ -151,6 +150,18 @@ var App = function() {
 	};
 
 	/**
+	 * Draws a table.
+	 * @param  {int} chartKey The key of the chart.
+	 * @return {string}       The text output to draw.
+	 */
+	var drawTable = function(chartKey) {
+		var output = 
+			"Command               Count CPU Memory\n" +
+			"apache                6     12% 120MB\n"
+		return output;
+	};
+
+	/**
 	 * Overall draw function, this should poll and draw results of 
 	 * the loaded sensors.
 	 */
@@ -160,6 +171,9 @@ var App = function() {
 		var chartKey = 0;
 		graph.setContent(drawChart(chartKey));
 		graph2.setContent(drawChart(chartKey + 1));
+		//console.log(processList.width);
+		//console.log(charts[2].plugin.currentValue);
+		processList.setContent(drawTable(chartKey + 3));
 
 		screen.render();
 
@@ -172,6 +186,7 @@ var App = function() {
 	return {
 
 		init: function() {
+			loadedTheme = require('./themes/parallax.json');
 
 			// Create a screen object.
 			screen = blessed.screen();
@@ -192,12 +207,9 @@ var App = function() {
 				width: '100%',
 				height: '50%',
 				content: 'test',
-				fg: '#a537fd',
+				fg: loadedTheme.chart.fg,
 				tags: true,
-				border: {
-					type: 'line',
-					fg: '#00ebbe'
-				}
+				border: loadedTheme.chart.border
 			});
 
 			screen.append(graph);
@@ -216,12 +228,9 @@ var App = function() {
 					width: '50%',
 					height: graph.height - 1,
 					content: 'test',
-					fg: '#a537fd',
+					fg: loadedTheme.chart.fg,
 					tags: true,
-					border: {
-						type: 'line',
-						fg: '#00ebbe'
-					}
+					border: loadedTheme.chart.border
 				});
 				screen.append(graph2);
 
@@ -234,10 +243,9 @@ var App = function() {
 					label: ' Process List ',
 					keys: true,
 					mouse: true,
-					border: {
-						type: 'line',
-						fg: '#00ebbe'
-					}
+					fg: loadedTheme.table.fg,
+					tags: true,
+					border: loadedTheme.table.border
 				});
 				screen.append(processList);
 			};
@@ -261,16 +269,25 @@ var App = function() {
 				var plugins = ['cpu', 'memory', 'process'];
 
 				for (var plugin in plugins) {
-					var width, height;
+					var width, height, currentCanvas;
 					// @todo Refactor this
-					if (plugins[plugin] == 'cpu') {
-						width = (graph.width - 3) * 2;
-						height = (graph.height - 2) * 4;
+					switch (plugins[plugin]) {
+						case 'cpu':
+							width = (graph.width - 3) * 2;
+							height = (graph.height - 2) * 4;
+							currentCanvas = new canvas(width, height);
+							break;
+						case 'memory':
+							width = (graph2.width - 3) * 2;
+							height = ((graph2.height - 2) * 4);
+							currentCanvas = new canvas(width, height);
+							break;
+						case 'process':
+							width = processList.width;
+							height = processList.height;
+							break;
 					}
-					if (plugins[plugin] == 'memory') {
-						width = (graph2.width - 3) * 2;
-						height = ((graph2.height - 2) * 4);
-					}
+
 					// If we're reconfiguring a plugin, then preserve the already recorded values
 					var values;
 					if (typeof charts[plugin] != 'undefined' && typeof charts[plugin].values != 'undefined') {
@@ -279,7 +296,7 @@ var App = function() {
 						values = [];
 					}
 					charts[plugin] = {
-						chart: new canvas(width, height),
+						chart: currentCanvas,
 						values: values,
 						plugin: require('./sensors/' + plugins[plugin] + '.js'),
 						width: width,

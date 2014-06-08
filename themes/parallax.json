@@ -1,0 +1,24 @@
+{
+	"name": "Parallax",
+	"author": "James Hall",
+	"title": {
+		"fg": "#a537fd"	
+	},
+	"chart": {
+		"fg": "#a537fd",
+		"border": {
+			"type": "line",
+			"fg": "#00ebbe"
+		}
+	},
+	"table": {
+		"fg": "white",
+		"border": {
+			"type": "line",
+			"fg": "#00ebbe"
+		}
+	},
+	"footer": {
+		"fg": "white"
+	}
+}
