@@ -181,7 +181,8 @@ var App = function() {
 			var firstLength = 0;
 			var totalColumns = columns.length;
 			// Allocate space for each column in reverse order
-			columns.forEach(function(item) {
+			for (var column in columns) {
+				var item = columns[column];
 				i ++;
 				// If on the last column (actually first because of array order)
 				// then use up all the available space
@@ -192,7 +193,7 @@ var App = function() {
 					columnLengths[item] = item.length + padding;
 				}
 				totalUsed += columnLengths[item];
-			});
+			};
 			if (firstLength < minimumWidth && columns.length > 1) {
 				totalUsed = 0;
 				columns.shift();
@@ -201,18 +202,24 @@ var App = function() {
 				removeColumn = false;
 			}
 		} while (removeColumn);
-		
+
 		// And back again
 		columns.reverse();
 		var output = '{bold}';
-		for (column in columns) {
+		for (var column in columns) {
 			var colText = ' ' + columns[column];
 			output += colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length);
 		}
-		output += '{/bold}';
-		// var output = 
-		// 	"Command               Count CPU Memory\n" +
-		// 	"apache                6     12% 120MB\n"
+		output += '{/bold}' + "\n";
+
+		for (var row in chart.plugin.currentValue) {
+			var currentRow = chart.plugin.currentValue[row];
+			for (var column in columns) {
+				var colText = ' ' + currentRow[columns[column]];
+				output += colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length);
+			}
+			output += "\n";
+		}
 		return output;
 	};
 
