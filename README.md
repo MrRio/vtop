@@ -26,9 +26,9 @@ vtop
 FAQs
 ----
 
-### What license is this under?
+### How does it work?
 
-MIT – do what you like with it :)
+It uses Unicode braille characters to draw CPU and Memory charts, helping you visualize spikes. We also group processes with the same name together.
 
 ### I think the CPU % is coming out wrong.
 
@@ -54,4 +54,7 @@ You could add this to your aliases if you'd like to remember it.
 alias vtop="vtop --theme brew"
 ```
 
+### What license is this under?
+
+MIT – do what you like with it :)
 
