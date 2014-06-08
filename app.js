@@ -2,7 +2,7 @@
  * vtop – Velocity Top
  *
  * http://parall.ax/vtop
- * 
+ *
  * Because `top` just ain't cutting it anymore.
  *
  * (c) 2014 James Hall, Parallax Agency Ltd
@@ -16,8 +16,11 @@ var App = function() {
 	var canvas = require('drawille'),
 		blessed = require('blessed'),
 		program = blessed.program(),
-		os = require("os"),
-		argv = require('yargs').argv;
+		os = require('os'),
+		cli = require('commander');
+
+	// Set up the commander instance and add the required options
+	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard]', 'parallax').parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
@@ -249,10 +252,8 @@ var App = function() {
 	return {
 
 		init: function() {
-			var theme = 'parallax';
-			if (typeof argv.theme != 'undefined') {
-				theme = argv.theme;
-			}
+			// Get the theme, it defaults to parallax
+			var theme = cli.theme;
 			loadedTheme = require('./themes/' + theme + '.json');
 
 			// Create a screen object.
@@ -300,7 +301,6 @@ var App = function() {
 					border: loadedTheme.chart.border
 				});
 				screen.append(graph2);
-
 
 				processList = blessed.box({
 					top: graph.height + 1,
