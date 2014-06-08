@@ -16,7 +16,8 @@ var App = function() {
 	var canvas = require('drawille'),
 		blessed = require('blessed'),
 		program = blessed.program(),
-		os = require("os");
+		os = require("os"),
+		argv = require('yargs').argv;
 
 	/**
 	 * Instance of blessed screen, and the charts object
@@ -248,7 +249,11 @@ var App = function() {
 	return {
 
 		init: function() {
-			loadedTheme = require('./themes/parallax.json');
+			var theme = 'parallax';
+			if (typeof argv.theme != 'undefined') {
+				theme = argv.theme;
+			}
+			loadedTheme = require('./themes/' + theme + '.json');
 
 			// Create a screen object.
 			screen = blessed.screen();
