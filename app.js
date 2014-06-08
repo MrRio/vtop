@@ -81,9 +81,13 @@ var App = function() {
 		screen.append(header);
 		screen.append(date);
 
+		var zeroPad = function(input) {
+			return ('0' + input).slice(-2);
+		};
+
 		var updateTime = function() {
 			var time = new Date();
-			date.setContent(time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2) + ':' + ('0' + time.getSeconds()).slice(-2) + ' ');
+			date.setContent(zeroPad(time.getHours()) + ':' + zeroPad(time.getMinutes()) + ':' + zeroPad(time.getSeconds()) + ' ');
 			screen.render();
 		};
 
@@ -201,7 +205,7 @@ var App = function() {
 					columnLengths[item] = item.length + padding;
 				}
 				totalUsed += columnLengths[item];
-			};
+			}
 			if (firstLength < minimumWidth && columns.length > 1) {
 				totalUsed = 0;
 				columns.shift();
@@ -214,17 +218,17 @@ var App = function() {
 		// And back again
 		columns.reverse();
 		var output = '{bold}';
-		for (var column in columns) {
-			var colText = ' ' + columns[column];
-			output += (colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length));
+		for (var headerColumn in columns) {
+			var colText = ' ' + columns[headerColumn];
+			output += (colText + stringRepeat(' ', columnLengths[columns[headerColumn]] - colText.length));
 		}
 		output += '{/bold}' + "\n";
 
 		for (var row in chart.plugin.currentValue) {
 			var currentRow = chart.plugin.currentValue[row];
-			for (var column in columns) {
-				var colText = ' ' + currentRow[columns[column]];
-				output += (colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length)).slice(0, columnLengths[columns[column]]);
+			for (var bodyColumn in columns) {
+				var colText = ' ' + currentRow[columns[bodyColumn]];
+				output += (colText + stringRepeat(' ', columnLengths[columns[bodyColumn]] - colText.length)).slice(0, columnLengths[columns[bodyColumn]]);
 			}
 			output += "\n";
 		}
