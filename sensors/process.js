@@ -48,7 +48,7 @@ var plugin = {
 	 */
 	poll: function() {
 		var stats = {};
-		var ps = process.exec('ps -eo %cpu,%mem,comm', function (error, stdout, stderr) {
+		var ps = process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
 			var lines = stdout.split("\n");
 			// Ditch the first line
 			lines[0] = '';
