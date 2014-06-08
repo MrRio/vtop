@@ -216,7 +216,7 @@ var App = function() {
 		var output = '{bold}';
 		for (var column in columns) {
 			var colText = ' ' + columns[column];
-			output += colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length);
+			output += (colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length));
 		}
 		output += '{/bold}' + "\n";
 
@@ -224,7 +224,7 @@ var App = function() {
 			var currentRow = chart.plugin.currentValue[row];
 			for (var column in columns) {
 				var colText = ' ' + currentRow[columns[column]];
-				output += colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length);
+				output += (colText + stringRepeat(' ', columnLengths[columns[column]] - colText.length)).slice(0, columnLengths[columns[column]]);
 			}
 			output += "\n";
 		}
