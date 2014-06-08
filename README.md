@@ -1,7 +1,7 @@
 vtop
 =========
 
-A graphical activity monitor for the command line.
+A graphical activity monitor for the command line. Written in node.js.
 
 ![](docs/example.gif)
 
@@ -53,6 +53,10 @@ You could add this to your aliases if you'd like to remember it.
 ```
 alias vtop="vtop --theme brew"
 ```
+
+### What about measuring server req/s, log entries, etc etc?
+
+Yeah that's on the list :) Feel free to send a pull request though. Check out the sensors/ folder.
 
 ### What license is this under?
 
