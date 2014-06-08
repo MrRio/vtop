@@ -61,15 +61,23 @@ var plugin = {
 					var mem = words[2];
 					var offset = cpu.length + mem.length + 3;
 					var comm = currentLine.slice(offset);
-					comm = comm.split('/');
-					comm = comm[comm.length - 1];
+					// If we're on Mac then remove the path
+					if (/^darwin/.test(process.platform)) {
+						comm = comm.split('/');
+						comm = comm[comm.length - 1];
+					} else {
+						// Otherwise assume linux and remove the unnecessary /1 info like 
+						// you get on kworker
+						comm = comm.split('/');
+						comm = comm[0];
+					}
 					// If already exists, then add them together
 					if (typeof stats[comm] !== 'undefined') {
 						stats[comm] = {
-							cpu: parseFloat(stats[comm].cpu) + parseFloat(cpu),
-							mem: parseFloat(stats[comm].mem) + parseFloat(mem),
+							cpu: parseFloat(stats[comm].cpu, 10) + parseFloat(cpu),
+							mem: parseFloat(stats[comm].mem, 10) + parseFloat(mem),
 							comm: comm,
-							count: parseInt(stats[comm].count) + 1
+							count: parseInt(stats[comm].count, 10) + 1
 						};
 					} else {
 						stats[comm] = {
@@ -81,7 +89,7 @@ var plugin = {
 					}
 				}
 			}
-			var statsArray = new Array();
+			var statsArray = new [];
 			for (var stat in stats) {
 				// Divide by nuber of CPU cores
 				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
@@ -101,6 +109,5 @@ var plugin = {
 		});
 	}
 };
-
 
 module.exports = exports = plugin;
