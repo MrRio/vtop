@@ -39,9 +39,9 @@ var upgrade = function() {
 			var child = sudo(args, options);
 
 
-			var path;
+			var path = false;
 			child.stdout.on('data', function (data) {
-			    console.log('data:' + data.toString());
+			    console.log(data.toString());
 
 			    if (data.toString().indexOf('vtop.js') != -1) {
 			    	path = data.toString().trim().split(' ')[2];
@@ -53,7 +53,13 @@ var upgrade = function() {
 
 			child.on('close', function() {
 				console.log('Installed!');
-				require(path);
+
+				if (path === false) {
+					console.log('');
+					console.log('Type vtop to relaunch');
+				} else {
+					require(path);
+				}
 			});
 		}
 

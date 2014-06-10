@@ -64,19 +64,22 @@ var App = function() {
 	 * @return {void}
 	 */
 	var drawHeader = function() {
+		var headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg} Press \'u\' to upgrade to v0.1.3 {/red-bg}{/white-fg}';
+		var headerTextNoTags = ' vtop for ' + os.hostname() + '  Press \'u\' to upgrade to v0.1.3 ';
+
 		var header = blessed.text({
 			top: 'top',
 			left: 'left',
-			width: '50%',
+			width: headerTextNoTags.length,
 			height: '1',
 			fg: loadedTheme.title.fg,
-			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg}Press \'u\' to update to 0.1.3{/red-bg}{/white-fg}',
+			content: headerText,
 			tags: true
 		});
 		var date = blessed.text({
 			top: 'top',
-			left: '50%',
-			width: '50%',
+			right: 0,
+			width: 9,
 			height: '1',
 			align: 'right',
 			content: '',
