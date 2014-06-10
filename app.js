@@ -17,7 +17,8 @@ var App = function() {
 		blessed = require('blessed'),
 		program = blessed.program(),
 		os = require('os'),
-		cli = require('commander');
+		cli = require('commander'),
+		upgrade = require('./upgrade.js');
 
 	// Set up the commander instance and add the required options
 	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard]', 'parallax').parse(process.argv);
@@ -25,7 +26,10 @@ var App = function() {
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
-	var screen, charts = [], loadedTheme;
+	var screen, 
+		charts = [],
+		loadedTheme,
+		intervals = [];
 
 	// Private variables
 
@@ -66,7 +70,7 @@ var App = function() {
 			width: '50%',
 			height: '1',
 			fg: loadedTheme.title.fg,
-			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg}New version 0.1.4 available!{/red-bg}{/white-fg}',
+			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg}Press \'u\' to update to 0.1.3{/red-bg}{/white-fg}',
 			tags: true
 		});
 		var date = blessed.text({
@@ -267,9 +271,31 @@ var App = function() {
 			screen = blessed.screen();
 
 			// Configure 'q', esc, Ctrl+C for quit
+			var upgrading = false;
 			screen.on('keypress', function(ch, key) {
-				if (key.name === 'q' || key.name === 'escape' || (key.name == 'c' && key.ctrl === true)) {
+				if (
+					upgrading == false && 
+					(
+						key.name === 'q' || 
+						key.name === 'escape' || 
+						(key.name == 'c' && key.ctrl === true)
+					)
+				) {
 					return process.exit(0);
+				}
+
+				if (key.name === 'u' && upgrading == false) {
+					upgrading = true;
+					// Clear all intervals
+					for (var interval in intervals) {
+						clearInterval(intervals[interval]);
+					}
+					program = blessed.program();
+					program.clear();
+					program.disableMouse();
+					program.showCursor();
+					program.normalBuffer();
+					upgrade.install('vtop');
 				}
 			});
 
@@ -385,12 +411,12 @@ var App = function() {
 
 			setupCharts();
 			screen.on('resize', setupCharts);
-			setInterval(draw, 100);
+			intervals.push(setInterval(draw, 100));
 
 			// @todo Make this more sexy
-			setInterval(charts[0].plugin.poll, charts[0].plugin.interval);
-			setInterval(charts[1].plugin.poll, charts[1].plugin.interval);
-			setInterval(charts[2].plugin.poll, charts[2].plugin.interval);
+			intervals.push(setInterval(charts[0].plugin.poll, charts[0].plugin.interval));
+			intervals.push(setInterval(charts[1].plugin.poll, charts[1].plugin.interval));
+			intervals.push(setInterval(charts[2].plugin.poll, charts[2].plugin.interval));
 
 		}
 	};
