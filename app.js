@@ -66,7 +66,7 @@ var App = function() {
 			width: '50%',
 			height: '1',
 			fg: loadedTheme.title.fg,
-			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + '{/white-fg}',
+			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg}New version 0.1.4 available!{/red-bg}{/white-fg}',
 			tags: true
 		});
 		var date = blessed.text({
@@ -335,7 +335,6 @@ var App = function() {
 			screen.render();
 
 			var setupCharts = function() {
-				// @todo: Fix these drunken magic numbers
 				size.pixel.width = (graph.width - 2) * 2;
 				size.pixel.height = (graph.height - 2) * 4;
 
