@@ -245,8 +245,6 @@ var App = function() {
 		var chartKey = 0;
 		graph.setContent(drawChart(chartKey));
 		graph2.setContent(drawChart(chartKey + 1));
-		//console.log(processList.width);
-		//console.log(charts[2].plugin.currentValue);
 		processList.setContent(drawTable(chartKey + 2));
 
 		screen.render();
@@ -258,8 +256,13 @@ var App = function() {
 		init: function() {
 			// Get the theme, it defaults to parallax
 			var theme = cli.theme;
-			loadedTheme = require('./themes/' + theme + '.json');
 
+			try {
+				loadedTheme = require('./themes/' + theme + '.json');
+			} catch(e) {
+				console.log('The theme \'' + theme + '\' does not exist.');
+				process.exit(1);
+			}
 			// Create a screen object.
 			screen = blessed.screen();
 
