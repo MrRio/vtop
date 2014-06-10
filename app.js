@@ -299,7 +299,7 @@ var App = function() {
 					program.showCursor();
 					program.normalBuffer();
 
-					// @todo: show changelog  AND
+					// @todo: show changelog  AND  smush existing data into it :D
 					upgrade.install('vtop');
 				}
 			});
