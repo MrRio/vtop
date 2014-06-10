@@ -298,6 +298,8 @@ var App = function() {
 					program.disableMouse();
 					program.showCursor();
 					program.normalBuffer();
+
+					// @todo: show changelog  AND
 					upgrade.install('vtop');
 				}
 			});
