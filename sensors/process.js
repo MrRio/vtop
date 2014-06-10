@@ -60,8 +60,8 @@ var plugin = {
 				//console.log(currentLine);
 				var words = currentLine.split(" ");
 				if (typeof words[0] !== 'undefined' && typeof words[1] !== 'undefined' ) {
-					var cpu = words[0];
-					var mem = words[1];
+					var cpu = words[0].replace(',', '.');
+					var mem = words[1].replace(',', '.');
 					var offset = cpu.length + mem.length + 2;
 					var comm = currentLine.slice(offset);
 					// If we're on Mac then remove the path
