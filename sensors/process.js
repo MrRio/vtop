@@ -33,12 +33,12 @@ var plugin = {
 		'Command': 'Google Chrome',
 		'Count': '4',
 		'CPU %': '0.4',
-		'Memory': '100 MB'
+		'Memory %': '1'
 	}, {
 		'Command': 'Sublime Text 2',
 		'Count': '1',
 		'CPU %': '0.1',
-		'Memory': '200MB'
+		'Memory': '5'
 	}],
 
 	// comm, count calced, cp, pmem
@@ -48,18 +48,21 @@ var plugin = {
 	 */
 	poll: function() {
 		var stats = {};
+		// @todo If you can think of a better way of getting process stats,
+		// then please feel free to send me a pull request. This is version 0.1
+		// and needs some love.
 		var ps = child_process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
 			var lines = stdout.split("\n");
 			// Ditch the first line
 			lines[0] = '';
 			for (var line in lines) {
-				var currentLine = lines[line].trim();
+				var currentLine = lines[line].trim().replace('  ', ' ');
 				//console.log(currentLine);
 				var words = currentLine.split(" ");
 				if (typeof words[0] !== 'undefined' && typeof words[1] !== 'undefined' ) {
 					var cpu = words[0];
-					var mem = words[2];
-					var offset = cpu.length + mem.length + 3;
+					var mem = words[1];
+					var offset = cpu.length + mem.length + 2;
 					var comm = currentLine.slice(offset);
 					// If we're on Mac then remove the path
 					if (/^darwin/.test(process.platform)) {
