@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4 - 2014-06-11
+
+- Delete old data points to improve perf, currently set at 5,000
+
 ## 0.2.0 - 2014-06-11
 
 - Add new theme 'dark'
