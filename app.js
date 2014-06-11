@@ -154,21 +154,22 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
-		var dataPointsToKeep = 5000;
+		var dataPointsToKeep = 500;
 
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
 
 		var computeValue = function(input) {
 			return chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1;
 		};
-
+		//console.log(charts[chartKey].values.length);
+		if (position > dataPointsToKeep) {
+			delete charts[chartKey].values[position - dataPointsToKeep];
+		}
 		for (var pos in charts[chartKey].values) {
 			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
 			// Start deleting old data points to improve performance
 			// @todo: This is not be the best place to do this
-			if (pos > dataPointsToKeep) {
-				delete charts[chartKey].values[pos - dataPointsToKeep];
-			}
+
 
 			if (p > 0 && computeValue(charts[chartKey].values[pos]) > 0) {
 				c.set(p, computeValue(charts[chartKey].values[pos]));
@@ -304,7 +305,7 @@ var App = function() {
 
 			doCheck();
 			// Check for updates every 5 minutes
-			setInterval(doCheck, 300000);
+			//setInterval(doCheck, 300000);
 
 			screen.on('keypress', function(ch, key) {
 				if (
