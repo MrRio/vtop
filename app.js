@@ -31,6 +31,8 @@ var App = function() {
 		loadedTheme,
 		intervals = [];
 
+	var upgradeNotice = false;
+
 	// Private variables
 
 	/**
@@ -64,8 +66,15 @@ var App = function() {
 	 * @return {void}
 	 */
 	var drawHeader = function() {
-		var headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg} Press \'u\' to upgrade to v0.1.3 {/red-bg}{/white-fg}';
-		var headerTextNoTags = ' vtop for ' + os.hostname() + '  Press \'u\' to upgrade to v0.1.3 ';
+		var headerText, headerTextNoTags;
+		if (upgradeNotice) {
+			upgradeNotice = upgradeNotice + '';
+			headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg} Press \'u\' to upgrade to v' + upgradeNotice + ' {/red-bg}{/white-fg}';
+			headerTextNoTags = ' vtop for ' + os.hostname() + '  Press \'u\' to upgrade to v' + upgradeNotice + ' ';
+		} else {
+			headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' ';
+			headerTextNoTags = ' vtop for ' + os.hostname() + ' ';
+		}
 
 		var header = blessed.text({
 			top: 'top',
@@ -275,6 +284,11 @@ var App = function() {
 
 			// Configure 'q', esc, Ctrl+C for quit
 			var upgrading = false;
+
+			upgrade.check(function(v) {
+				upgradeNotice = v;
+			});
+
 			screen.on('keypress', function(ch, key) {
 				if (
 					upgrading == false && 
@@ -305,6 +319,8 @@ var App = function() {
 			});
 
 			drawHeader();
+
+			setInterval(drawHeader, 1000);
 			drawFooter();
 
 			graph = blessed.box({

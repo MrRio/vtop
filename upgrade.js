@@ -9,7 +9,25 @@
 var upgrade = function() {
 
 	return {
-		check: function() {
+		/**
+		 * Should call the callback with a new version number, or false
+		 */
+		check: function(callback) {
+			try {
+				var current = require('./package.json').version;
+
+				var child_process = require('child_process');
+				var ps = child_process.exec('npm info vtop', function (error, stdout, stderr) {
+					var output = eval('(' + stdout + ')');
+					if (output['dist-tags']['latest'] != current) {
+						callback(output['dist-tags']['latest']);
+					} else {
+						callback(false);
+					}
+				});
+			} catch(e) {
+				callback(false);
+			}
 
 		},
 		/**
