@@ -6,6 +6,7 @@
  * This will detect if a package needs and update, 
  * and also update it
  */
+
 var upgrade = function() {
 
 	return {
@@ -70,14 +71,9 @@ var upgrade = function() {
 			});
 
 			child.on('close', function() {
-				console.log('Installed!');
-
-				if (path === false) {
-					console.log('');
-					console.log('Type vtop to relaunch');
-				} else {
-					require(path);
-				}
+				require.cache = [];
+				require(path);
+				console.log(require.cache);
 			});
 		}
 
