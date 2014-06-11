@@ -19,7 +19,7 @@ var App = function() {
 		os = require('os'),
 		cli = require('commander'),
 		upgrade = require('./upgrade.js'),
-		VERSION = '0.2.2';
+		VERSION = require('./package.json').version;
 
 	// Set up the commander instance and add the required options
 	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
