@@ -71,14 +71,16 @@ var upgrade = function() {
 			});
 
 			child.on('close', function() {
-				require.cache = [];
-				require(path);
-				console.log(require.cache);
+				for (var file in require.cache) {
+					delete require.cache[file];
+				}
+				console.log('Finished updating. Clearing cache and relaunching...');
+				setTimeout(function() {
+					require(path);
+				}, 1000);
 			});
 		}
-
 	}
-
 }();
 
 module.exports = upgrade;
