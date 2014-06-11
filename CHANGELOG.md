@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4, 0.2.3, 0.2.2 - 2014-06-11
+
+- Fixes to the upgrade script
+- Added --version and -V command line arguments for version
+
 ## 0.2.0 - 2014-06-11
 
 - Add new theme 'dark'

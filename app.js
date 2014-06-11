@@ -23,8 +23,8 @@ var App = function() {
 
 	// Set up the commander instance and add the required options
 	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
-	   .version(VERSION)
-	   .parse(process.argv);
+		.version(VERSION)
+		.parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
