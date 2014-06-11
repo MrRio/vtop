@@ -1,0 +1,24 @@
+{
+	"name": "Dark",
+	"author": "boboman13",
+	"title": {
+		"fg": "#232323"
+	},
+	"chart": {
+		"fg": "#00A779",
+		"border": {
+			"type": "line",
+			"fg": "#232323"
+		}
+	},
+	"table": {
+		"fg": "#626262",
+		"border": {
+			"type": "line",
+			"fg": "#232323"
+		}
+	},
+	"footer": {
+		"fg": "white"
+	}
+}
