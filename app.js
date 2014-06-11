@@ -300,6 +300,7 @@ var App = function() {
 			var doCheck = function() {
 				upgrade.check(function(v) {
 					upgradeNotice = v;
+					drawHeader();
 				});
 			}
 
@@ -338,7 +339,7 @@ var App = function() {
 
 			drawHeader();
 
-			setInterval(drawHeader, 1000);
+			//setInterval(drawHeader, 1000);
 			drawFooter();
 
 			graph = blessed.box({

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.6
+
+- Fix major perf problem that some users were having relating to 
+  drawing the header for update notifications.
+
 ## 0.2.5
 
 - Delete old data points to improve performance
