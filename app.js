@@ -18,10 +18,13 @@ var App = function() {
 		program = blessed.program(),
 		os = require('os'),
 		cli = require('commander'),
-		upgrade = require('./upgrade.js');
+		upgrade = require('./upgrade.js'),
+		VERSION = '0.2.2';
 
 	// Set up the commander instance and add the required options
-	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax').parse(process.argv);
+	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+	   .version(VERSION)
+	   .parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
