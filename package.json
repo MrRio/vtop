@@ -1,9 +1,9 @@
 {
   "name": "vtop",
-  "version": "0.1.8",
+  "version": "0.2.3",
   "description": "Wow such top. So stats",
   "homepage": "http://parall.ax/vtop",
-  "main": "run.js",
+  "main": "app.js",
   "preferGlobal": true,
   "engines": {
     "node": ">=0.10.0"
@@ -26,6 +26,7 @@
     "os-utils": "0.0.14",
     "read": "1.0.5",
     "blessed": "0.0.33",
-    "commander": "2.2.0"
+    "commander": "2.2.0",
+    "sudo": "1.0.3"
   }
 }

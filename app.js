@@ -17,15 +17,24 @@ var App = function() {
 		blessed = require('blessed'),
 		program = blessed.program(),
 		os = require('os'),
-		cli = require('commander');
+		cli = require('commander'),
+		upgrade = require('./upgrade.js'),
+		VERSION = require('./package.json').version;
 
 	// Set up the commander instance and add the required options
-	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard]', 'parallax').parse(process.argv);
+	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+	   .version(VERSION)
+	   .parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
-	var screen, charts = [], loadedTheme;
+	var screen, 
+		charts = [],
+		loadedTheme,
+		intervals = [];
+
+	var upgradeNotice = false;
 
 	// Private variables
 
@@ -60,19 +69,29 @@ var App = function() {
 	 * @return {void}
 	 */
 	var drawHeader = function() {
+		var headerText, headerTextNoTags;
+		if (upgradeNotice) {
+			upgradeNotice = upgradeNotice + '';
+			headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg} Press \'u\' to upgrade to v' + upgradeNotice + ' {/red-bg}{/white-fg}';
+			headerTextNoTags = ' vtop for ' + os.hostname() + '  Press \'u\' to upgrade to v' + upgradeNotice + ' ';
+		} else {
+			headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' ';
+			headerTextNoTags = ' vtop for ' + os.hostname() + ' ';
+		}
+
 		var header = blessed.text({
 			top: 'top',
 			left: 'left',
-			width: '50%',
+			width: headerTextNoTags.length,
 			height: '1',
 			fg: loadedTheme.title.fg,
-			content: ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + '{/white-fg}',
+			content: headerText,
 			tags: true
 		});
 		var date = blessed.text({
 			top: 'top',
-			left: '50%',
-			width: '50%',
+			right: 0,
+			width: 9,
 			height: '1',
 			align: 'right',
 			content: '',
@@ -275,13 +294,50 @@ var App = function() {
 			screen = blessed.screen();
 
 			// Configure 'q', esc, Ctrl+C for quit
+			var upgrading = false;
+
+			var doCheck = function() {
+				upgrade.check(function(v) {
+					upgradeNotice = v;
+				});
+			}
+
+			doCheck();
+			// Check for updates every 5 minutes
+			setInterval(doCheck, 300000);
+
 			screen.on('keypress', function(ch, key) {
-				if (key.name === 'q' || key.name === 'escape' || (key.name == 'c' && key.ctrl === true)) {
+				if (
+					upgrading == false && 
+					(
+						key.name === 'q' || 
+						key.name === 'escape' || 
+						(key.name == 'c' && key.ctrl === true)
+					)
+				) {
 					return process.exit(0);
+				}
+
+				if (key.name === 'u' && upgrading == false) {
+					upgrading = true;
+					// Clear all intervals
+					for (var interval in intervals) {
+						clearInterval(intervals[interval]);
+					}
+					program = blessed.program();
+					program.clear();
+					program.disableMouse();
+					program.showCursor();
+					program.normalBuffer();
+
+					// @todo: show changelog  AND  smush existing data into it :D
+					upgrade.install('vtop');
 				}
 			});
 
 			drawHeader();
+
+			setInterval(drawHeader, 1000);
 			drawFooter();
 
 			graph = blessed.box({
@@ -343,7 +399,6 @@ var App = function() {
 			screen.render();
 
 			var setupCharts = function() {
-				// @todo: Fix these drunken magic numbers
 				size.pixel.width = (graph.width - 2) * 2;
 				size.pixel.height = (graph.height - 2) * 4;
 
@@ -394,12 +449,12 @@ var App = function() {
 
 			setupCharts();
 			screen.on('resize', setupCharts);
-			setInterval(draw, 100);
+			intervals.push(setInterval(draw, 100));
 
 			// @todo Make this more sexy
-			setInterval(charts[0].plugin.poll, charts[0].plugin.interval);
-			setInterval(charts[1].plugin.poll, charts[1].plugin.interval);
-			setInterval(charts[2].plugin.poll, charts[2].plugin.interval);
+			intervals.push(setInterval(charts[0].plugin.poll, charts[0].plugin.interval));
+			intervals.push(setInterval(charts[1].plugin.poll, charts[1].plugin.interval));
+			intervals.push(setInterval(charts[2].plugin.poll, charts[2].plugin.interval));
 
 		}
 	};
