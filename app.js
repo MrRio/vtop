@@ -135,6 +135,8 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
+		var dataPointsToKeep = 5000;
+
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
 
 		var computeValue = function(input) {
@@ -143,6 +145,12 @@ var App = function() {
 
 		for (var pos in charts[chartKey].values) {
 			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
+
+			// Start deleting old data points to improve performance
+			if (pos > dataPointsToKeep) {
+				delete charts[chartKey].values[pos - dataPointsToKeep];
+			}
+
 			if (p > 0 && computeValue(charts[chartKey].values[pos]) > 0) {
 				c.set(p, computeValue(charts[chartKey].values[pos]));
 			}
