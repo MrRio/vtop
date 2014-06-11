@@ -1,9 +1,9 @@
 {
   "name": "vtop",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Wow such top. So stats",
   "homepage": "http://parall.ax/vtop",
-  "main": "run.js",
+  "main": "app.js",
   "preferGlobal": true,
   "engines": {
     "node": ">=0.10.0"
