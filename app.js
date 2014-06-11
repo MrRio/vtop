@@ -23,8 +23,8 @@ var App = function() {
 
 	// Set up the commander instance and add the required options
 	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
-	   .version(VERSION)
-	   .parse(process.argv);
+		.version(VERSION)
+		.parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
@@ -164,8 +164,8 @@ var App = function() {
 
 		for (var pos in charts[chartKey].values) {
 			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
-
 			// Start deleting old data points to improve performance
+			// @todo: This is not be the best place to do this
 			if (pos > dataPointsToKeep) {
 				delete charts[chartKey].values[pos - dataPointsToKeep];
 			}

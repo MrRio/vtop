@@ -1,8 +1,13 @@
 # Changelog
 
-## 0.2.4 - 2014-06-11
+## 0.2.5
 
-- Delete old data points to improve perf, currently set at 5,000
+- Delete old data points to improve performance
+
+## 0.2.4, 0.2.3, 0.2.2 - 2014-06-11
+
+- Fixes to the upgrade script
+- Added --version and -V command line arguments for version
 
 ## 0.2.0 - 2014-06-11
 
