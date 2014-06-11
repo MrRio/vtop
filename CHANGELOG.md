@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 - 2014-06-11
+
+- Add new theme 'dark'
+- Add auto-update mechanism
+
 ## 0.1.7 - 2014-06-11
 
 - Add a fix for user submitted ps outputs - #5 #6 #7
