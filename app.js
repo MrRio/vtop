@@ -285,9 +285,15 @@ var App = function() {
 			// Configure 'q', esc, Ctrl+C for quit
 			var upgrading = false;
 
-			upgrade.check(function(v) {
-				upgradeNotice = v;
-			});
+			var doCheck = function() {
+				upgrade.check(function(v) {
+					upgradeNotice = v;
+				});
+			}
+
+			doCheck();
+			// Check for updates every 5 minutes
+			setInterval(doCheck, 300000);
 
 			screen.on('keypress', function(ch, key) {
 				if (
