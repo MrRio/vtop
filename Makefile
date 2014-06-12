@@ -10,7 +10,7 @@ test:
 
 release: test
 	git push origin master
-	npm version minor -m "Bumped to version %s"
+	npm version patch -m "Bumped to version %s"
 	sudo npm publish
 
 clean:
