@@ -10,8 +10,8 @@ test:
 
 release: test
 	git push origin master
-	npm publish
 	npm version minor -m "Bumped to version %s"
+	sudo npm publish
 
 clean:
 	rm -Rf node_modules
