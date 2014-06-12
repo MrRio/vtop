@@ -46,7 +46,7 @@ var plugin = {
 	/**
 	 * Grab the current value for the table
 	 */
-	poll: function() {
+	poll: function() {		
 		var stats = {};
 		// @todo If you can think of a better way of getting process stats,
 		// then please feel free to send me a pull request. This is version 0.1

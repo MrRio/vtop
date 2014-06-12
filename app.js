@@ -22,14 +22,16 @@ var App = function() {
 		VERSION = require('./package.json').version;
 
 	// Set up the commander instance and add the required options
-	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+	cli
+		.option('-t, --theme  [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+		.option('--quit-after [seconds]', 'Quits vtop after interval', '0')
 		.version(VERSION)
 		.parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
-	var screen, 
+	var screen,
 		charts = [],
 		loadedTheme,
 		intervals = [];
@@ -154,14 +156,23 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
+		var dataPointsToKeep = 500;
+
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
 
 		var computeValue = function(input) {
 			return chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1;
 		};
-
+		//console.log(charts[chartKey].values.length);
+		if (position > dataPointsToKeep) {
+			delete charts[chartKey].values[position - dataPointsToKeep];
+		}
 		for (var pos in charts[chartKey].values) {
 			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
+			// Start deleting old data points to improve performance
+			// @todo: This is not be the best place to do this
+
+
 			if (p > 0 && computeValue(charts[chartKey].values[pos]) > 0) {
 				c.set(p, computeValue(charts[chartKey].values[pos]));
 			}
@@ -276,6 +287,16 @@ var App = function() {
 			// Get the theme, it defaults to parallax
 			var theme = cli.theme;
 
+			/**
+			 * Quits running vtop after so many seconds
+			 * This is mainly for perf testing.
+			 */
+			if (cli['quitAfter'] !== '0') {
+				setTimeout(function() {
+					process.exit(0);
+				}, parseInt(cli['quitAfter']) * 1000);
+			}
+
 			try {
 				loadedTheme = require('./themes/' + theme + '.json');
 			} catch(e) {
@@ -291,26 +312,27 @@ var App = function() {
 			var doCheck = function() {
 				upgrade.check(function(v) {
 					upgradeNotice = v;
+					drawHeader();
 				});
-			}
+			};
 
 			doCheck();
 			// Check for updates every 5 minutes
-			setInterval(doCheck, 300000);
+			//setInterval(doCheck, 300000);
 
 			screen.on('keypress', function(ch, key) {
 				if (
-					upgrading == false && 
+					upgrading === false &&
 					(
-						key.name === 'q' || 
-						key.name === 'escape' || 
-						(key.name == 'c' && key.ctrl === true)
+						key.name === 'q' ||
+						key.name === 'escape' ||
+						(key.name === 'c' && key.ctrl === true)
 					)
 				) {
 					return process.exit(0);
 				}
 
-				if (key.name === 'u' && upgrading == false) {
+				if (key.name === 'u' && upgrading === false) {
 					upgrading = true;
 					// Clear all intervals
 					for (var interval in intervals) {
@@ -329,7 +351,7 @@ var App = function() {
 
 			drawHeader();
 
-			setInterval(drawHeader, 1000);
+			//setInterval(drawHeader, 1000);
 			drawFooter();
 
 			graph = blessed.box({

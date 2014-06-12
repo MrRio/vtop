@@ -20,7 +20,7 @@ var plugin = {
 	 * The default interval time in ms that this plugin should be polled.
 	 * More costly benchmarks should be polled less frequently.
 	 */
-	interval: 100,
+	interval: 200,
 
 	currentValue: 0,
 	/**
