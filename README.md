@@ -28,7 +28,7 @@ FAQs
 
 ### How does it work?
 
-It uses Unicode braille characters to draw CPU and Memory charts, helping you visualize spikes. We also group processes with the same name together.
+It uses [drawille](https://github.com/madbence/node-drawille) to draw CPU and Memory charts with Unicode braille characters, helping you visualize spikes. We also group processes with the same name together.
 
 ### I think the CPU % is coming out wrong.
 
