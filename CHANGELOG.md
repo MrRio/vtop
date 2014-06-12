@@ -1,10 +1,10 @@
 # Changelog
 
-## 0.2.7
+## 0.2.7 - 2014-06-12
 
 - Add Becca theme. http://www.zeldman.com/2014/06/10/the-color-purple/
 
-## 0.2.6
+## 0.2.6 - 2014-06-11
 
 - Fix major perf problem that some users were having relating to 
   drawing the header for update notifications.
