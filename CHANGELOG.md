@@ -1,7 +1,9 @@
 # Changelog
 
-<<<<<<< HEAD
-=======
+## 0.2.8
+
+- Improve Makefile
+
 ## 0.2.7 - 2014-06-12
 
 - Add Becca theme. http://www.zeldman.com/2014/06/10/the-color-purple/
@@ -15,7 +17,6 @@
 
 - Delete old data points to improve performance
 
->>>>>>> 71790f48dd349ce4af8c5580336b35258d1c4e94
 ## 0.2.4, 0.2.3, 0.2.2 - 2014-06-11
 
 - Fixes to the upgrade script
