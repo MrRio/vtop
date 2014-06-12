@@ -22,14 +22,14 @@ var App = function() {
 		VERSION = require('./package.json').version;
 
 	// Set up the commander instance and add the required options
-	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+	cli.option('-t, --theme [name]', 'set the vtop theme [parallax|brew|wizard|dark|becca]', 'parallax')
 		.version(VERSION)
 		.parse(process.argv);
 
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
-	var screen, 
+	var screen,
 		charts = [],
 		loadedTheme,
 		intervals = [];
@@ -302,7 +302,7 @@ var App = function() {
 					upgradeNotice = v;
 					drawHeader();
 				});
-			}
+			};
 
 			doCheck();
 			// Check for updates every 5 minutes
@@ -310,17 +310,17 @@ var App = function() {
 
 			screen.on('keypress', function(ch, key) {
 				if (
-					upgrading == false && 
+					upgrading === false &&
 					(
-						key.name === 'q' || 
-						key.name === 'escape' || 
-						(key.name == 'c' && key.ctrl === true)
+						key.name === 'q' ||
+						key.name === 'escape' ||
+						(key.name === 'c' && key.ctrl === true)
 					)
 				) {
 					return process.exit(0);
 				}
 
-				if (key.name === 'u' && upgrading == false) {
+				if (key.name === 'u' && upgrading === false) {
 					upgrading = true;
 					// Clear all intervals
 					for (var interval in intervals) {

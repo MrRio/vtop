@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.7
+
+- Add Becca theme. http://www.zeldman.com/2014/06/10/the-color-purple/
+
 ## 0.2.6
 
 - Fix major perf problem that some users were having relating to 

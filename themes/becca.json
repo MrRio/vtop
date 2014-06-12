@@ -1,0 +1,25 @@
+{
+	"name": "Becca",
+	"author": "James Hall",
+	"description": "In memory of Becca #663399. This is as close as we can get to that color in xterm",
+	"title": {
+		"fg": "#800080"
+	},
+	"chart": {
+		"fg": "#800080",
+		"border": {
+			"type": "line",
+			"fg": "#800080"
+		}
+	},
+	"table": {
+		"fg": "white",
+		"border": {
+			"type": "line",
+			"fg": "#800080"
+		}
+	},
+	"footer": {
+		"fg": "white"
+	}
+}
