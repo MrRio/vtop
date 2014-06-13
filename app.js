@@ -413,7 +413,7 @@ var App = function() {
 					selectedProcess = selectedProcess.slice(0, processWidth).trim();
 
 					child_process.exec('killall "' + selectedProcess + '"', function (error, stdout, stderr) {
-						console.log('Killed!');
+						//console.log('Killed!');
 					});
 				}
 
