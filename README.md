@@ -33,6 +33,12 @@ Keyboard shortcuts
 * G to move to the end of the list.
 * dd to kill all the processes in that group
 
+Mouse control
+---
+
+If your terminal supports mouse events (like iTerm) then
+you can click on the items in the process list.
+
 FAQs
 ----
 
