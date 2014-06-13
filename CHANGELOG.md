@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+
+- Fix bug after auto update showing multiple selected items
+
 ## 0.3.2
 
 - Add colors for item selection to the other themes
