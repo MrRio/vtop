@@ -19,7 +19,8 @@ var App = function() {
 		os = require('os'),
 		cli = require('commander'),
 		upgrade = require('./upgrade.js'),
-		VERSION = require('./package.json').version;
+		VERSION = require('./package.json').version,
+		child_process = require('child_process');
 
 	// Set up the commander instance and add the required options
 	cli
@@ -121,12 +122,27 @@ var App = function() {
 	 * @todo This appears to break on some viewports
 	 */
 	var drawFooter = function() {
+
+		var commands = {
+			'dd': 'Kill process',
+			'j': 'Down',
+			'k': 'Up',
+			'g': 'Jump to top',
+			'G': 'Jump to bottom'
+		};
+		var text = '';
+		for (var c in commands) {
+			var command = commands[c];
+			text += ' {white-bg}{black-fg}' + c + '{/black-fg}{/white-bg} ' + command;
+		}
+
 		var footerRight = blessed.text({
 			bottom: '0',
 			left: '0%',
 			width: '100%',
 			align: 'right',
-			content: '(c) 2014 James Hall - http://parall.ax/vtop ',
+			tags:true,
+			content: text + '    http://parall.ax/vtop ',
 			fg: loadedTheme.footer.fg
 		});
 		screen.append(footerRight);
@@ -256,7 +272,7 @@ var App = function() {
 		var bodyOutput = [];
 		for (var row in chart.plugin.currentValue) {
 			var currentRow = chart.plugin.currentValue[row];
-			var rowText = ''
+			var rowText = '';
 			for (var bodyColumn in columns) {
 				var colText = ' ' + currentRow[columns[bodyColumn]];
 				rowText += (colText + stringRepeat(' ', columnLengths[columns[bodyColumn]] - colText.length)).slice(0, columnLengths[columns[bodyColumn]]);
@@ -272,6 +288,7 @@ var App = function() {
 
 	// This is set to the current items displayed
 	var currentItems = [];
+	var processWidth = 0;
 	/**
 	 * Overall draw function, this should poll and draw results of 
 	 * the loaded sensors.
@@ -297,7 +314,7 @@ var App = function() {
 			var thisStat = currentItems[stat];
 			existingStats[thisStat.slice(0, table.processWidth)] = thisStat;
 		}
-
+		processWidth = table.processWidth;
 		// Smush on to new stats
 		var tempStats = [];
 		for (var stat in table.body) {
@@ -356,6 +373,10 @@ var App = function() {
 			doCheck();
 			// Check for updates every 5 minutes
 			//setInterval(doCheck, 300000);
+			
+			var lastKey = '';
+
+
 
 			screen.on('keypress', function(ch, key) {
 				if (
@@ -368,6 +389,17 @@ var App = function() {
 				) {
 					return process.exit(0);
 				}
+				// dd killall 
+				// @todo: Factor this out
+				if (lastKey == 'd' && key.name == 'd') {
+					var selectedProcess = processListSelection.getItem(processListSelection.selected).content;
+					selectedProcess = selectedProcess.slice(0, processWidth).trim();
+
+					child_process.exec('killall "' + selectedProcess + '"', function (error, stdout, stderr) {
+						console.log('Killed!');
+					});
+				}
+				lastKey = key.name;
 
 				if (key.name === 'u' && upgrading === false) {
 					upgrading = true;
@@ -416,7 +448,7 @@ var App = function() {
 					top: graph.height + 1,
 					left: 'left',
 					width: '50%',
-					height: graph.height - 1,
+					height: graph.height - 2,
 					content: 'test',
 					fg: loadedTheme.chart.fg,
 					tags: true,
@@ -428,7 +460,7 @@ var App = function() {
 					top: graph.height + 1,
 					left: '50%',
 					width: screen.width - graph2.width,
-					height: graph.height - 1,
+					height: graph.height - 2,
 					keys: true,
 					mouse: true,
 					fg: loadedTheme.table.fg,
