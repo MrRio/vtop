@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.6
+
+- Fix for systems that called the node binary 'nodejs'
+
 ## 0.4.0
 
 - Add sort by CPU and Memory
