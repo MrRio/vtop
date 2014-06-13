@@ -13,6 +13,16 @@
 	},
 	"table": {
 		"fg": "white",
+		"items": {
+			"selected": {
+				"bg": "#56a0d1",
+				"fg": "#000000"
+			},
+			"item": {
+				"fg": "#ffffff",
+				"bg": "#000000"
+			}
+		},
 		"border": {
 			"type": "line",
 			"fg": "#56a0d1"

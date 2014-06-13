@@ -14,6 +14,16 @@
 	},
 	"table": {
 		"fg": "white",
+		"items": {
+			"selected": {
+				"bg": "#800080",
+				"fg": "#000000"
+			},
+			"item": {
+				"fg": "#ffffff",
+				"bg": "#000000"
+			}
+		},
 		"border": {
 			"type": "line",
 			"fg": "#800080"
