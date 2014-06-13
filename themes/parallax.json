@@ -12,15 +12,14 @@
 		}
 	},
 	"table": {
-		"fg": "white",
+		"fg": "fg",
 		"items": {
 			"selected": {
 				"bg": "#a537fd",
-				"fg": "#000000"
+				"fg": "fg"
 			},
 			"item": {
-				"fg": "#ffffff",
-				"bg": "#000000"
+				"fg": "fg"
 			}
 		},
 		"border": {
@@ -29,6 +28,6 @@
 		}
 	},
 	"footer": {
-		"fg": "white"
+		"fg": "fg"
 	}
 }
