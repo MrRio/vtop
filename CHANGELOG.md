@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+- Add sort by CPU and Memory
+
 ## 0.3.3
 
 - Fix bug after auto update showing multiple selected items
