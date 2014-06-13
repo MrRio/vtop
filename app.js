@@ -128,12 +128,14 @@ var App = function() {
 			'j': 'Down',
 			'k': 'Up',
 			'g': 'Jump to top',
-			'G': 'Jump to bottom'
+			'G': 'Jump to bottom',
+			'c': 'Sort by CPU',
+			'm': 'Sort by Mem'
 		};
 		var text = '';
 		for (var c in commands) {
 			var command = commands[c];
-			text += ' {white-bg}{black-fg}' + c + '{/black-fg}{/white-bg} ' + command;
+			text += '  {white-bg}{black-fg}' + c + '{/black-fg}{/white-bg} ' + command;
 		}
 
 		var footerRight = blessed.text({
@@ -398,6 +400,21 @@ var App = function() {
 					child_process.exec('killall "' + selectedProcess + '"', function (error, stdout, stderr) {
 						console.log('Killed!');
 					});
+				}
+
+				if (key.name == 'c') {
+					charts[2].plugin.sort = 'cpu';
+					charts[2].plugin.poll();
+					setTimeout(function() {
+						processListSelection.select(0);
+					}, 200);
+				}
+				if (key.name == 'm') {
+					charts[2].plugin.sort = 'mem';
+					charts[2].plugin.poll();
+					setTimeout(function() {
+						processListSelection.select(0);
+					}, 200);
 				}
 				lastKey = key.name;
 

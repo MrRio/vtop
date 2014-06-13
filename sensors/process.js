@@ -28,6 +28,8 @@ var plugin = {
 	 */
 	interval: 2000,
 
+	sort: 'cpu',
+
 	columns: ['Command', 'CPU %', 'Count', 'Memory %'],
 	currentValue: [{
 		'Command': 'Google Chrome',
@@ -102,12 +104,14 @@ var plugin = {
 					'Count': stats[stat].count,
 					'CPU %': cpuRounded,
 					'Memory %':  memRounded,
-					'cpu': stats[stat].cpu // exact cpu for comparison
+					'cpu': stats[stat].cpu,
+					'mem': stats[stat].mem // exact cpu for comparison
 				});
 			}
 			statsArray.sort(function(a, b) {
-				return b.cpu - a.cpu;
+				return parseFloat(b[plugin.sort]) - parseFloat(a[plugin.sort]);
 			});
+
 			plugin.currentValue = statsArray;
 		});
 	}
