@@ -9,8 +9,7 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "vtop": "./bin/vtop",
-    "vtop.js": "./bin/vtop.js"
+    "vtop": "./bin/vtop.js"
   },
   "author": {
     "name": "James Hall",

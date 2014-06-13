@@ -62,7 +62,7 @@ var upgrade = function() {
 			child.stdout.on('data', function (data) {
 			    console.log(data.toString());
 
-			    if (data.toString().indexOf('/bin/vtop') != -1) {
+			    if (data.toString().indexOf('vtop.js') != -1) {
 			    	path = data.toString().trim().split(' ')[2];
 			    } 
 			});
