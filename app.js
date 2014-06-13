@@ -387,12 +387,14 @@ var App = function() {
 
 			screen.on('keypress', function(ch, key) {
 
-				// Disable table updates for half a second
-				disableTableUpdate = true;
-				clearTimeout(disableTableUpdateTimeout);
-				disableTableUpdateTimeout = setTimeout(function() {
-					disableTableUpdate = false;
-				}, 500);
+				if (key == 'up' || key == 'down' || key == 'k' || key == 'j') {
+					// Disable table updates for half a second
+					disableTableUpdate = true;
+					clearTimeout(disableTableUpdateTimeout);
+					disableTableUpdateTimeout = setTimeout(function() {
+						disableTableUpdate = false;
+					}, 1000);
+				}
 
 				if (
 					upgrading === false &&
