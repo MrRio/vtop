@@ -37,7 +37,9 @@ var App = function() {
 		loadedTheme,
 		intervals = [];
 
-	var upgradeNotice = false;
+	var upgradeNotice = false,
+		disableTableUpdate = false,
+		disableTableUpdateTimeout = setTimeout(function() {}, 0);
 
 	// Private variables
 
@@ -302,36 +304,39 @@ var App = function() {
 		graph.setContent(drawChart(chartKey));
 		graph2.setContent(drawChart(chartKey + 1));
 
-		var table = drawTable(chartKey + 2);
-		processList.setContent(table.title);
+		if (! disableTableUpdate) {
+			var table = drawTable(chartKey + 2);
+			processList.setContent(table.title);
 
-		// If we keep the stat numbers the same immediately, then update them
-		// after, the focus will follow. This is a hack. 
-		
-		var existingStats = {};
-		// Slice the start process off, then store the full stat, 
-		// so we can inject the same stat onto the new order for a brief render
-		// cycle.
-		for (var stat in currentItems) {
-			var thisStat = currentItems[stat];
-			existingStats[thisStat.slice(0, table.processWidth)] = thisStat;
+			// If we keep the stat numbers the same immediately, then update them
+			// after, the focus will follow. This is a hack. 
+			
+			var existingStats = {};
+			// Slice the start process off, then store the full stat, 
+			// so we can inject the same stat onto the new order for a brief render
+			// cycle.
+			for (var stat in currentItems) {
+				var thisStat = currentItems[stat];
+				existingStats[thisStat.slice(0, table.processWidth)] = thisStat;
+			}
+			processWidth = table.processWidth;
+			// Smush on to new stats
+			var tempStats = [];
+			for (var stat in table.body) {
+				var thisStat = table.body[stat];
+				tempStats.push(existingStats[thisStat.slice(0, table.processWidth)]);
+			}
+			// Move cursor position with temp stats
+			processListSelection.setItems(tempStats);
+
+			// Update the numbers
+			processListSelection.setItems(table.body);
+
+			processListSelection.focus();
+
+			currentItems = table.body;
 		}
-		processWidth = table.processWidth;
-		// Smush on to new stats
-		var tempStats = [];
-		for (var stat in table.body) {
-			var thisStat = table.body[stat];
-			tempStats.push(existingStats[thisStat.slice(0, table.processWidth)]);
-		}
-		// Move cursor position with temp stats
-		processListSelection.setItems(tempStats);
 
-		// Update the numbers
-		processListSelection.setItems(table.body);
-
-		processListSelection.focus();
-
-		currentItems = table.body;
 
 		screen.render();
 	};
@@ -381,6 +386,14 @@ var App = function() {
 
 
 			screen.on('keypress', function(ch, key) {
+
+				// Disable table updates for half a second
+				disableTableUpdate = true;
+				clearTimeout(disableTableUpdateTimeout);
+				disableTableUpdateTimeout = setTimeout(function() {
+					disableTableUpdate = false;
+				}, 500);
+
 				if (
 					upgrading === false &&
 					(
