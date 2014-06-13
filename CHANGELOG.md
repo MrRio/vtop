@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Add colors for item selection to the other themes
+
 ## 0.3.1
 
 - Add keyboard and mouse support
