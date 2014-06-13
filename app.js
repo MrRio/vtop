@@ -417,14 +417,14 @@ var App = function() {
 					});
 				}
 
-				if (key.name == 'c') {
+				if (key.name == 'c' && charts[2].plugin.sort != 'cpu') {
 					charts[2].plugin.sort = 'cpu';
 					charts[2].plugin.poll();
 					setTimeout(function() {
 						processListSelection.select(0);
 					}, 200);
 				}
-				if (key.name == 'm') {
+				if (key.name == 'm' && charts[2].plugin.sort != 'mem') {
 					charts[2].plugin.sort = 'mem';
 					charts[2].plugin.poll();
 					setTimeout(function() {
