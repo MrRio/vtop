@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- Add keyboard and mouse support
+- Add killall support
+
 ## 0.2.8
 
 - Improve Makefile
