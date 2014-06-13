@@ -175,7 +175,7 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
-		var dataPointsToKeep = 500;
+		var dataPointsToKeep = 5000;
 
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;
 
