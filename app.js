@@ -407,6 +407,7 @@ var App = function() {
 					for (var interval in intervals) {
 						clearInterval(intervals[interval]);
 					}
+					processListSelection.detach();
 					program = blessed.program();
 					program.clear();
 					program.disableMouse();
