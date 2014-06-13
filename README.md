@@ -23,6 +23,16 @@ This is pretty simple too.
 vtop
 ```
 
+Keyboard shortcuts
+---
+
+* Press 'u' to update to the latest version of vtop.
+* Arrow up or k to move up the process list.
+* Arrow down or j to move down.
+* g to go to the top of the process list.
+* G to move to the end of the list.
+* dd to kill all the processes in that group
+
 FAQs
 ----
 

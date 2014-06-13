@@ -59,8 +59,7 @@ var App = function() {
 
 	// @todo: move this into charts array
 	// This is an instance of Blessed Box
-	var graph;
-	var graph2;
+	var graph, graph2, processList, processListSelection;
 
 	// Private functions
 
@@ -247,24 +246,32 @@ var App = function() {
 
 		// And back again
 		columns.reverse();
-		var output = '{bold}';
+		var titleOutput = '{bold}';
 		for (var headerColumn in columns) {
 			var colText = ' ' + columns[headerColumn];
-			output += (colText + stringRepeat(' ', columnLengths[columns[headerColumn]] - colText.length));
+			titleOutput += (colText + stringRepeat(' ', columnLengths[columns[headerColumn]] - colText.length));
 		}
-		output += '{/bold}' + "\n";
+		titleOutput += '{/bold}' + "\n";
 
+		var bodyOutput = [];
 		for (var row in chart.plugin.currentValue) {
 			var currentRow = chart.plugin.currentValue[row];
+			var rowText = ''
 			for (var bodyColumn in columns) {
 				var colText = ' ' + currentRow[columns[bodyColumn]];
-				output += (colText + stringRepeat(' ', columnLengths[columns[bodyColumn]] - colText.length)).slice(0, columnLengths[columns[bodyColumn]]);
+				rowText += (colText + stringRepeat(' ', columnLengths[columns[bodyColumn]] - colText.length)).slice(0, columnLengths[columns[bodyColumn]]);
 			}
-			output += "\n";
+			bodyOutput.push(rowText);
 		}
-		return output;
+		return {
+			title: titleOutput,
+			body: bodyOutput,
+			processWidth: columnLengths[columns[0]]
+		};
 	};
 
+	// This is set to the current items displayed
+	var currentItems = [];
 	/**
 	 * Overall draw function, this should poll and draw results of 
 	 * the loaded sensors.
@@ -275,7 +282,37 @@ var App = function() {
 		var chartKey = 0;
 		graph.setContent(drawChart(chartKey));
 		graph2.setContent(drawChart(chartKey + 1));
-		processList.setContent(drawTable(chartKey + 2));
+
+		var table = drawTable(chartKey + 2);
+		processList.setContent(table.title);
+
+		// If we keep the stat numbers the same immediately, then update them
+		// after, the focus will follow. This is a hack. 
+		
+		var existingStats = {};
+		// Slice the start process off, then store the full stat, 
+		// so we can inject the same stat onto the new order for a brief render
+		// cycle.
+		for (var stat in currentItems) {
+			var thisStat = currentItems[stat];
+			existingStats[thisStat.slice(0, table.processWidth)] = thisStat;
+		}
+
+		// Smush on to new stats
+		var tempStats = [];
+		for (var stat in table.body) {
+			var thisStat = table.body[stat];
+			tempStats.push(existingStats[thisStat.slice(0, table.processWidth)]);
+		}
+		// Move cursor position with temp stats
+		processListSelection.setItems(tempStats);
+
+		// Update the numbers
+		processListSelection.setItems(table.body);
+
+		processListSelection.focus();
+
+		currentItems = table.body;
 
 		screen.render();
 	};
@@ -399,6 +436,25 @@ var App = function() {
 					border: loadedTheme.table.border
 				});
 				screen.append(processList);
+
+
+				processListSelection = blessed.list({
+					height: processList.height - 3,
+					top: 2,
+					width: processList.width - 2,
+					left: 1,
+					keys: true,
+					vi: true,
+					search: function() {
+						console.log('SEARCH');
+					},
+					style: loadedTheme.table.items,
+					mouse: true
+				});
+				processList.append(processListSelection);
+				processListSelection.focus();
+				screen.render();
+
 			};
 
 			screen.on('resize', function() {
