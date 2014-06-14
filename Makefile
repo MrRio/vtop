@@ -6,7 +6,7 @@ test:
 	@echo "Testing..."
 	@echo ""
 	@echo "Performance stats after 5 seconds:"
-	@time node app.js --quit-after 5
+	@screen time node app.js --quit-after 5
 
 release-patch: test
 	npm version patch -m "Release vtop patch version %s"
