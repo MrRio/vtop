@@ -1,0 +1,33 @@
+{
+	"name": "monokai",
+	"author": "Dean Eigenmann",
+	"title": {
+		"fg": "#767150"	
+	},
+	"chart": {
+		"fg": "#56DBED",
+		"border": {
+			"type": "line",
+			"fg": "#272823"
+		}
+	},
+	"table": {
+		"fg": "fg",
+		"items": {
+			"selected": {
+				"bg": "#56DBED",
+				"fg": "fg"
+			},
+			"item": {
+				"fg": "fg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#272823"
+		}
+	},
+	"footer": {
+		"fg": "fg"
+	}
+}
