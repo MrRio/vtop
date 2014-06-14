@@ -51,23 +51,22 @@ var upgrade = function() {
 			console.log(args.join(' '));
 
 			var options = {
-			    cachePassword: false,
-			    prompt: 'Password:',
-			    spawnOptions: { stdio: 'inherit' }
+				cachePassword: false,
+				prompt: 'Password:',
+				spawnOptions: { stdio: 'inherit' }
 			};
 			var child = sudo(args, options);
 
-
 			var path = false;
 			child.stdout.on('data', function (data) {
-			    console.log(data.toString());
+				console.log(data.toString());
 
-			    if (data.toString().indexOf('vtop.js') != -1) {
-			    	path = data.toString().trim().split(' ')[2];
-			    } 
+				if (data.toString().indexOf('vtop.js') != -1) {
+					path = data.toString().trim().split(' ')[2];
+				} 
 			});
 			child.stderr.on('data', function (data) {
-			    console.log(data.toString());
+				console.log(data.toString());
 			});
 
 			child.on('close', function() {
@@ -80,7 +79,7 @@ var upgrade = function() {
 				}, 1000);
 			});
 		}
-	}
+	};
 }();
 
 module.exports = upgrade;
