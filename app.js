@@ -365,7 +365,14 @@ var App = function() {
 				process.exit(1);
 			}
 			// Create a screen object.
-			screen = blessed.screen();
+			// If running on windows then use 'windows-ansi' term
+			// https://github.com/MrRio/vtop/issues/12
+
+			if (process.platform === 'win32') {
+			    screen = blessed.screen({ term: 'windows-ansi' });
+			} else {
+				screen = blessed.screen();
+			}
 
 			// Configure 'q', esc, Ctrl+C for quit
 			var upgrading = false;
