@@ -5,7 +5,7 @@
 		"fg": "#767150"	
 	},
 	"chart": {
-		"fg": "#56DBED",
+		"fg": "#66D9EF",
 		"border": {
 			"type": "line",
 			"fg": "#272823"
@@ -15,7 +15,7 @@
 		"fg": "fg",
 		"items": {
 			"selected": {
-				"bg": "#56DBED",
+				"bg": "#66D9EF",
 				"fg": "fg"
 			},
 			"item": {
