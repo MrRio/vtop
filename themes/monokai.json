@@ -15,7 +15,7 @@
 		"fg": "fg",
 		"items": {
 			"selected": {
-				"bg": "#66D9EF",
+				"bg": "#F92672",
 				"fg": "fg"
 			},
 			"item": {
