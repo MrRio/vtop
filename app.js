@@ -26,9 +26,11 @@ var App = function() {
 	cli
 		.option('-t, --theme  [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
 		.option('--quit-after [seconds]', 'Quits vtop after interval', '0')
+		.option('-tl, --themelist', 'List themes')
 		.version(VERSION)
 		.parse(process.argv);
 
+	if (program.themelist) console.log('Parallax Brew Wizard Dark');
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
