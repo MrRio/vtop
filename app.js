@@ -25,6 +25,7 @@ var App = function() {
 	// Set up the commander instance and add the required options
 	cli
 		.option('-t, --theme  [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+		.option('-t list, --t list', 'console.log("Parallax Brew Wizard Dark Monokai");')
 		.option('--quit-after [seconds]', 'Quits vtop after interval', '0')
 		.version(VERSION)
 		.parse(process.argv);
