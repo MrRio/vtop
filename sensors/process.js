@@ -53,7 +53,7 @@ var plugin = {
 		// @todo If you can think of a better way of getting process stats,
 		// then please feel free to send me a pull request. This is version 0.1
 		// and needs some love.
-		var ps = child_process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
+		var ps = child_process.exec('ps -eo %cpu,%mem,comm', function (error, stdout, stderr) {
 			var lines = stdout.split("\n");
 			// Ditch the first line
 			lines[0] = '';
