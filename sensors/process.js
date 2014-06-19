@@ -78,7 +78,7 @@ var plugin = {
 			for (var stat in stats) {
 				// Divide by nuber of CPU cores
 				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
-				var memRounded = parseFloat(stats[stat].mem).toFixed(1);
+				var memRounded = parseFloat((stats[stat].mem / os.totalmem()) * 100).toFixed(1);
 				statsArray.push({
 					'Command': stats[stat].comm,
 					'Count': stats[stat].count,
