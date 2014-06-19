@@ -8,7 +8,6 @@
 var os = require('os'),
 	fs = require('fs'),
 	child_process = require('child_process'),
-	_ = require('lodash'),
 	ps = require('current-processes');
 
 var plugin = {
@@ -52,25 +51,41 @@ var plugin = {
 	 */
 	poll: function() {
 		var stats = {};
-
-		// This uses the https://github.com/branneman/current-processes
-		// written by @branneman to factor this code out, and support multiple OS 
-		// adapters.
+		// @todo If you can think of a better way of getting process stats,
+		// then please feel free to send me a pull request. This is version 0.1
+		// and needs some love.
 		ps.get(function(err, processes) {
-			var statsArray = [];
-
-			//console.log(processes);
 			for (var p in processes) {
 				var process = processes[p];
-				var cpuRounded = parseFloat(process.cpu / os.cpus().length).toFixed(1);
-				var memRounded = parseFloat(process.mem).toFixed(1);
+				// If already exists, then add them together
+				if (typeof stats[process.name] !== 'undefined') {
+					stats[process.name] = {
+						cpu: parseFloat(stats[process.name].cpu, 10) + parseFloat(process.cpu),
+						mem: parseFloat(stats[process.name].mem, 10) + parseFloat(process.mem),
+						comm: process.name,
+						count: parseInt(stats[process.name].count, 10) + 1
+					};
+				} else {
+					stats[process.name] = {
+						cpu: process.cpu,
+						mem: process.mem,
+						comm: process.name,
+						count: 1
+					};
+				}
+			}
+			var statsArray = [];
+			for (var stat in stats) {
+				// Divide by nuber of CPU cores
+				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
+				var memRounded = parseFloat(stats[stat].mem).toFixed(1);
 				statsArray.push({
-					'Command': process.name,
-					'Count': 1,
+					'Command': stats[stat].comm,
+					'Count': stats[stat].count,
 					'CPU %': cpuRounded,
 					'Memory %':  memRounded,
-					'cpu': process.cpu,
-					'mem': process.mem // exact cpu for comparison
+					'cpu': stats[stat].cpu,
+					'mem': stats[stat].mem // exact cpu for comparison
 				});
 			}
 			statsArray.sort(function(a, b) {
