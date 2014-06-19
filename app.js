@@ -30,7 +30,7 @@ var App = function() {
 		.version(VERSION)
 		.parse(process.argv);
 
-	if (program.themelist) console.log('Parallax Brew Wizard Dark');
+	if (program.themelist) console.log(fs.readdirSync('themes'));
 	/**
 	 * Instance of blessed screen, and the charts object
 	 */
