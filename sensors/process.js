@@ -7,7 +7,9 @@
 
 var os = require('os'),
 	fs = require('fs'),
-	child_process = require('child_process');
+	child_process = require('child_process'),
+	_ = require('lodash'),
+	ps = require('current-processes');
 
 var plugin = {
 	/**
@@ -50,62 +52,25 @@ var plugin = {
 	 */
 	poll: function() {
 		var stats = {};
-		// @todo If you can think of a better way of getting process stats,
-		// then please feel free to send me a pull request. This is version 0.1
-		// and needs some love.
-		var ps = child_process.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
-			var lines = stdout.split("\n");
-			// Ditch the first line
-			lines[0] = '';
-			for (var line in lines) {
-				var currentLine = lines[line].trim().replace('  ', ' ');
-				//console.log(currentLine);
-				var words = currentLine.split(" ");
-				if (typeof words[0] !== 'undefined' && typeof words[1] !== 'undefined' ) {
-					var cpu = words[0].replace(',', '.');
-					var mem = words[1].replace(',', '.');
-					var offset = cpu.length + mem.length + 2;
-					var comm = currentLine.slice(offset);
-					// If we're on Mac then remove the path
-					if (/^darwin/.test(process.platform)) {
-						comm = comm.split('/');
-						comm = comm[comm.length - 1];
-					} else {
-						// Otherwise assume linux and remove the unnecessary /1 info like 
-						// you get on kworker
-						comm = comm.split('/');
-						comm = comm[0];
-					}
-					// If already exists, then add them together
-					if (typeof stats[comm] !== 'undefined') {
-						stats[comm] = {
-							cpu: parseFloat(stats[comm].cpu, 10) + parseFloat(cpu),
-							mem: parseFloat(stats[comm].mem, 10) + parseFloat(mem),
-							comm: comm,
-							count: parseInt(stats[comm].count, 10) + 1
-						};
-					} else {
-						stats[comm] = {
-							cpu: cpu,
-							mem: mem,
-							comm: comm,
-							count: 1
-						};
-					}
-				}
-			}
+
+		// This uses the https://github.com/branneman/current-processes
+		// written by @branneman to factor this code out, and support multiple OS 
+		// adapters.
+		ps.get(function(err, processes) {
 			var statsArray = [];
-			for (var stat in stats) {
-				// Divide by nuber of CPU cores
-				var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1);
-				var memRounded = parseFloat(stats[stat].mem).toFixed(1);
+
+			//console.log(processes);
+			for (var p in processes) {
+				var process = processes[p];
+				var cpuRounded = parseFloat(process.cpu / os.cpus().length).toFixed(1);
+				var memRounded = parseFloat(process.mem).toFixed(1);
 				statsArray.push({
-					'Command': stats[stat].comm,
-					'Count': stats[stat].count,
+					'Command': process.name,
+					'Count': 1,
 					'CPU %': cpuRounded,
 					'Memory %':  memRounded,
-					'cpu': stats[stat].cpu,
-					'mem': stats[stat].mem // exact cpu for comparison
+					'cpu': process.cpu,
+					'mem': process.mem // exact cpu for comparison
 				});
 			}
 			statsArray.sort(function(a, b) {
