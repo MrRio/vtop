@@ -380,10 +380,8 @@ var App = function() {
 			doCheck();
 			// Check for updates every 5 minutes
 			//setInterval(doCheck, 300000);
-			
+
 			var lastKey = '';
-
-
 
 			screen.on('keypress', function(ch, key) {
 
@@ -413,7 +411,7 @@ var App = function() {
 					selectedProcess = selectedProcess.slice(0, processWidth).trim();
 
 					child_process.exec('killall "' + selectedProcess + '"', function (error, stdout, stderr) {
-						console.log('Killed!');
+						//console.log('Killed!');
 					});
 				}
 

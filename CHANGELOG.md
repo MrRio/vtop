@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.10
+
+- Fix for issue #2 where people had set a different TERM variable
+
+## 0.4.6
+
+- Fix for systems that called the node binary 'nodejs'
+
 ## 0.4.0
 
 - Add sort by CPU and Memory

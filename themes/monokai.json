@@ -1,31 +1,30 @@
 {
-	"name": "Brew",
-	"author": "James Hall",
+	"name": "monokai",
+	"author": "Dean Eigenmann",
 	"title": {
-		"fg": "#187dc1"
+		"fg": "#767150"	
 	},
 	"chart": {
-		"fg": "#187dc1",
+		"fg": "#66D9EF",
 		"border": {
 			"type": "line",
-			"fg": "#56a0d1"
+			"fg": "#272823"
 		}
 	},
 	"table": {
 		"fg": "fg",
 		"items": {
 			"selected": {
-				"bg": "#56a0d1",
-				"fg": "bg"
+				"bg": "#F92672",
+				"fg": "fg"
 			},
 			"item": {
-				"fg": "fg",
-				"bg": "bg"
+				"fg": "fg"
 			}
 		},
 		"border": {
 			"type": "line",
-			"fg": "#56a0d1"
+			"fg": "#272823"
 		}
 	},
 	"footer": {
