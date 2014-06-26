@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.12
+
+- Potential fix for win-ansi
+
+## 0.4.11
+
+- New theme 'monokai'
+
 ## 0.4.10
 
 - Fix for issue #2 where people had set a different TERM variable
