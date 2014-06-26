@@ -3,7 +3,7 @@ vtop
 
 A graphical activity monitor for the command line. Written in node.js.
 
-![](docs/example.gif)
+![](https://raw.githubusercontent.com/MrRio/vtop/master/docs/example.gif)
 
 How to install
 ---
