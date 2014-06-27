@@ -175,6 +175,10 @@ var App = function() {
 		var c = chart.chart;
 		c.clear();
 
+		if (! charts[chartKey].plugin.initialized) {
+			return false;
+		}
+
 		var dataPointsToKeep = 5000;
 
 		charts[chartKey].values[position] = charts[chartKey].plugin.currentValue;

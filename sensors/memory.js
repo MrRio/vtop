@@ -22,12 +22,16 @@ var plugin = {
 	 */
 	interval: 200,
 
+	initialized: false,
+
+
 	currentValue: 0,
 	/**
 	 * Grab the current value, from 0-100
 	 */
 	poll: function() {
 		plugin.currentValue = (100 - Math.floor(os.freememPercentage() * 100));
+		plugin.initialized = true;
 	}
 };
 

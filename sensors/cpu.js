@@ -22,6 +22,8 @@ var plugin = {
 	 */
 	interval: 200,
 
+	initialized: false,
+
 	currentValue: 0,
 	/**
 	 * Grab the current value, from 0-100
@@ -29,6 +31,7 @@ var plugin = {
 	poll: function() {
 		os.cpuUsage(function(v){
 			plugin.currentValue = (Math.floor(v * 100));
+			plugin.initialized = true;
 		});
 	}
 };

@@ -28,6 +28,8 @@ var plugin = {
 	 */
 	interval: 2000,
 
+	initialized: false,
+
 	sort: 'cpu',
 
 	columns: ['Command', 'CPU %', 'Count', 'Memory %'],
@@ -113,6 +115,8 @@ var plugin = {
 			});
 
 			plugin.currentValue = statsArray;
+			plugin.initialized = true;
+
 		});
 	}
 };
