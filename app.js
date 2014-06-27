@@ -508,8 +508,9 @@ var App = function() {
 					left: 1,
 					keys: true,
 					vi: true,
-					search: function() {
-						console.log('SEARCH');
+					search: function(jump) {
+						// @TODO
+						//jump('string of thing to jump to');
 					},
 					style: loadedTheme.table.items,
 					mouse: true
