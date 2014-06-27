@@ -23,6 +23,13 @@ This is pretty simple too.
 vtop
 ```
 
+If you *really* like vtop, but your finger muscle memory means you keep typing 'top' then why not add an alias to ~/.bashrc.
+
+```
+alias top="vtop"
+alias oldtop="/usr/bin/top"
+```
+
 Keyboard shortcuts
 ---
 
