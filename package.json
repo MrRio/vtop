@@ -25,7 +25,7 @@
     "drawille": "0.1.1",
     "os-utils": "0.0.14",
     "read": "1.0.5",
-    "blessed": "0.0.33",
+    "blessed": "0.0.37",
     "commander": "2.2.0",
     "sudo": "1.0.3"
   }
