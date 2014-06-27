@@ -345,9 +345,12 @@ var App = function() {
 	return {
 
 		init: function() {
-			// Get the theme, it defaults to parallax
-			var theme = cli.theme;
-
+			var theme;
+			if (typeof process.theme != 'undefined') {
+				theme = process.theme;
+			} else {
+				theme = cli.theme;
+			}
 			/**
 			 * Quits running vtop after so many seconds
 			 * This is mainly for perf testing.
@@ -445,7 +448,11 @@ var App = function() {
 					program.normalBuffer();
 
 					// @todo: show changelog  AND  smush existing data into it :D
-					upgrade.install('vtop');
+					upgrade.install('vtop', [
+						{
+							'theme': theme
+						}
+					]);
 				}
 			});
 

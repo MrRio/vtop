@@ -34,7 +34,7 @@ var upgrade = function() {
 		/**
 		 * This will install the update and relaunch
 		 */
-		install: function(package) {
+		install: function(package, vars) {
 			var blessed = require('blessed'),
 			program = blessed.program(),
 			spawn = require('child_process').spawn,
@@ -63,7 +63,7 @@ var upgrade = function() {
 
 				if (data.toString().indexOf('vtop.js') != -1) {
 					path = data.toString().trim().split(' ')[2];
-				} 
+				}
 			});
 			child.stderr.on('data', function (data) {
 				console.log(data.toString());
@@ -75,6 +75,9 @@ var upgrade = function() {
 				}
 				console.log('Finished updating. Clearing cache and relaunching...');
 				setTimeout(function() {
+					for (var v in vars) {
+						process[v] = vars[v];
+					}
 					require(path);
 				}, 1000);
 			});
