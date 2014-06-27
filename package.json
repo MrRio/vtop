@@ -22,7 +22,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "drawille": "0.0.3",
+    "drawille": "0.1.1",
     "os-utils": "0.0.14",
     "read": "1.0.5",
     "blessed": "0.0.33",
