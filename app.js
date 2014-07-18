@@ -20,11 +20,20 @@ var App = function() {
 		cli = require('commander'),
 		upgrade = require('./upgrade.js'),
 		VERSION = require('./package.json').version,
-		child_process = require('child_process');
+		child_process = require('child_process'),
+		glob = require("glob"),
+    themes = "";
+
+  var files = glob.sync("./themes/*.json");
+  for (var i = 0; i < files.length; i++) {
+    var theme_name = files[i].replace('./themes/', '').replace('.json', '');
+    themes += theme_name + '|';
+  }
+  themes = themes.slice(0, -1);
 
 	// Set up the commander instance and add the required options
 	cli
-		.option('-t, --theme  [name]', 'set the vtop theme [parallax|brew|wizard|dark]', 'parallax')
+		.option('-t, --theme  [name]', 'set the vtop theme [' + themes + ']', 'parallax')
 		.option('--quit-after [seconds]', 'Quits vtop after interval', '0')
 		.version(VERSION)
 		.parse(process.argv);
