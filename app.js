@@ -22,14 +22,14 @@ var App = function() {
 		VERSION = require('./package.json').version,
 		child_process = require('child_process'),
 		glob = require("glob"),
-    themes = "";
+		themes = "";
 
-  var files = glob.sync("./themes/*.json");
-  for (var i = 0; i < files.length; i++) {
-    var theme_name = files[i].replace('./themes/', '').replace('.json', '');
-    themes += theme_name + '|';
-  }
-  themes = themes.slice(0, -1);
+	var files = glob.sync("./themes/*.json");
+	for (var i = 0; i < files.length; i++) {
+		var theme_name = files[i].replace('./themes/', '').replace('.json', '');
+		themes += theme_name + '|';
+	}
+	themes = themes.slice(0, -1);
 
 	// Set up the commander instance and add the required options
 	cli
