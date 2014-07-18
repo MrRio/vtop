@@ -470,7 +470,7 @@ var App = function() {
 				left: 'left',
 				width: '100%',
 				height: '50%',
-				content: 'test',
+				content: '',
 				fg: loadedTheme.chart.fg,
 				tags: true,
 				border: loadedTheme.chart.border
@@ -491,7 +491,7 @@ var App = function() {
 					left: 'left',
 					width: '50%',
 					height: graph.height - 2,
-					content: 'test',
+					content: '',
 					fg: loadedTheme.chart.fg,
 					tags: true,
 					border: loadedTheme.chart.border
