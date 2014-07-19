@@ -50,6 +50,8 @@ var App = function() {
 		disableTableUpdate = false,
 		disableTableUpdateTimeout = setTimeout(function() {}, 0);
 
+	var graph_scale = 1;
+
 	// Private variables
 
 	/**
@@ -195,23 +197,34 @@ var App = function() {
 		var computeValue = function(input) {
 			return chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1;
 		};
-		//console.log(charts[chartKey].values.length);
+
 		if (position > dataPointsToKeep) {
 			delete charts[chartKey].values[position - dataPointsToKeep];
 		}
+
 		for (var pos in charts[chartKey].values) {
 			var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
+			// calculated x-value based on graph_scale
+			var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
+
 			// Start deleting old data points to improve performance
 			// @todo: This is not be the best place to do this
 
-
-			if (p > 0 && computeValue(charts[chartKey].values[pos]) > 0) {
-				c.set(p, computeValue(charts[chartKey].values[pos]));
-			}
-
 			for (var y = computeValue(charts[chartKey].values[pos]); y < chart.height; y ++) {
-				if (p > 0 && y > 0) {
-					c.set(p, y);
+				if (graph_scale > 1 && p > 0 && y > 0) {
+					// adds columns between data if graph is zoomed in
+					for (var i = 0; i < graph_scale; i++) {
+						c.set(x + i, y);
+					}
+				} else if (graph_scale <= 1) {
+					// magic number used to calculate when to draw a value onto the chart
+					var allowedPValues = (charts[chartKey].values.length - ((graph_scale * charts[chartKey].values.length) + 1)) * -1;
+					if (p > allowedPValues && y > 0) {
+						// calculated x-value based on graph_scale
+						var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
+
+						c.set(x, y);
+					}
 				}
 			}
 		}
@@ -307,7 +320,7 @@ var App = function() {
 	var currentItems = [];
 	var processWidth = 0;
 	/**
-	 * Overall draw function, this should poll and draw results of 
+	 * Overall draw function, this should poll and draw results of
 	 * the loaded sensors.
 	 */
 	var draw = function() {
@@ -322,10 +335,10 @@ var App = function() {
 			processList.setContent(table.title);
 
 			// If we keep the stat numbers the same immediately, then update them
-			// after, the focus will follow. This is a hack. 
-			
+			// after, the focus will follow. This is a hack.
+
 			var existingStats = {};
-			// Slice the start process off, then store the full stat, 
+			// Slice the start process off, then store the full stat,
 			// so we can inject the same stat onto the new order for a brief render
 			// cycle.
 			for (var stat in currentItems) {
@@ -420,7 +433,7 @@ var App = function() {
 				) {
 					return process.exit(0);
 				}
-				// dd killall 
+				// dd killall
 				// @todo: Factor this out
 				if (lastKey == 'd' && key.name == 'd') {
 					var selectedProcess = processListSelection.getItem(processListSelection.selected).content;
@@ -466,6 +479,12 @@ var App = function() {
 							'theme': theme
 						}
 					]);
+				}
+
+				if ((key.name =='left' || key.name == 'h') && graph_scale < 8) {
+					graph_scale *= 2;
+				} else if ((key.name =='right' || key.name == 'l') && graph_scale > 0.125) {
+					graph_scale /= 2;
 				}
 			});
 
