@@ -207,14 +207,28 @@ var App = function() {
 			// calculated x-value based on graph_scale
 			var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
 
+			// draws top line of chart
+			if (p > 0 && computeValue(charts[chartKey].values[pos - 1]) > 0) {
+				var z = (p * graph_scale) + ((1 - graph_scale) * chart.width);
+				c.set(z, computeValue(charts[chartKey].values[pos - 1]));
+			}
+
 			// Start deleting old data points to improve performance
 			// @todo: This is not be the best place to do this
 
-			for (var y = computeValue(charts[chartKey].values[pos]); y < chart.height; y ++) {
+			// fills all area underneath top line
+			for (var y = computeValue(charts[chartKey].values[pos - 1]); y < chart.height; y ++) {
 				if (graph_scale > 1 && p > 0 && y > 0) {
-					// adds columns between data if graph is zoomed in
+					var current = computeValue(charts[chartKey].values[pos - 1]),
+						next = computeValue(charts[chartKey].values[pos]),
+						diff = (next - current) / graph_scale;
+
+					// adds columns between data if graph is zoomed in, takes average where data is missing to make smooth curve
 					for (var i = 0; i < graph_scale; i++) {
-						c.set(x + i, y);
+							c.set(x + i, y + (diff * i));
+						for (var j = y + (diff * i); j < chart.height; j++) {
+							c.set(x + i, j);
+						}
 					}
 				} else if (graph_scale <= 1) {
 					// magic number used to calculate when to draw a value onto the chart
@@ -228,6 +242,7 @@ var App = function() {
 				}
 			}
 		}
+
 		// Add percentage to top right of the chart by splicing it into the braille data
 		var textOutput = c.frame().split("\n");
 		var percent = '   ' + chart.plugin.currentValue;
