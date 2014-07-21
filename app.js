@@ -24,9 +24,9 @@ var App = function() {
 		glob = require("glob"),
 		themes = "";
 
-	var files = glob.sync("./themes/*.json");
+	var files = glob.sync(__dirname + "/themes/*.json");
 	for (var i = 0; i < files.length; i++) {
-		var theme_name = files[i].replace('./themes/', '').replace('.json', '');
+		var theme_name = files[i].replace(__dirname + '/themes/', '').replace('.json', '');
 		themes += theme_name + '|';
 	}
 	themes = themes.slice(0, -1);
