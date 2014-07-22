@@ -208,8 +208,6 @@ var App = function() {
 				var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length);
 				// calculated x-value based on graph_scale
 				var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
-		
-				if (pos % 1 == 0) {
 
 				// draws top line of chart
 				if (p > 1 && computeValue(charts[chartKey].values[pos - 1]) > 0) {
@@ -236,12 +234,7 @@ var App = function() {
 					} else if (graph_scale <= 1) {
 						// magic number used to calculate when to draw a value onto the chart
 						var allowedPValues = (charts[chartKey].values.length - ((graph_scale * charts[chartKey].values.length) + 1)) * -1;
-						if (p > allowedPValues && y > 0) {
-							// calculated x-value based on graph_scale
-							var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
-
-							c.set(x, y);
-						}
+						c.set(x, y);
 					}
 				}
 			}
