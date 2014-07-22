@@ -1,6 +1,6 @@
 {
   "name": "vtop",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Wow such top. So stats",
   "homepage": "http://parall.ax/vtop",
   "main": "app.js",
