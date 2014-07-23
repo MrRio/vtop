@@ -209,32 +209,36 @@ var App = function() {
 				// calculated x-value based on graph_scale
 				var x = (p * graph_scale) + ((1 - graph_scale) * chart.width);
 
-				// draws top line of chart
-				if (p > 1 && computeValue(charts[chartKey].values[pos - 1]) > 0) {
-					c.set(x, computeValue(charts[chartKey].values[pos - 1]));
-				}
+				if (pos % 1 == 0) {
 
-				// Start deleting old data points to improve performance
-				// @todo: This is not be the best place to do this
+					// draws top line of chart
+					if (p > 1 && computeValue(charts[chartKey].values[pos - 1]) > 0) {
+						c.set(x, computeValue(charts[chartKey].values[pos - 1]));
+					}
 
-				// fills all area underneath top line
-				for (var y = computeValue(charts[chartKey].values[pos - 1]); y < chart.height; y ++) {
-					if (graph_scale > 1 && p > 0 && y > 0) {
-						var current = computeValue(charts[chartKey].values[pos - 1]),
-							next = computeValue(charts[chartKey].values[pos]),
-							diff = (next - current) / graph_scale;
+					// Start deleting old data points to improve performance
+					// @todo: This is not be the best place to do this
 
-						// adds columns between data if graph is zoomed in, takes average where data is missing to make smooth curve
-						for (var i = 0; i < graph_scale; i++) {
-							c.set(x + i, y + (diff * i));
-							for (var j = y + (diff * i); j < chart.height; j++) {
-								c.set(x + i, j);
+					// fills all area underneath top line
+					for (var y = computeValue(charts[chartKey].values[pos - 1]); y < chart.height; y ++) {
+						if (graph_scale > 1 && p > 0 && y > 0) {
+							var current = computeValue(charts[chartKey].values[pos - 1]),
+								next = computeValue(charts[chartKey].values[pos]),
+								diff = (next - current) / graph_scale;
+
+							// adds columns between data if graph is zoomed in, takes average where data is missing to make smooth curve
+							for (var i = 0; i < graph_scale; i++) {
+								c.set(x + i, y + (diff * i));
+								for (var j = y + (diff * i); j < chart.height; j++) {
+									c.set(x + i, j);
+								}
 							}
+						} else if (graph_scale <= 1) {
+							// magic number used to calculate when to draw a value onto the chart
+							var allowedPValues = (charts[chartKey].values.length - ((graph_scale * charts[chartKey].values.length) + 1)) * -1;
+							if (p > allowedPValues && y > 0)
+								c.set(x, y);
 						}
-					} else if (graph_scale <= 1) {
-						// magic number used to calculate when to draw a value onto the chart
-						var allowedPValues = (charts[chartKey].values.length - ((graph_scale * charts[chartKey].values.length) + 1)) * -1;
-						c.set(x, y);
 					}
 				}
 			}
