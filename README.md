@@ -11,7 +11,7 @@ How to install
 If you haven't already got Node.js, then [go get it](http://nodejs.org/).
 
 ```
-sudo npm install -g vtop
+npm install -g vtop
 ```
 
 Running
