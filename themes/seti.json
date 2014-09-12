@@ -1,0 +1,33 @@
+{
+	"name": "seti",
+	"author": "Kevin Niedermayr",
+	"title": {
+		"fg": "#FFFFFF"
+	},
+	"chart": {
+		"fg": "#55B5DB",
+		"border": {
+			"type": "line",
+			"fg": "#000000"
+		}
+	},
+	"table": {
+		"fg": "fg",
+		"items": {
+			"selected": {
+				"bg": "#262b30",
+				"fg": "fg"
+			},
+			"item": {
+				"fg": "fg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#000000"
+		}
+	},
+	"footer": {
+		"fg": "fg"
+	}
+}
