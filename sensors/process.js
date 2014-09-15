@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * Process monitor sensor
  *
  * (c) 2014 James Hall
@@ -73,7 +73,7 @@ var plugin = {
 						comm = comm.split('/');
 						comm = comm[comm.length - 1];
 					} else {
-						// Otherwise assume linux and remove the unnecessary /1 info like 
+						// Otherwise assume linux and remove the unnecessary /1 info like
 						// you get on kworker
 						comm = comm.split('/');
 						comm = comm[0];
@@ -110,9 +110,17 @@ var plugin = {
 					'mem': stats[stat].mem // exact cpu for comparison
 				});
 			}
-			statsArray.sort(function(a, b) {
-				return parseFloat(b[plugin.sort]) - parseFloat(a[plugin.sort]);
-			});
+			if (plugin.sort !== 'Command') {
+				statsArray.sort(function(a, b) {
+					return parseFloat(b[plugin.sort]) - parseFloat(a[plugin.sort]);
+				});
+			} else {
+				statsArray.sort(function (a, b) {
+					if (a[plugin.sort].toUpperCase() > b[plugin.sort].toUpperCase()) return 1;
+					if (a[plugin.sort].toUpperCase() < b[plugin.sort].toUpperCase()) return -1;
+					return 0;
+				});
+			}
 
 			plugin.currentValue = statsArray;
 			plugin.initialized = true;

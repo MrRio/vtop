@@ -142,6 +142,7 @@ var App = function() {
 			'k': 'Up',
 			'g': 'Jump to top',
 			'G': 'Jump to bottom',
+			'n': 'Sort by name',
 			'c': 'Sort by CPU',
 			'm': 'Sort by Mem'
 		};
@@ -465,6 +466,13 @@ var App = function() {
 				}
 				if (key.name == 'm' && charts[2].plugin.sort != 'mem') {
 					charts[2].plugin.sort = 'mem';
+					charts[2].plugin.poll();
+					setTimeout(function() {
+						processListSelection.select(0);
+					}, 200);
+				}
+				if (key.name == 'n' && charts[2].plugin.sort != 'Command') {
+					charts[2].plugin.sort = 'Command';
 					charts[2].plugin.poll();
 					setTimeout(function() {
 						processListSelection.select(0);
