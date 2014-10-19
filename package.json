@@ -1,33 +1,33 @@
 {
-  "name": "vtop",
+  "name": "rtop",
   "version": "0.5.5",
-  "description": "Wow such top. So stats",
-  "homepage": "http://parall.ax/vtop",
-  "main": "app.js",
+  "description": "top for multiple, remote hosts. Forked from vtop.",
+  "main": "lib/rtop.js",
   "preferGlobal": true,
   "engines": {
     "node": ">=0.10.0"
   },
   "bin": {
-    "vtop": "./bin/vtop.js"
+    "rtop": "./bin/rtop"
   },
   "author": {
-    "name": "James Hall",
-    "email": "james@parall.ax"
+    "name": "Tomas Pollak",
+    "email": "tomas@forkhq.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:MrRio/vtop.git"
+    "url": "git@github.com:tomas/rtop.git"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "drawille": "0.1.1",
-    "os-utils": "0.0.14",
-    "read": "1.0.5",
     "blessed": "0.0.37",
     "commander": "2.2.0",
-    "sudo": "1.0.3",
-    "glob": "4.0.4"
+    "drawille": "0.1.1",
+    "glob": "4.0.4",
+    "os-utils": "0.0.14",
+    "read": "1.0.5",
+    "ssh2": "^0.3.6",
+    "sudo": "1.0.3"
   }
 }

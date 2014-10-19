@@ -3,4 +3,12 @@
 ':' //; export TERM=xterm-256color
 ':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-require('../app.js');
+var rtop  = require('../lib/rtop'),
+    hosts = process.argv.slice(2);
+
+if (!hosts || hosts.length == 0) {
+  console.log('Usage: rtop [hosta hostb hostc]');
+} else {
+  rtop.start(hosts);  
+}
+
