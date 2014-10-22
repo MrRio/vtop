@@ -8,14 +8,14 @@
 		"fg": "#97c124",
 		"border": {
 			"type": "line",
-			"fg": "#b6db51"
+			"fg": "#97c124"
 		}
 	},
 	"table": {
 		"fg": "fg",
 		"items": {
 			"selected": {
-				"bg": "#b6db51",
+				"bg": "#97c124",
 				"fg": "bg"
 			},
 			"item": {
@@ -25,7 +25,7 @@
 		},
 		"border": {
 			"type": "line",
-			"fg": "#b6db51"
+			"fg": "#97c124"
 		}
 	},
 	"footer": {
