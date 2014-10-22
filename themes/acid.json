@@ -1,0 +1,34 @@
+{
+	"name": "Acid",
+	"author": "lefoy",
+	"title": {
+		"fg": "#97c124"
+	},
+	"chart": {
+		"fg": "#97c124",
+		"border": {
+			"type": "line",
+			"fg": "#97c124"
+		}
+	},
+	"table": {
+		"fg": "fg",
+		"items": {
+			"selected": {
+				"bg": "#97c124",
+				"fg": "bg"
+			},
+			"item": {
+				"fg": "fg",
+				"bg": "bg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#97c124"
+		}
+	},
+	"footer": {
+		"fg": "fg"
+	}
+}
