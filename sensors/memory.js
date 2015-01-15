@@ -5,6 +5,8 @@
  */
 
 var os = require('os-utils');
+var _os = require('os');
+var child = require('child_process');
 
 var plugin = {
 	/**
@@ -24,15 +26,31 @@ var plugin = {
 
 	initialized: false,
 
-
 	currentValue: 0,
+
+    isLinux: _os.platform().indexOf('linux') != -1,
+
 	/**
 	 * Grab the current value, from 0-100
 	 */
 	poll: function() {
-		plugin.currentValue = (100 - Math.floor(os.freememPercentage() * 100));
+        var computeUsage = function(used, total) {
+            return Math.round(100 * (used / total));
+        };
+
+		if (plugin.isLinux) {
+            child.exec('free -m', function(err, stdout, stderr) {
+                var data = stdout.split('\n')[1].replace(/[\s\n\r]+/g, ' ').split(' ');
+                
+                var used = parseInt(data[2]);
+                var total = parseInt(data[1]);
+                plugin.currentValue = computeUsage(used, total);
+            });
+        } else {
+            plugin.currentValue = Math.round((1 - os.freememPercentage()) * 100);
+        }
+
 		plugin.initialized = true;
 	}
 };
-
 module.exports = exports = plugin;
