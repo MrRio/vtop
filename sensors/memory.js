@@ -18,10 +18,10 @@ var plugin = {
 	 * @type {String}
 	 */
 	type: 'chart',
-		/**
-		 * The default interval time in ms that this plugin should be polled.
-		 * More costly benchmarks should be polled less frequently.
-		 */
+	/**
+	 * The default interval time in ms that this plugin should be polled.
+	 * More costly benchmarks should be polled less frequently.
+	 */
 	interval: 200,
 
 	initialized: false,
@@ -30,9 +30,9 @@ var plugin = {
 
 	isLinux: _os.platform().indexOf('linux') != -1,
 
-		/**
-		 * Grab the current value, from 0-100
-		 */
+	/**
+	 * Grab the current value, from 0-100
+	 */
 	poll: function() {
 		var computeUsage = function(used, total) {
 			return Math.round(100 * (used / total));
