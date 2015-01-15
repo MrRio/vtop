@@ -38,7 +38,7 @@ var plugin = {
             return Math.round(100 * (used / total));
         };
 
-		if (plugin.isLinux) {
+        if (plugin.isLinux) {
             child.exec('free -m', function(err, stdout, stderr) {
                 var data = stdout.split('\n')[1].replace(/[\s\n\r]+/g, ' ').split(' ');
                 
@@ -54,3 +54,4 @@ var plugin = {
 	}
 };
 module.exports = exports = plugin;
+
