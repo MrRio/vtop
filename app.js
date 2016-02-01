@@ -112,8 +112,18 @@ var App = function() {
 			content: '',
 			tags: true
 		});
+		var loadavg = blessed.text({
+			top: 'top',
+			right: 15,
+			width: 35,
+			height: '1',
+			align: 'right',
+			content: '',
+			tags: true
+		});
 		screen.append(header);
 		screen.append(date);
+		screen.append(loadavg);
 
 		var zeroPad = function(input) {
 			return ('0' + input).slice(-2);
@@ -125,8 +135,16 @@ var App = function() {
 			screen.render();
 		};
 
+		var updateLoadAverage = function() {
+			var avg = os.loadavg();
+			loadavg.setContent("load average: " + avg[0].toFixed(2) + " " + avg[1].toFixed(2) + " " + avg[2].toFixed(2));
+			screen.render();
+		};
+
 		updateTime();
+		updateLoadAverage();
 		setInterval(updateTime, 1000);
+		setInterval(updateLoadAverage, 1000);
 	};
 
 	/**
