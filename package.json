@@ -8,6 +8,9 @@
   "engines": {
     "node": ">=0.10.0"
   },
+  "scripts": {
+    "test": "make test"
+  },
   "bin": {
     "vtop": "./bin/vtop.js"
   },
