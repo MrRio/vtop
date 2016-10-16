@@ -271,7 +271,6 @@ var App = (function () {
   var drawTable = function (chartKey) {
     var chart = charts[chartKey]
     var columnLengths = {}
-
     // Clone the column array
     var columns = chart.plugin.columns.slice(0)
     columns.reverse()
