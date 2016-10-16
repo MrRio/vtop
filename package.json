@@ -32,12 +32,12 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "blessed": "0.1.81",
-    "commander": "2.7.1",
-    "drawille": "1.0.0",
-    "glob": "5.0.2",
+    "commander": "2.9.0",
+    "drawille": "1.1.0",
+    "glob": "7.1.1",
     "husky": "^0.11.9",
     "os-utils": "0.0.14",
-    "read": "1.0.5",
+    "read": "1.0.7",
     "safe-eval": "^0.3.0",
     "sudo": "1.0.3",
     "use-strict": "^1.0.1"
