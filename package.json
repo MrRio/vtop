@@ -10,7 +10,6 @@
   },
   "scripts": {
     "test": "make test",
-    "prepush": "standard && make test",
     "precommit": "standard"
   },
   "standard": {
