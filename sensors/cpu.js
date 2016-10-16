@@ -1,12 +1,12 @@
+'use strict'
 /**
  * CPU Usage sensor
  *
  * (c) 2014 James Hall
  */
 
-var os = require('os-utils')
-
-var plugin = {
+const os = require('os-utils')
+const plugin = {
   /**
    * This appears in the title of the graph
    */
@@ -28,8 +28,8 @@ var plugin = {
   /**
    * Grab the current value, from 0-100
    */
-  poll: function () {
-    os.cpuUsage(function (v) {
+  poll () {
+    os.cpuUsage(v => {
       plugin.currentValue = (Math.floor(v * 100))
       plugin.initialized = true
     })

@@ -8,7 +8,7 @@ var os = require('os-utils')
 var _os = require('os')
 var child = require('child_process')
 
-var plugin = {
+const plugin = {
   /**
    * This appears in the title of the graph
    */
@@ -28,25 +28,22 @@ var plugin = {
 
   currentValue: 0,
 
-  isLinux: _os.platform().indexOf('linux') !== -1,
+  isLinux: _os.platform().includes('linux'),
 
   /**
    * Grab the current value, from 0-100
    */
-  poll: function () {
-    var computeUsage = function (used, total) {
-      return Math.round(100 * (used / total))
-    }
+  poll () {
+    const computeUsage = (used, total) => Math.round(100 * (used / total))
 
     if (plugin.isLinux) {
-      child.exec('free -m', function (err, stdout, stderr) {
+      child.exec('free -m', (err, stdout, stderr) => {
         if (err) {
           console.error(err)
         }
-        var data = stdout.split('\n')[1].replace(/[\s\n\r]+/g, ' ').split(' ')
-
-        var used = parseInt(data[2])
-        var total = parseInt(data[1])
+        const data = stdout.split('\n')[1].replace(/[\s\n\r]+/g, ' ').split(' ')
+        const used = parseInt(data[2], 10)
+        const total = parseInt(data[1], 10)
         plugin.currentValue = computeUsage(used, total)
       })
     } else {

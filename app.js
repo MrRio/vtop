@@ -1,40 +1,29 @@
-/**
- * vtop – Velocity Top
- *
- * http://parall.ax/vtop
- *
- * Because `top` just ain't cutting it anymore.
- *
- * (c) 2014 James Hall, Parallax Agency Ltd
- *
- * @license MIT
- */
 'use strict'
 
-var App = (function () {
+const App = ((() => {
   // Load in required libs
-  var Canvas = require('drawille')
-  var blessed = require('blessed')
-  var program = blessed.program()
-  var os = require('os')
-  var cli = require('commander')
-  var upgrade = require('./upgrade.js')
-  var VERSION = require('./package.json').version
-  var childProcess = require('child_process')
-  var glob = require('glob')
+  const Canvas = require('drawille')
+  const blessed = require('blessed')
+  const os = require('os')
+  const cli = require('commander')
+  const upgrade = require('./upgrade.js')
+  const VERSION = require('./package.json').version
+  const childProcess = require('child_process')
+  const glob = require('glob')
   const path = require('path')
-  var themes = ''
+  let themes = ''
+  let program = blessed.program()
 
-  var files = glob.sync(path.join(__dirname, 'themes', '*.json'))
+  const files = glob.sync(path.join(__dirname, 'themes', '*.json'))
   for (var i = 0; i < files.length; i++) {
     let themeName = files[i].replace(path.join(__dirname, 'themes') + path.sep, '').replace('.json', '')
-    themes += themeName + '|'
+    themes += `${themeName}|`
   }
   themes = themes.slice(0, -1)
 
   // Set up the commander instance and add the required options
   cli
-    .option('-t, --theme  [name]', 'set the vtop theme [' + themes + ']', 'parallax')
+    .option('-t, --theme  [name]', `set the vtop theme [${themes}]`, 'parallax')
     .option('--quit-after [seconds]', 'Quits vtop after interval', '0')
     .version(VERSION)
     .parse(process.argv)
@@ -42,16 +31,16 @@ var App = (function () {
   /**
    * Instance of blessed screen, and the charts object
    */
-  var screen
-  var charts = []
-  var loadedTheme
-  var intervals = []
+  let screen
+  const charts = []
+  let loadedTheme
+  const intervals = []
 
-  var upgradeNotice = false
-  var disableTableUpdate = false
-  var disableTableUpdateTimeout = setTimeout(function () {}, 0)
+  let upgradeNotice = false
+  let disableTableUpdate = false
+  let disableTableUpdateTimeout = setTimeout(() => {}, 0)
 
-  var graphScale = 1
+  let graphScale = 1
 
   // Private variables
 
@@ -59,9 +48,9 @@ var App = (function () {
    * This is the number of data points drawn
    * @type {Number}
    */
-  var position = 0
+  let position = 0
 
-  var size = {
+  const size = {
     pixel: {
       width: 0,
       height: 0
@@ -74,7 +63,11 @@ var App = (function () {
 
   // @todo: move this into charts array
   // This is an instance of Blessed Box
-  var graph, graph2, processList, processListSelection
+  let graph
+
+  let graph2
+  let processList
+  let processListSelection
 
   // Private functions
 
@@ -84,18 +77,19 @@ var App = (function () {
    * @param  {string} right This is the text for the right
    * @return {void}
    */
-  var drawHeader = function () {
-    var headerText, headerTextNoTags
+  const drawHeader = () => {
+    let headerText
+    let headerTextNoTags
     if (upgradeNotice) {
-      upgradeNotice = upgradeNotice + ''
-      headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' {red-bg} Press \'u\' to upgrade to v' + upgradeNotice + ' {/red-bg}{/white-fg}'
-      headerTextNoTags = ' vtop for ' + os.hostname() + '  Press \'u\' to upgrade to v' + upgradeNotice + ' '
+      upgradeNotice = `${upgradeNotice}`
+      headerText = ` {bold}vtop{/bold}{white-fg} for ${os.hostname()} {red-bg} Press 'u' to upgrade to v${upgradeNotice} {/red-bg}{/white-fg}`
+      headerTextNoTags = ` vtop for ${os.hostname()}  Press 'u' to upgrade to v${upgradeNotice} `
     } else {
-      headerText = ' {bold}vtop{/bold}{white-fg} for ' + os.hostname() + ' '
-      headerTextNoTags = ' vtop for ' + os.hostname() + ' '
+      headerText = ` {bold}vtop{/bold}{white-fg} for ${os.hostname()} `
+      headerTextNoTags = ` vtop for ${os.hostname()} `
     }
 
-    var header = blessed.text({
+    const header = blessed.text({
       top: 'top',
       left: 'left',
       width: headerTextNoTags.length,
@@ -104,7 +98,7 @@ var App = (function () {
       content: headerText,
       tags: true
     })
-    var date = blessed.text({
+    const date = blessed.text({
       top: 'top',
       right: 0,
       width: 9,
@@ -113,7 +107,7 @@ var App = (function () {
       content: '',
       tags: true
     })
-    var loadAverage = blessed.text({
+    const loadAverage = blessed.text({
       top: 'top',
       height: '1',
       align: 'center',
@@ -125,19 +119,17 @@ var App = (function () {
     screen.append(date)
     screen.append(loadAverage)
 
-    var zeroPad = function (input) {
-      return ('0' + input).slice(-2)
-    }
+    const zeroPad = input => (`0${input}`).slice(-2)
 
-    var updateTime = function () {
-      var time = new Date()
-      date.setContent(zeroPad(time.getHours()) + ':' + zeroPad(time.getMinutes()) + ':' + zeroPad(time.getSeconds()) + ' ')
+    const updateTime = () => {
+      const time = new Date()
+      date.setContent(`${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}:${zeroPad(time.getSeconds())} `)
       screen.render()
     }
 
-    var updateLoadAverage = function () {
-      var avg = os.loadavg()
-      loadAverage.setContent('Load Average: ' + avg[0].toFixed(2) + ' ' + avg[1].toFixed(2) + ' ' + avg[2].toFixed(2))
+    const updateLoadAverage = () => {
+      const avg = os.loadavg()
+      loadAverage.setContent(`Load Average: ${avg[0].toFixed(2)} ${avg[1].toFixed(2)} ${avg[2].toFixed(2)}`)
       screen.render()
     }
 
@@ -152,8 +144,8 @@ var App = (function () {
    *
    * @todo This appears to break on some viewports
    */
-  var drawFooter = function () {
-    var commands = {
+  const drawFooter = () => {
+    const commands = {
       'dd': 'Kill process',
       'j': 'Down',
       'k': 'Up',
@@ -162,13 +154,13 @@ var App = (function () {
       'c': 'Sort by CPU',
       'm': 'Sort by Mem'
     }
-    var text = ''
-    for (var c in commands) {
-      var command = commands[c]
-      text += '  {white-bg}{black-fg}' + c + '{/black-fg}{/white-bg} ' + command
+    let text = ''
+    for (const c in commands) {
+      const command = commands[c]
+      text += `  {white-bg}{black-fg}${c}{/black-fg}{/white-bg} ${command}`
     }
     text += '{|}http://parall.ax/vtop'
-    var footerRight = blessed.box({
+    const footerRight = blessed.box({
       width: '100%',
       top: program.rows - 1,
       tags: true,
@@ -184,7 +176,7 @@ var App = (function () {
    * @var integer The number of times to repeat
    * @return {string} The repeated chars as a string.
    */
-  var stringRepeat = function (string, num) {
+  const stringRepeat = (string, num) => {
     if (num < 0) {
       return ''
     }
@@ -196,32 +188,30 @@ var App = (function () {
    * @param  {int} chartKey The key of the chart.
    * @return {string}       The text output to draw.
    */
-  var drawChart = function (chartKey) {
-    var chart = charts[chartKey]
-    var c = chart.chart
+  const drawChart = chartKey => {
+    const chart = charts[chartKey]
+    const c = chart.chart
     c.clear()
 
     if (!charts[chartKey].plugin.initialized) {
       return false
     }
 
-    var dataPointsToKeep = 5000
+    const dataPointsToKeep = 5000
 
     charts[chartKey].values[position] = charts[chartKey].plugin.currentValue
 
-    var computeValue = function (input) {
-      return chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1
-    }
+    const computeValue = input => chart.height - Math.floor(((chart.height + 1) / 100) * input) - 1
 
     if (position > dataPointsToKeep) {
       delete charts[chartKey].values[position - dataPointsToKeep]
     }
 
-    for (var pos in charts[chartKey].values) {
+    for (const pos in charts[chartKey].values) {
       if (graphScale >= 1 || (graphScale < 1 && pos % (1 / graphScale) === 0)) {
-        var p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length)
+        const p = parseInt(pos, 10) + (chart.width - charts[chartKey].values.length)
         // calculated x-value based on graphScale
-        var x = (p * graphScale) + ((1 - graphScale) * chart.width)
+        const x = (p * graphScale) + ((1 - graphScale) * chart.width)
 
         // draws top line of chart
         if (p > 1 && computeValue(charts[chartKey].values[pos - 1]) > 0) {
@@ -232,16 +222,16 @@ var App = (function () {
         // @todo: This is not be the best place to do this
 
         // fills all area underneath top line
-        for (var y = computeValue(charts[chartKey].values[pos - 1]); y < chart.height; y++) {
+        for (let y = computeValue(charts[chartKey].values[pos - 1]); y < chart.height; y++) {
           if (graphScale > 1 && p > 0 && y > 0) {
-            var current = computeValue(charts[chartKey].values[pos - 1])
-            var next = computeValue(charts[chartKey].values[pos])
-            var diff = (next - current) / graphScale
+            const current = computeValue(charts[chartKey].values[pos - 1])
+            const next = computeValue(charts[chartKey].values[pos])
+            const diff = (next - current) / graphScale
 
             // adds columns between data if graph is zoomed in, takes average where data is missing to make smooth curve
-            for (var i = 0; i < graphScale; i++) {
+            for (let i = 0; i < graphScale; i++) {
               c.set(x + i, y + (diff * i))
-              for (var j = y + (diff * i); j < chart.height; j++) {
+              for (let j = y + (diff * i); j < chart.height; j++) {
                 c.set(x + i, j)
               }
             }
@@ -256,9 +246,9 @@ var App = (function () {
     }
 
     // Add percentage to top right of the chart by splicing it into the braille data
-    var textOutput = c.frame().split('\n')
-    var percent = '   ' + chart.plugin.currentValue
-    textOutput[0] = textOutput[0].slice(0, textOutput[0].length - 4) + '{white-fg}' + percent.slice(-3) + '%{/white-fg}'
+    const textOutput = c.frame().split('\n')
+    const percent = `   ${chart.plugin.currentValue}`
+    textOutput[0] = `${textOutput[0].slice(0, textOutput[0].length - 4)}{white-fg}${percent.slice(-3)}%{/white-fg}`
 
     return textOutput.join('\n')
   }
@@ -268,17 +258,17 @@ var App = (function () {
    * @param  {int} chartKey The key of the chart.
    * @return {string}       The text output to draw.
    */
-  var drawTable = function (chartKey) {
-    var chart = charts[chartKey]
-    var columnLengths = {}
+  const drawTable = chartKey => {
+    const chart = charts[chartKey]
+    const columnLengths = {}
     // Clone the column array
-    var columns = chart.plugin.columns.slice(0)
+    const columns = chart.plugin.columns.slice(0)
     columns.reverse()
-    var removeColumn = false
-    var lastItem = columns[columns.length - 1]
+    let removeColumn = false
+    const lastItem = columns[columns.length - 1]
 
-    var minimumWidth = 12
-    var padding = 1
+    const minimumWidth = 12
+    let padding = 1
 
     if (chart.width > 50) {
       padding = 2
@@ -289,12 +279,12 @@ var App = (function () {
     }
     // Keep trying to reduce the number of columns
     do {
-      var totalUsed = 0
-      var firstLength = 0
+      let totalUsed = 0
+      let firstLength = 0
       // var totalColumns = columns.length
       // Allocate space for each column in reverse order
-      for (var column in columns) {
-        var item = columns[column]
+      for (const column in columns) {
+        const item = columns[column]
         i++
         // If on the last column (actually first because of array order)
         // then use up all the available space
@@ -317,19 +307,19 @@ var App = (function () {
 
     // And back again
     columns.reverse()
-    var titleOutput = '{bold}'
-    for (var headerColumn in columns) {
-      var colText = ' ' + columns[headerColumn]
+    let titleOutput = '{bold}'
+    for (const headerColumn in columns) {
+      var colText = ` ${columns[headerColumn]}`
       titleOutput += (colText + stringRepeat(' ', columnLengths[columns[headerColumn]] - colText.length))
     }
     titleOutput += '{/bold}' + '\n'
 
-    var bodyOutput = []
-    for (var row in chart.plugin.currentValue) {
-      var currentRow = chart.plugin.currentValue[row]
-      var rowText = ''
-      for (var bodyColumn in columns) {
-        let colText = ' ' + currentRow[columns[bodyColumn]]
+    const bodyOutput = []
+    for (const row in chart.plugin.currentValue) {
+      const currentRow = chart.plugin.currentValue[row]
+      let rowText = ''
+      for (const bodyColumn in columns) {
+        let colText = ` ${currentRow[columns[bodyColumn]]}`
         rowText += (colText + stringRepeat(' ', columnLengths[columns[bodyColumn]] - colText.length)).slice(0, columnLengths[columns[bodyColumn]])
       }
       bodyOutput.push(rowText)
@@ -342,27 +332,27 @@ var App = (function () {
   }
 
   // This is set to the current items displayed
-  var currentItems = []
-  var processWidth = 0
+  let currentItems = []
+  let processWidth = 0
   /**
    * Overall draw function, this should poll and draw results of
    * the loaded sensors.
    */
-  var draw = function () {
+  const draw = () => {
     position++
 
-    var chartKey = 0
+    const chartKey = 0
     graph.setContent(drawChart(chartKey))
     graph2.setContent(drawChart(chartKey + 1))
 
     if (!disableTableUpdate) {
-      var table = drawTable(chartKey + 2)
+      const table = drawTable(chartKey + 2)
       processList.setContent(table.title)
 
       // If we keep the stat numbers the same immediately, then update them
       // after, the focus will follow. This is a hack.
 
-      var existingStats = {}
+      const existingStats = {}
       // Slice the start process off, then store the full stat,
       // so we can inject the same stat onto the new order for a brief render
       // cycle.
@@ -372,7 +362,7 @@ var App = (function () {
       }
       processWidth = table.processWidth
       // Smush on to new stats
-      var tempStats = []
+      const tempStats = []
       for (let stat in table.body) {
         let thisStat = table.body[stat]
         tempStats.push(existingStats[thisStat.slice(0, table.processWidth)])
@@ -394,8 +384,8 @@ var App = (function () {
   // Public function (just the entry point)
   return {
 
-    init: function () {
-      var theme
+    init () {
+      let theme
       if (typeof process.theme !== 'undefined') {
         theme = process.theme
       } else {
@@ -406,25 +396,25 @@ var App = (function () {
        * This is mainly for perf testing.
        */
       if (cli['quitAfter'] !== '0') {
-        setTimeout(function () {
+        setTimeout(() => {
           process.exit(0)
         }, parseInt(cli['quitAfter'], 10) * 1000)
       }
 
       try {
-        loadedTheme = require('./themes/' + theme + '.json')
+        loadedTheme = require(`./themes/${theme}.json`)
       } catch (e) {
-        console.log('The theme \'' + theme + '\' does not exist.')
+        console.log(`The theme '${theme}' does not exist.`)
         process.exit(1)
       }
       // Create a screen object.
       screen = blessed.screen()
 
       // Configure 'q', esc, Ctrl+C for quit
-      var upgrading = false
+      let upgrading = false
 
-      var doCheck = function () {
-        upgrade.check(function (v) {
+      const doCheck = () => {
+        upgrade.check(v => {
           upgradeNotice = v
           drawHeader()
         })
@@ -434,14 +424,14 @@ var App = (function () {
       // Check for updates every 5 minutes
       // setInterval(doCheck, 300000);
 
-      var lastKey = ''
+      let lastKey = ''
 
-      screen.on('keypress', function (ch, key) {
+      screen.on('keypress', (ch, key) => {
         if (key === 'up' || key === 'down' || key === 'k' || key === 'j') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
-          disableTableUpdateTimeout = setTimeout(function () {
+          disableTableUpdateTimeout = setTimeout(() => {
             disableTableUpdate = false
           }, 1000)
         }
@@ -459,23 +449,23 @@ var App = (function () {
         // dd killall
         // @todo: Factor this out
         if (lastKey === 'd' && key.name === 'd') {
-          var selectedProcess = processListSelection.getItem(processListSelection.selected).content
+          let selectedProcess = processListSelection.getItem(processListSelection.selected).content
           selectedProcess = selectedProcess.slice(0, processWidth).trim()
 
-          childProcess.exec('killall "' + selectedProcess + '"', () => {})
+          childProcess.exec(`killall "${selectedProcess}"`, () => {})
         }
 
         if (key.name === 'c' && charts[2].plugin.sort !== 'cpu') {
           charts[2].plugin.sort = 'cpu'
           charts[2].plugin.poll()
-          setTimeout(function () {
+          setTimeout(() => {
             processListSelection.select(0)
           }, 200)
         }
         if (key.name === 'm' && charts[2].plugin.sort !== 'mem') {
           charts[2].plugin.sort = 'mem'
           charts[2].plugin.poll()
-          setTimeout(function () {
+          setTimeout(() => {
             processListSelection.select(0)
           }, 200)
         }
@@ -484,7 +474,7 @@ var App = (function () {
         if (key.name === 'u' && upgrading === false) {
           upgrading = true
           // Clear all intervals
-          for (var interval in intervals) {
+          for (const interval in intervals) {
             clearInterval(intervals[interval])
           }
           processListSelection.detach()
@@ -527,9 +517,9 @@ var App = (function () {
 
       screen.append(graph)
 
-      var graph2appended = false
+      let graph2appended = false
 
-      var createBottom = function () {
+      const createBottom = () => {
         if (graph2appended) {
           screen.remove(graph2)
           screen.remove(processList)
@@ -567,7 +557,7 @@ var App = (function () {
           left: 0,
           keys: true,
           vi: true,
-          search: function (jump) {
+          search (jump) {
             // @TODO
             // jump('string of thing to jump to');
           },
@@ -579,7 +569,7 @@ var App = (function () {
         screen.render()
       }
 
-      screen.on('resize', function () {
+      screen.on('resize', () => {
         createBottom()
       })
       createBottom()
@@ -590,14 +580,16 @@ var App = (function () {
       // Render the screen.
       screen.render()
 
-      var setupCharts = function () {
+      const setupCharts = () => {
         size.pixel.width = (graph.width - 2) * 2
         size.pixel.height = (graph.height - 2) * 4
 
-        var plugins = ['cpu', 'memory', 'process']
+        const plugins = ['cpu', 'memory', 'process']
 
-        for (var plugin in plugins) {
-          var width, height, currentCanvas
+        for (const plugin in plugins) {
+          let width
+          let height
+          let currentCanvas
           // @todo Refactor this
           switch (plugins[plugin]) {
             case 'cpu':
@@ -617,7 +609,7 @@ var App = (function () {
           }
 
           // If we're reconfiguring a plugin, then preserve the already recorded values
-          var values
+          let values
           if (typeof charts[plugin] !== 'undefined' && typeof charts[plugin].values !== 'undefined') {
             values = charts[plugin].values
           } else {
@@ -625,17 +617,17 @@ var App = (function () {
           }
           charts[plugin] = {
             chart: currentCanvas,
-            values: values,
-            plugin: require('./sensors/' + plugins[plugin] + '.js'),
-            width: width,
-            height: height
+            values,
+            plugin: require(`./sensors/${plugins[plugin]}.js`),
+            width,
+            height
           }
           charts[plugin].plugin.poll()
         }
         // @TODO Make this less hard-codey
-        graph.setLabel(' ' + charts[0].plugin.title + ' ')
-        graph2.setLabel(' ' + charts[1].plugin.title + ' ')
-        processList.setLabel(' ' + charts[2].plugin.title + ' ')
+        graph.setLabel(` ${charts[0].plugin.title} `)
+        graph2.setLabel(` ${charts[1].plugin.title} `)
+        processList.setLabel(` ${charts[2].plugin.title} `)
       }
 
       setupCharts()
@@ -648,6 +640,6 @@ var App = (function () {
       intervals.push(setInterval(charts[2].plugin.poll, charts[2].plugin.interval))
     }
   }
-}())
+})())
 
 App.init()

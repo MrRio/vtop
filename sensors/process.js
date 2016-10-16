@@ -8,7 +8,7 @@
 var os = require('os')
 var childProcess = require('child_process')
 
-var plugin = {
+const plugin = {
   /**
    * * This appears in the title of the graph
    */
@@ -47,26 +47,26 @@ var plugin = {
   /**
    * Grab the current value for the table
    */
-  poll: function () {
-    var stats = {}
+  poll () {
+    const stats = {}
     // @todo If you can think of a better way of getting process stats,
     // then please feel free to send me a pull request. This is version 0.1
     // and needs some love.
-    childProcess.exec('ps -ewwwo %cpu,%mem,comm', function (error, stdout, stderr) {
+    childProcess.exec('ps -ewwwo %cpu,%mem,comm', (error, stdout, stderr) => {
       if (error) {
         console.error(error)
       }
-      var lines = stdout.split('\n')
+      const lines = stdout.split('\n')
       // Ditch the first line
       lines[0] = ''
-      for (var line in lines) {
-        var currentLine = lines[line].trim().replace('  ', ' ')
-        var words = currentLine.split(' ')
+      for (const line in lines) {
+        const currentLine = lines[line].trim().replace('  ', ' ')
+        const words = currentLine.split(' ')
         if (typeof words[0] !== 'undefined' && typeof words[1] !== 'undefined') {
-          var cpu = words[0].replace(',', '.')
-          var mem = words[1].replace(',', '.')
-          var offset = cpu.length + mem.length + 2
-          var comm = currentLine.slice(offset)
+          const cpu = words[0].replace(',', '.')
+          const mem = words[1].replace(',', '.')
+          const offset = cpu.length + mem.length + 2
+          let comm = currentLine.slice(offset)
           // If we're on Mac then remove the path
           if (/^darwin/.test(process.platform)) {
             comm = comm.split('/')
@@ -82,24 +82,24 @@ var plugin = {
             stats[comm] = {
               cpu: parseFloat(stats[comm].cpu, 10) + parseFloat(cpu),
               mem: parseFloat(stats[comm].mem, 10) + parseFloat(mem),
-              comm: comm,
+              comm,
               count: parseInt(stats[comm].count, 10) + 1
             }
           } else {
             stats[comm] = {
-              cpu: cpu,
-              mem: mem,
-              comm: comm,
+              cpu,
+              mem,
+              comm,
               count: 1
             }
           }
         }
       }
-      var statsArray = []
-      for (var stat in stats) {
+      const statsArray = []
+      for (const stat in stats) {
         // Divide by number of CPU cores
-        var cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1)
-        var memRounded = parseFloat(stats[stat].mem).toFixed(1)
+        const cpuRounded = parseFloat(stats[stat].cpu / os.cpus().length).toFixed(1)
+        const memRounded = parseFloat(stats[stat].mem).toFixed(1)
         statsArray.push({
           'Command': stats[stat].comm,
           'Count': stats[stat].count,
@@ -109,14 +109,11 @@ var plugin = {
           'mem': stats[stat].mem // exact cpu for comparison
         })
       }
-      statsArray.sort(function (a, b) {
-        return parseFloat(b[plugin.sort]) - parseFloat(a[plugin.sort])
-      })
+      statsArray.sort((a, b) => parseFloat(b[plugin.sort]) - parseFloat(a[plugin.sort]))
 
       plugin.currentValue = statsArray
       plugin.initialized = true
     })
   }
 }
-
 module.exports = exports = plugin
