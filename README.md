@@ -1,6 +1,8 @@
 vtop
 =========
 
+[![Build Status](https://travis-ci.org/MrRio/vtop.svg?branch=master)](https://travis-ci.org/MrRio/vtop)
+
 A graphical activity monitor for the command line. Written in node.js.
 
 ![](https://raw.githubusercontent.com/MrRio/vtop/master/docs/example.gif)

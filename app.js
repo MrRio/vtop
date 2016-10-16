@@ -112,18 +112,17 @@ var App = function() {
 			content: '',
 			tags: true
 		});
-		var loadavg = blessed.text({
+		var loadAverage = blessed.text({
 			top: 'top',
-			right: 15,
-			width: 35,
 			height: '1',
-			align: 'right',
+			align: 'center',
 			content: '',
-			tags: true
+			tags: true,
+			left: Math.floor(program.cols / 2 - (28 / 2))
 		});
 		screen.append(header);
 		screen.append(date);
-		screen.append(loadavg);
+		screen.append(loadAverage);
 
 		var zeroPad = function(input) {
 			return ('0' + input).slice(-2);
@@ -137,7 +136,7 @@ var App = function() {
 
 		var updateLoadAverage = function() {
 			var avg = os.loadavg();
-			loadavg.setContent("load average: " + avg[0].toFixed(2) + " " + avg[1].toFixed(2) + " " + avg[2].toFixed(2));
+			loadAverage.setContent("Load Average: " + avg[0].toFixed(2) + " " + avg[1].toFixed(2) + " " + avg[2].toFixed(2));
 			screen.render();
 		};
 
@@ -168,16 +167,14 @@ var App = function() {
 			var command = commands[c];
 			text += '  {white-bg}{black-fg}' + c + '{/black-fg}{/white-bg} ' + command;
 		}
-
-		var footerRight = blessed.text({
-			bottom: '0',
-			left: '0%',
+		text += '{|}http://parall.ax/vtop'
+		var footerRight = blessed.box({
 			width: '100%',
-			align: 'right',
-			tags:true,
-			content: text + '    http://parall.ax/vtop ',
+			top: program.rows - 1,
+			tags: true,
 			fg: loadedTheme.footer.fg
 		});
+		footerRight.setContent(text)
 		screen.append(footerRight);
 	};
 
