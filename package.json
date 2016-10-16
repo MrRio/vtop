@@ -9,7 +9,13 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "prepush": "standard && make test"
+  },
+  "standard": {
+    "ignore": [
+      "bin/vtop.js"
+    ]
   },
   "bin": {
     "vtop": "./bin/vtop.js"

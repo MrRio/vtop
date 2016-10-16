@@ -22,7 +22,6 @@ var upgrade = (function () {
           if (error) {
             console.error(error)
           }
-          console.log(stdout)
           var output = safeEval('(' + stdout + ')')
           if (output['dist-tags']['latest'] !== current) {
             callback(output['dist-tags']['latest'])

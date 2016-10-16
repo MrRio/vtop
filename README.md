@@ -3,6 +3,8 @@ vtop
 
 [![Build Status](https://travis-ci.org/MrRio/vtop.svg?branch=master)](https://travis-ci.org/MrRio/vtop)
 
+[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
 A graphical activity monitor for the command line. Written in node.js.
 
 ![](https://raw.githubusercontent.com/MrRio/vtop/master/docs/example.gif)
@@ -89,4 +91,3 @@ Yeah that's on the list :) Feel free to send a pull request though. Check out th
 ### What license is this under?
 
 MIT – do what you like with it :)
-
