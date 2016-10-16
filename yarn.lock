@@ -93,6 +93,10 @@ read@1.0.5:
   dependencies:
     mute-stream "~0.0.4"
 
+safe-eval:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/safe-eval/-/safe-eval-0.3.0.tgz#06ce111eebd9c185abaff008ec0fcffc5c5be00c"
+
 sudo@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sudo/-/sudo-1.0.3.tgz#ccf28669120f8b74f82b846dff7f1c95120eff20"
