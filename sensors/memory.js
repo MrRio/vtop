@@ -3,10 +3,11 @@
  *
  * (c) 2014 James Hall
  */
+'use strict'
 
-var os = require('os-utils')
-var _os = require('os')
-var child = require('child_process')
+const os = require('os-utils')
+const _os = require('os')
+const child = require('child_process')
 
 const plugin = {
   /**

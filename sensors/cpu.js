@@ -4,6 +4,7 @@
  *
  * (c) 2014 James Hall
  */
+'use strict'
 
 const os = require('os-utils')
 const plugin = {

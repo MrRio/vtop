@@ -4,9 +4,10 @@
  *
  * (c) 2014 James Hall
  */
+'use strict'
 
-var os = require('os')
-var childProcess = require('child_process')
+const os = require('os')
+const childProcess = require('child_process')
 
 const plugin = {
   /**
