@@ -383,7 +383,7 @@ var App = function() {
 				tempStats.push(existingStats[thisStat.slice(0, table.processWidth)]);
 			}
 			// Move cursor position with temp stats
-			processListSelection.setItems(tempStats);
+			//processListSelection.setItems(tempStats);
 
 			// Update the numbers
 			processListSelection.setItems(table.body);
@@ -572,9 +572,9 @@ var App = function() {
 
 				processListSelection = blessed.list({
 					height: processList.height - 3,
-					top: 2,
+					top: 1,
 					width: processList.width - 2,
-					left: 1,
+					left: 0,
 					keys: true,
 					vi: true,
 					search: function(jump) {

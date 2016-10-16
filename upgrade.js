@@ -2,8 +2,8 @@
  * npm package updater
  *
  * @copyright 2014 James HAll
- * 
- * This will detect if a package needs and update, 
+ *
+ * This will detect if a package needs and update,
  * and also update it
  */
 

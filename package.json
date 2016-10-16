@@ -25,12 +25,12 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
+    "blessed": "0.1.81",
+    "commander": "2.7.1",
     "drawille": "1.0.0",
+    "glob": "5.0.2",
     "os-utils": "0.0.14",
     "read": "1.0.5",
-    "blessed": "0.0.49",
-    "commander": "2.7.1",
-    "sudo": "1.0.3",
-    "glob": "5.0.2"
+    "sudo": "1.0.3"
   }
 }
