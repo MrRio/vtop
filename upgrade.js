@@ -18,7 +18,7 @@ var upgrade = function() {
 				var current = require('./package.json').version;
 
 				var child_process = require('child_process');
-				var ps = child_process.exec('npm info vtop', function (error, stdout, stderr) {
+				var ps = child_process.exec('npm --color=false info vtop', function (error, stdout, stderr) {
 					var output = eval('(' + stdout + ')');
 					if (output['dist-tags']['latest'] != current) {
 						callback(output['dist-tags']['latest']);
