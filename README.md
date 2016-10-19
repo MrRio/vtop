@@ -13,8 +13,10 @@ How to install
 If you haven't already got Node.js, then [go get it](http://nodejs.org/).
 
 ```
-sudo npm install -g vtop
+npm install -g vtop
 ```
+
+If you're on OSX, or get an error about file permissions, you may need to do ```sudo npm install -g vtop```
 
 Running
 ---
