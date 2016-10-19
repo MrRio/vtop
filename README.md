@@ -3,9 +3,7 @@ vtop
 
 [![Build Status](https://travis-ci.org/MrRio/vtop.svg?branch=master)](https://travis-ci.org/MrRio/vtop)
 
-[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
-
-A graphical activity monitor for the command line. Written in node.js.
+A graphical activity monitor for the command line.
 
 ![](https://raw.githubusercontent.com/MrRio/vtop/master/docs/example.gif)
 
@@ -91,3 +89,17 @@ Yeah that's on the list :) Feel free to send a pull request though. Check out th
 ### What license is this under?
 
 MIT – do what you like with it :)
+
+### Contributing 
+
+Get stuck in – click the fork button, then clone to your local machine. Use the [GitHub Desktop client](https://desktop.github.com/) if you don't know Git. Tinker with the code then run this from the command line:
+
+```
+./bin/vtop.js
+```
+
+When you push it'll run the Standard JS checker http://standardjs.com/. If you run 'npm test' in your own terminal too, this runs in Travis, your PR will fail the test if this command fails.
+
+[![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
+
