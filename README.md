@@ -16,7 +16,7 @@ If you haven't already got Node.js, then [go get it](http://nodejs.org/).
 npm install -g vtop
 ```
 
-If you're on OSX, or get an error about file permissions, you may need to do ```sudo npm install -g vtop```
+If you're on macOS, or get an error about file permissions, you may need to do ```sudo npm install -g vtop```. Don't do this if you're using [nvm](https://github.com/creationix/nvm).
 
 Running
 ---
