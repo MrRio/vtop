@@ -35,7 +35,7 @@
     "commander": "2.7.1",
     "drawille": "1.0.0",
     "glob": "5.0.2",
-    "husky": "^0.11.9",
+    "husky": "^0.13.1",
     "os-utils": "0.0.14",
     "read": "1.0.5",
     "safe-eval": "^0.3.0",
