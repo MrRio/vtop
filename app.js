@@ -632,7 +632,7 @@ const App = ((() => {
 
       setupCharts()
       screen.on('resize', setupCharts)
-      intervals.push(setInterval(draw, 100))
+      intervals.push(setInterval(draw, 1000))
 
       // @todo Make this more sexy
       intervals.push(setInterval(charts[0].plugin.poll, charts[0].plugin.interval))
