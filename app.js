@@ -24,6 +24,7 @@ const App = ((() => {
   // Set up the commander instance and add the required options
   cli
     .option('-t, --theme  [name]', `set the vtop theme [${themes}]`, 'parallax')
+    .option('--no-mouse', 'Disables mouse interactivity')
     .option('--quit-after [seconds]', 'Quits vtop after interval', '0')
     .version(VERSION)
     .parse(process.argv)
@@ -543,7 +544,7 @@ const App = ((() => {
           width: screen.width - graph2.width,
           height: graph.height - 2,
           keys: true,
-          mouse: true,
+          mouse: cli.mouse,
           fg: loadedTheme.table.fg,
           tags: true,
           border: loadedTheme.table.border
@@ -562,7 +563,7 @@ const App = ((() => {
             // jump('string of thing to jump to');
           },
           style: loadedTheme.table.items,
-          mouse: true
+          mouse: cli.mouse
         })
         processList.append(processListSelection)
         processListSelection.focus()

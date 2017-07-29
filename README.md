@@ -51,7 +51,8 @@ Mouse control
 
 If your terminal supports mouse events (like iTerm) then
 you can click on the items in the process list. As well as
-use the scroll wheel.
+use the scroll wheel. You can disable mouse control with
+the `vtop --no-mouse` option.
 
 FAQs
 ----
