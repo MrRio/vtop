@@ -1,0 +1,35 @@
+{
+	"name": "Nord",
+	"author": "Valentin Klinghammewr",
+	"description": "Unofficial color scheme based on the great color palette from https://github.com/arcticicestudio/nord",
+	"title": {
+		"fg": "#b48ead"
+	},
+	"chart": {
+		"fg": "#81a1c1",
+		"border": {
+			"type": "line",
+			"fg": "#d8dee9"
+		}
+	},
+	"table": {
+		"fg": "fg",
+		"items": {
+			"selected": {
+				"bg": "#5e81ac",
+				"fg": "#eceff4"
+			},
+			"item": {
+				"fg": "fg",
+				"bg": "bg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#d8dee9"
+		}
+	},
+	"footer": {
+		"fg": "fg"
+	}
+}
