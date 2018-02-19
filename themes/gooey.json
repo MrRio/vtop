@@ -1,0 +1,35 @@
+{
+  "name": "Gooey",
+  "author": "Matt Harris",
+  "description": "Unofficial colour scheme based off the atom-gooey syntax theme",
+  "title": {
+    "fg": "#ee829f"
+  },
+  "chart": {
+    "fg": "#97bbf7",
+    "border": {
+      "type": "line",
+      "fg": "#a5ffe1"
+    }
+  },
+  "table": {
+    "fg": "fg",
+    "items": {
+      "selected": {
+        "bg": "#6f8ab7",
+        "fg": "#ffffff"
+      },
+      "item": {
+        "fg": "fg",
+        "bg": "bg"
+      }
+    },
+    "border": {
+      "type": "line",
+      "fg": "#ffffff"
+    }
+  },
+  "footer": {
+    "fg": "fg"
+  }
+}
