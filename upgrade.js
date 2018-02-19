@@ -20,7 +20,8 @@ var upgrade = (function () {
         var childProcess = require('child_process')
         childProcess.exec('npm --color=false info vtop', function (error, stdout, stderr) {
           if (error) {
-            console.error(error)
+            callback(false)
+            return
           }
           var output = safeEval('(' + stdout + ')')
           if (output['dist-tags']['latest'] !== current) {
