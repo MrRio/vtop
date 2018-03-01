@@ -1,0 +1,33 @@
+{
+	"name": "gruvbox",
+	"author": "Danil Antoshkin",
+	"title": {
+		"fg": "#ebdbb2"	
+	},
+	"chart": {
+		"fg": "#fb4934",
+		"border": {
+			"type": "line",
+			"fg": "#ebdbb2"
+		}
+	},
+	"table": {
+		"fg": "fg",
+		"items": {
+			"selected": {
+				"bg": "#ebdbb2",
+				"fg": "#282828"
+			},
+			"item": {
+				"fg": "#ebdbb2"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#ebdbb2"
+		}
+	},
+	"footer": {
+		"fg": "#ebdbb2"
+	}
+}
