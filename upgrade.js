@@ -14,29 +14,29 @@ var upgrade = (function () {
      */
     check: function (callback) {
       try {
-        var package = require('./package.json')
+        var packageObj = require('./package.json')
 
         var childProcess = require('child_process')
-        childProcess.exec('npm info --json ' + package.name, function (error, stdout, stderr) {
+        childProcess.exec('npm info --json ' + packageObj.name, function (error, stdout, stderr) {
           if (error) {
-            callback(false)
+            callback(null, null)
             return
           }
           var output
           try {
             output = JSON.parse(stdout)
           } catch (e) {
-            callback(false)
+            callback(null, null)
             return
           }
-          if (output['dist-tags']['latest'] !== package.version) {
+          if (output['dist-tags']['latest'] !== packageObj.version) {
             callback(output['dist-tags']['latest'])
           } else {
-            callback(false)
+            callback(null, null)
           }
         })
       } catch (e) {
-        callback(false)
+        callback(null, null)
       }
     },
     /**

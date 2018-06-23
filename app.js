@@ -26,7 +26,7 @@ const App = ((() => {
     .option('-t, --theme  [name]', `set the vtop theme [${themes}]`, 'parallax')
     .option('--no-mouse', 'Disables mouse interactivity')
     .option('--quit-after [seconds]', 'Quits vtop after interval', '0')
-    .option('--update-interval [milliseconds]', 'Interval between updates','1000')
+    .option('--update-interval [milliseconds]', 'Interval between updates', '300')
     .version(VERSION)
     .parse(process.argv)
 
@@ -634,7 +634,7 @@ const App = ((() => {
 
       setupCharts()
       screen.on('resize', setupCharts)
-      intervals.push(setInterval(draw, parseInt(cli['updateInterval'],10)))
+      intervals.push(setInterval(draw, parseInt(cli['updateInterval'], 10)))
 
       // @todo Make this more sexy
       intervals.push(setInterval(charts[0].plugin.poll, charts[0].plugin.interval))
