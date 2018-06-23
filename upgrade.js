@@ -6,7 +6,6 @@
  * This will detect if a package needs and update,
  * and also update it
  */
-var safeEval = require('safe-eval')
 
 var upgrade = (function () {
   return {
@@ -15,16 +14,22 @@ var upgrade = (function () {
      */
     check: function (callback) {
       try {
-        var current = require('./package.json').version
+        var package = require('./package.json')
 
         var childProcess = require('child_process')
-        childProcess.exec('npm --color=false info vtop', function (error, stdout, stderr) {
+        childProcess.exec('npm info --json ' + package.name, function (error, stdout, stderr) {
           if (error) {
             callback(false)
             return
           }
-          var output = safeEval('(' + stdout + ')')
-          if (output['dist-tags']['latest'] !== current) {
+          var output
+          try {
+            output = JSON.parse(stdout)
+          } catch (e) {
+            callback(false)
+            return
+          }
+          if (output['dist-tags']['latest'] !== package.version) {
             callback(output['dist-tags']['latest'])
           } else {
             callback(false)
