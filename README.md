@@ -65,10 +65,6 @@ It uses [drawille](https://github.com/madbence/node-drawille) to draw CPU and Me
 
 We calculate the CPU percentage as a total of your overall system power. 100% is all cores and HyperThreads maxed out. This is different to how Apple Activity monitor works.
 
-### I think you should change CPU percentage to how Apple's Activity Monitor works.
-
-No I like it this way. Feel free to submit a PR with it as a config option though.
-
 ### Can I change the color scheme?
 
 Sure, just do:
