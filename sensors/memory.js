@@ -50,12 +50,15 @@ const plugin = {
         plugin.currentValue = computeUsage(used, total)
       })
     } else if (plugin.isMac) {
-      child.exec("ps -caxm -orss,comm", (err, stdout, stderr) => {
-        let sp = stdout.split("\n")
-        let total = 0; // kb
+      child.exec('ps -caxm -orss,comm', (err, stdout, stderr) => {
+        if (err) {
+          throw err
+        }
+        let sp = stdout.split('\n')
+        let total = 0 // kb
         for (var i = 0; i < sp.length; i++) {
-          if (!isNaN(parseInt(sp[i].replace(/([a-zA-Z]).*/, "")))) {
-            total += parseInt(sp[i].replace(/([a-zA-Z]).*/, ""))
+          if (!isNaN(parseInt(sp[i].replace(/([a-zA-Z]).*/, '')))) {
+            total += parseInt(sp[i].replace(/([a-zA-Z]).*/, ''))
           }
         }
         let usedmem = total / 1024 ^ 2
