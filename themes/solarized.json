@@ -1,0 +1,33 @@
+{
+	"name": "Solarized",
+	"author": "Chris Mills",
+	"title": {
+		"fg": "#2aa198"
+	},
+	"chart": {
+		"fg": "#5f8700",
+		"border": {
+			"type": "line",
+			"fg": "#93a1a1"
+		}
+	},
+	"table": {
+		"fg": "#626262",
+		"items": {
+			"selected": {
+				"bg": "#00afaf",
+				"fg": "#073642"
+			},
+			"item": {
+				"fg": "#93a1a1"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#93a1a1"
+		}
+	},
+	"footer": {
+		"fg": "#00afaf"
+	}
+}
