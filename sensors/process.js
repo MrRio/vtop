@@ -32,14 +32,16 @@ const plugin = {
 
   sort: 'cpu',
 
-  columns: ['Command', 'CPU %', 'Count', 'Memory %'],
+  columns: ['Command', 'PID  ', 'CPU %', 'Count', 'Memory %'],
   currentValue: [{
     'Command': 'Google Chrome',
+    'PID': '1234',
     'Count': '4',
     'CPU %': '0.4',
     'Memory %': '1'
   }, {
     'Command': 'Sublime Text 2',
+    'PID': '4321',
     'Count': '1',
     'CPU %': '0.1',
     'Memory': '5'
@@ -53,7 +55,7 @@ const plugin = {
     // @todo If you can think of a better way of getting process stats,
     // then please feel free to send me a pull request. This is version 0.1
     // and needs some love.
-    childProcess.exec('ps -ewwwo %cpu,%mem,comm', (error, stdout, stderr) => {
+    childProcess.exec('ps -ewwwo pid,%cpu,%mem,comm', (error, stdout, stderr) => {
       if (error) {
         console.error(error)
       }
@@ -61,12 +63,13 @@ const plugin = {
       // Ditch the first line
       lines[0] = ''
       for (const line in lines) {
-        const currentLine = lines[line].trim().replace('  ', ' ')
+        const currentLine = lines[line].trim().replace(/\s+/g, ' ')
         const words = currentLine.split(' ')
-        if (typeof words[0] !== 'undefined' && typeof words[1] !== 'undefined') {
-          const cpu = words[0].replace(',', '.')
-          const mem = words[1].replace(',', '.')
-          const offset = cpu.length + mem.length + 2
+        if (words.length == 4 && words.every(word => typeof word !== 'undefined')) {
+          const pid = words[0]
+          const cpu = words[1].replace(',', '.')
+          const mem = words[2].replace(',', '.')
+          const offset = pid.length + cpu.length + mem.length + 3
           let comm = currentLine.slice(offset)
           // If we're on Mac then remove the path
           if (/^darwin/.test(process.platform)) {
@@ -81,6 +84,7 @@ const plugin = {
           // If already exists, then add them together
           if (typeof stats[comm] !== 'undefined') {
             stats[comm] = {
+              pid,
               cpu: parseFloat(stats[comm].cpu, 10) + parseFloat(cpu),
               mem: parseFloat(stats[comm].mem, 10) + parseFloat(mem),
               comm,
@@ -88,6 +92,7 @@ const plugin = {
             }
           } else {
             stats[comm] = {
+              pid,
               cpu,
               mem,
               comm,
@@ -103,6 +108,7 @@ const plugin = {
         const memRounded = parseFloat(stats[stat].mem).toFixed(1)
         statsArray.push({
           'Command': stats[stat].comm,
+          'PID  ': stats[stat].pid,
           'Count': stats[stat].count,
           'CPU %': cpuRounded,
           'Memory %': memRounded,
