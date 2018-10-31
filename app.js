@@ -25,6 +25,7 @@ const App = ((() => {
   cli
     .option('-t, --theme  [name]', `set the vtop theme [${themes}]`, 'parallax')
     .option('--no-mouse', 'Disables mouse interactivity')
+    .option('--no-upgrade', 'Disables upgradeNotice, usefull when logging')
     .option('--quit-after [seconds]', 'Quits vtop after interval', '0')
     .option('--update-interval [milliseconds]', 'Interval between updates', '300')
     .version(VERSION)
@@ -424,12 +425,14 @@ const App = ((() => {
 
       doCheck()
       // Check for updates every 5 minutes
-      // setInterval(doCheck, 300000);
+      if (cli.upgrade == true) {
+        setInterval(doCheck, 300000);
+      }
 
       let lastKey = ''
 
       screen.on('keypress', (ch, key) => {
-        if (key === 'up' || key === 'down' || key === 'k' || key === 'j') {
+        if (key.full === 'up' || key.full === 'down' || key.full === 'k' || key.full === 'j') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
@@ -564,7 +567,12 @@ const App = ((() => {
             // jump('string of thing to jump to');
           },
           style: loadedTheme.table.items,
-          mouse: cli.mouse
+          mouse: cli.mouse,
+          scrollable: true,
+          scrollbar: {
+            style: {
+              bg: 'yellow'
+            }}
         })
         processList.append(processListSelection)
         processListSelection.focus()
