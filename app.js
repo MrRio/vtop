@@ -431,8 +431,38 @@ const App = ((() => {
 
       let lastKey = ''
 
+      screen.on('keypress', function(ch, key) {
+        switch(key.name) {
+          case 'pageup':
+            processListSelection.scroll(processListSelection.height * -1);
+            screen.render();
+            break;
+          case 'pagedown':
+            processListSelection.scroll(processListSelection.height);
+            screen.render();
+            break;
+          case 'home':
+            processListSelection.scrollTo(0);
+            screen.render();
+            break;
+          case 'end':
+            processListSelection.scrollTo(Number.MAX_SAFE_INTEGER);
+            screen.render();
+            break;
+        }
+      })
+
       screen.on('keypress', (ch, key) => {
         if (key.full === 'up' || key.full === 'down' || key.full === 'k' || key.full === 'j') {
+          // Disable table updates for half a second
+          disableTableUpdate = true
+          clearTimeout(disableTableUpdateTimeout)
+          disableTableUpdateTimeout = setTimeout(() => {
+            disableTableUpdate = false
+          }, 1000)
+        }
+
+        if (key.full === 'pageup' || key.full === 'pagedown') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
@@ -568,6 +598,7 @@ const App = ((() => {
           },
           style: loadedTheme.table.items,
           mouse: cli.mouse,
+          // alwaysScroll:true,
           scrollable: true,
           scrollbar: {
             style: {
