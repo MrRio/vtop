@@ -434,21 +434,25 @@ const App = ((() => {
       screen.on('keypress', function(ch, key) {
         switch(key.name) {
           case 'pageup':
-            processListSelection.scroll(processListSelection.height * -1);
-            screen.render();
-            break;
+            processListSelection.scroll(processListSelection.height * -1)
+            processListSelection.select(processListSelection.selected-processListSelection.height)
+            screen.render()
+            break
           case 'pagedown':
-            processListSelection.scroll(processListSelection.height);
-            screen.render();
-            break;
+            processListSelection.scroll(processListSelection.height)
+            processListSelection.select(processListSelection.selected+processListSelection.height)
+            screen.render()
+            break
           case 'home':
-            processListSelection.scrollTo(0);
-            screen.render();
-            break;
+            processListSelection.scrollTo(0)
+            processListSelection.select(0)
+            screen.render()
+            break
           case 'end':
-            processListSelection.scrollTo(Number.MAX_SAFE_INTEGER);
-            screen.render();
-            break;
+            processListSelection.scrollTo(Number.MAX_SAFE_INTEGER)
+            processListSelection.select(Number.MAX_SAFE_INTEGER)
+            screen.render()
+            break
         }
       })
 
