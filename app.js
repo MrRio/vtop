@@ -428,8 +428,42 @@ const App = ((() => {
 
       let lastKey = ''
 
+      screen.on('keypress', function(ch, key) {
+        switch(key.name) {
+          case 'pageup':
+            processListSelection.scroll(processListSelection.height * -1)
+            processListSelection.select(processListSelection.selected-processListSelection.height)
+            screen.render()
+            break
+          case 'pagedown':
+            processListSelection.scroll(processListSelection.height)
+            processListSelection.select(processListSelection.selected+processListSelection.height)
+            screen.render()
+            break
+          case 'home':
+            processListSelection.scrollTo(0)
+            processListSelection.select(0)
+            screen.render()
+            break
+          case 'end':
+            processListSelection.scrollTo(Number.MAX_SAFE_INTEGER)
+            processListSelection.select(Number.MAX_SAFE_INTEGER)
+            screen.render()
+            break
+        }
+      })
+
       screen.on('keypress', (ch, key) => {
         if (key === 'up' || key === 'down' || key === 'k' || key === 'j') {
+          // Disable table updates for half a second
+          disableTableUpdate = true
+          clearTimeout(disableTableUpdateTimeout)
+          disableTableUpdateTimeout = setTimeout(() => {
+            disableTableUpdate = false
+          }, 1000)
+        }
+
+        if (key.name === 'pageup' || key.name === 'pagedown') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
@@ -564,7 +598,13 @@ const App = ((() => {
             // jump('string of thing to jump to');
           },
           style: loadedTheme.table.items,
-          mouse: cli.mouse
+          mouse: cli.mouse,
+          // alwaysScroll:true,
+          scrollable: true,
+          scrollbar: {
+            style: {
+              bg: 'yellow'
+            }}
         })
         processList.append(processListSelection)
         processListSelection.focus()
