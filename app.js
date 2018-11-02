@@ -454,7 +454,7 @@ const App = ((() => {
       })
 
       screen.on('keypress', (ch, key) => {
-        if (key.name === 'up' || key.name === 'down' || key.name === 'k' || key.name === 'j') {
+        if (key === 'up' || key === 'down' || key === 'k' || key === 'j') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
