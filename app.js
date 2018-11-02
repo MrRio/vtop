@@ -25,7 +25,6 @@ const App = ((() => {
   cli
     .option('-t, --theme  [name]', `set the vtop theme [${themes}]`, 'parallax')
     .option('--no-mouse', 'Disables mouse interactivity')
-    .option('--no-upgrade', 'Disables upgradeNotice, usefull when logging')
     .option('--quit-after [seconds]', 'Quits vtop after interval', '0')
     .option('--update-interval [milliseconds]', 'Interval between updates', '300')
     .version(VERSION)
@@ -425,9 +424,7 @@ const App = ((() => {
 
       doCheck()
       // Check for updates every 5 minutes
-      if (cli.upgrade == true) {
-        setInterval(doCheck, 300000);
-      }
+      // setInterval(doCheck, 300000);
 
       let lastKey = ''
 
@@ -457,7 +454,7 @@ const App = ((() => {
       })
 
       screen.on('keypress', (ch, key) => {
-        if (key.full === 'up' || key.full === 'down' || key.full === 'k' || key.full === 'j') {
+        if (key.name === 'up' || key.name === 'down' || key.name === 'k' || key.name === 'j') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
@@ -466,7 +463,7 @@ const App = ((() => {
           }, 1000)
         }
 
-        if (key.full === 'pageup' || key.full === 'pagedown') {
+        if (key.name === 'pageup' || key.name === 'pagedown') {
           // Disable table updates for half a second
           disableTableUpdate = true
           clearTimeout(disableTableUpdateTimeout)
