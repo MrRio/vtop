@@ -33,17 +33,7 @@ const plugin = {
   sort: 'cpu',
 
   columns: ['Command', 'CPU %', 'Count', 'Memory %'],
-  currentValue: [{
-    'Command': 'Google Chrome',
-    'Count': '4',
-    'CPU %': '0.4',
-    'Memory %': '1'
-  }, {
-    'Command': 'Sublime Text 2',
-    'Count': '1',
-    'CPU %': '0.1',
-    'Memory': '5'
-  }],
+  currentValue: [],
 
   /**
    * Grab the current value for the table
