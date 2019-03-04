@@ -1,0 +1,33 @@
+{
+	"name": "Aid",
+	"author": "Worldpotato",
+	"title": {
+		"fg": "#3B8686"
+	},
+	"chart": {
+		"fg": "#0B486B",
+		"border": {
+			"type": "line",
+			"fg": "#3B8686"
+		}
+	},
+	"table": {
+		"fg": "#3B8686",
+		"items": {
+			"selected": {
+				"bg": "#79BD9A",
+				"fg": "#000000"
+			},
+			"item": {
+				"fg": "#79BD9A"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#3B8686"
+		}
+	},
+	"footer": {
+		"fg": "#3B8686"
+	}
+}
