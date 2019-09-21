@@ -1,0 +1,34 @@
+{
+	"name": "Goozy",
+	"author": "Kyle Payne",
+	"title": {
+		"fg": "#cc2f00"
+	},
+	"chart": {
+		"fg": "#00f4b7",
+		"border": {
+			"type": "line",
+			"fg": "#00468b"
+		}
+	},
+	"table": {
+		"fg": "#cc2f00",
+		"items": {
+			"selected": {
+				"bg": "#cc2f00",
+				"fg": "#ffffff"
+			},
+			"item": {
+				"fg": "#888888",
+				"bg": "bg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#00468b"
+		}
+	},
+	"footer": {
+		"fg": "#ffffff"
+	}
+}
