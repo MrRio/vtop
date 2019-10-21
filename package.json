@@ -34,7 +34,7 @@
     "blessed": "0.1.81",
     "commander": "2.11.0",
     "drawille": "1.1.0",
-    "glob": "7.1.2",
+    "glob": "7.1.5",
     "husky": "^0.14.3",
     "os-utils": "0.0.14",
     "read": "1.0.7",
