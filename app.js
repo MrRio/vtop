@@ -568,6 +568,7 @@ const App = ((() => {
         })
         processList.append(processListSelection)
         processListSelection.focus()
+        drawFooter() //Footer appears even after resizing the terminal
         screen.render()
       }
 
