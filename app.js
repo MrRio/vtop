@@ -13,7 +13,10 @@ const App = ((() => {
   const path = require('path')
   let themes = ''
   let program = blessed.program()
-
+  
+  // Total memory of the system in GB
+  const mem_2 = os.totalmem()/(Math.pow(10, 9))
+  
   const files = glob.sync(path.join(__dirname, 'themes', '*.json'))
   for (var i = 0; i < files.length; i++) {
     let themeName = files[i].replace(path.join(__dirname, 'themes') + path.sep, '').replace('.json', '')
@@ -154,7 +157,9 @@ const App = ((() => {
       'g': 'Jump to top',
       'G': 'Jump to bottom',
       'c': 'Sort by CPU',
-      'm': 'Sort by Mem'
+      'm': 'Sort by Mem',
+      'p': 'Memory usage in percentage',
+      'b': 'Memory usage in GB'
     }
     let text = ''
     for (const c in commands) {
@@ -455,6 +460,16 @@ const App = ((() => {
           selectedProcess = selectedProcess.slice(0, processWidth).trim()
 
           childProcess.exec(`killall "${selectedProcess}"`, () => {})
+        }
+
+        // Key to display memory usage in GB
+        if(key.name === 'b'){
+          charts[2].plugin.mem1 = mem_2/100
+        }
+
+        // Key to display memory usage in percentage
+        if(key.name === 'p'){
+          charts[2].plugin.mem1 = 1
         }
 
         if (key.name === 'c' && charts[2].plugin.sort !== 'cpu') {
