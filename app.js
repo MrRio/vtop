@@ -13,6 +13,19 @@ const App = ((() => {
   const path = require('path')
   let themes = ''
   let program = blessed.program()
+  
+  // Stores time at the start of program
+  const time_start = Date.now() 
+  
+  // Variables initialised with default values
+  var cpu_current
+  var mem_current
+  var cpu_sum = 0
+  var cpu_avg = 0
+  var mem_sum = 0
+  var mem_avg = 0
+  var count = 0
+  var count1 = 0
 
   const files = glob.sync(path.join(__dirname, 'themes', '*.json'))
   for (var i = 0; i < files.length; i++) {
@@ -249,10 +262,97 @@ const App = ((() => {
 
     // Add percentage to top right of the chart by splicing it into the braille data
     const textOutput = c.frame().split('\n')
-    const percent = `   ${chart.plugin.currentValue}`
-    textOutput[0] = `${textOutput[0].slice(0, textOutput[0].length - 4)}{white-fg}${percent.slice(-3)}%{/white-fg}`
+    
+    // Calculates time elapsed after start of program
+    const time_now = (Date.now() - time_start)/10**3 
 
-    return textOutput.join('\n')
+    // chartKey is used for determining whether drawChart is called for printing cpu usage or mem usage
+    if(chartKey == 0){
+      count += 1 
+      cpu_sum += chart.plugin.currentValue
+      cpu_avg = Math.round((cpu_sum/count)*100)/100
+      cpu_current = chart.plugin.currentValue
+      const percent = `   ${chart.plugin.currentValue}`
+      
+      // Displays warning with wizard theme when CPU usage is greater than 30
+      if(cpu_current>30){
+        const cpu_usage = `${"Average CPU usage in last "}${time_now}${"s"}${" is "}${cpu_avg}%{red-fg}${"\tWarning!!!! Current CPU usage is "}${"\t"}${percent.slice(-3)}%{/red-fg}`
+        textOutput[0] = `${cpu_usage}`
+        graph = blessed.box({
+          top: 1,
+          left: 'left',
+          width: '100%',
+          height: '50%',
+          content: textOutput.join('\n'),
+          fg: require(`./themes/${"wizard"}.json`).chart.fg,
+          tags: true,
+          border: require(`./themes/${"wizard"}.json`).chart.border
+        })
+        graph.setLabel(` ${charts[0].plugin.title} `)
+        screen.append(graph)
+      }
+      
+      else{
+        const cpu_usage = `${"Average CPU usage in last "}${time_now}${"s"}${" is "}${cpu_avg}%{white-fg}${"\tCurrent CPU usage is "}${"\t"}${percent.slice(-3)}%{/white-fg}`
+        textOutput[0] = `${cpu_usage}`
+        graph = blessed.box({
+          top: 1,
+          left: 'left',
+          width: '100%',
+          height: '50%',
+          content: textOutput.join('\n'),
+          fg: require(`./themes/${cli.theme}.json`).chart.fg,
+          tags: true,
+          border: require(`./themes/${cli.theme}.json`).chart.border
+        })
+        graph.setLabel(` ${charts[0].plugin.title} `)
+        screen.append(graph)
+      }
+    }
+
+    else{
+      count1 += 1
+      mem_current = chart.plugin.currentValue
+      mem_sum += chart.plugin.currentValue
+      mem_avg = Math.round((mem_sum/count1)*100)/100
+      const percent = `   ${chart.plugin.currentValue}`
+      
+      // Displays warning with brew theme when Memory usage is greater than 70
+      if(mem_current>70){
+        const mem_usage = `${"Average Memory usage in last "}${time_now}${"s"}${" is "}${mem_avg}%{red-fg}${"\tWarning!!! Current Memory usage is "}${"\t"}${percent.slice(-3)}%{/red-fg}`
+        textOutput[0] = `${mem_usage}`
+        graph2 = blessed.box({
+          top: graph.height + 1,
+          left: 'left',
+          width: '50%',
+          height: graph.height - 2,
+          content: textOutput.join('\n'),
+          fg: require(`./themes/${"brew"}.json`).chart.fg,
+          tags: true,
+          border: require(`./themes/${"brew"}.json`).chart.border
+        })
+        graph2.setLabel(` ${charts[1].plugin.title} `)
+        screen.append(graph2)
+      }
+
+      else{
+        const mem_usage = `${"Average Memory usage in last "}${time_now}${"s"}${" is "}${mem_avg}%{white-fg}${"\tCurrent Memory usage is "}${"\t"}${percent.slice(-3)}%{/white-fg}`
+        textOutput[0] = `${mem_usage}`
+        graph2 = blessed.box({
+          top: graph.height + 1,
+          left: 'left',
+          width: '50%',
+          height: graph.height - 2,
+          content: textOutput.join('\n'),
+          fg: require(`./themes/${cli.theme}.json`).chart.fg,
+          tags: true,
+          border: require(`./themes/${cli.theme}.json`).chart.border
+        })
+        graph2.setLabel(` ${charts[1].plugin.title} `)
+        screen.append(graph2)
+      }
+    }
+  return textOutput.join('\n')
   }
 
   /**
