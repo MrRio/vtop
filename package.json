@@ -32,7 +32,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "blessed": "0.1.81",
-    "commander": "2.11.0",
+    "commander": "4.0.1",
     "drawille": "1.1.0",
     "glob": "7.1.2",
     "husky": "^0.14.3",
