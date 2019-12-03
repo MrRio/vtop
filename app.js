@@ -533,9 +533,9 @@ const App = ((() => {
           width: '50%',
           height: graph.height - 2,
           content: '',
-          fg: loadedTheme.chart.fg,
+          fg: loadedTheme.chartMemory ? loadedTheme.chartMemory.fg : loadedTheme.chart.fg,
           tags: true,
-          border: loadedTheme.chart.border
+          border: loadedTheme.chartMemory ? loadedTheme.chartMemory.border : loadedTheme.chart.border
         })
         screen.append(graph2)
 
