@@ -1,0 +1,42 @@
+ {
+	"name": "Dracula",
+	"author": "grippado",
+	"description": "Unofficial colour scheme based on Dracula syntax theme",
+	"title": {
+		"fg": "#f8f8f2"
+	},
+	"chart": {
+		"fg": "#bd93f9",
+		"border": {
+			"type": "line",
+			"fg": "#ff79c6"
+		}
+	},
+	"chartMemory": {
+		"fg": "#f1fa8c",
+		"border": {
+			"type": "line",
+			"fg": "#ff5555"
+		}
+	},
+	"table": {
+		"fg": "#ffb86c",
+		"items": {
+			"selected": {
+				"bg": "#8be9fd",
+				"fg": "#44475a"
+			},
+			"item": {
+				"fg": "#50fa7b",
+				"bg": "bg"
+			}
+		},
+		"border": {
+			"type": "line",
+			"fg": "#f1fa8c"
+		}
+	},
+	"footer": {
+		"fg": "#ffb86c"
+	}
+}
