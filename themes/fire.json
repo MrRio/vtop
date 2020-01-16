@@ -1,0 +1,34 @@
+{
+  "name": "Fire",
+  "author": "Nikita Lvov",
+  "title": {
+    "fg": "#f7dc71"
+  },
+  "chart": {
+    "fg": "#f76e00",
+    "border": {
+      "type": "line",
+      "fg": "#f7b968"
+    }
+  },
+  "table": {
+    "fg": "fg",
+    "items": {
+      "selected": {
+        "bg": "#b00a51",
+        "fg": "#f7d4b1"
+      },
+      "item": {
+        "fg": "fg",
+        "bg": "bg"
+      }
+    },
+    "border": {
+      "type": "line",
+      "fg": "#f7b968"
+    }
+  },
+  "footer": {
+    "fg": "fg"
+  }
+}
