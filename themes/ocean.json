@@ -1,0 +1,34 @@
+{
+  "name": "Ocean",
+  "author": "Nikita Lvov",
+  "title": {
+    "fg": "#739fd0"
+  },
+  "chart": {
+    "fg": "#0080ff",
+    "border": {
+      "type": "line",
+      "fg": "#55c0f3"
+    }
+  },
+  "table": {
+    "fg": "fg",
+    "items": {
+      "selected": {
+        "bg": "#0095ba",
+        "fg": "#f7d4b1"
+      },
+      "item": {
+        "fg": "fg",
+        "bg": "bg"
+      }
+    },
+    "border": {
+      "type": "line",
+      "fg": "#55c0f3"
+    }
+  },
+  "footer": {
+    "fg": "fg"
+  }
+}
