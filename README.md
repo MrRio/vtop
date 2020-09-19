@@ -18,6 +18,15 @@ npm install -g vtop
 
 If you're on macOS, or get an error about file permissions, you may need to do ```sudo npm install -g vtop```. Don't do this if you're using [nvm](https://github.com/creationix/nvm).
 
+The Docker Way
+---
+If you don't have Node.js installed, don't worry!
+* Install docker from [here](https://docs.docker.com/get-docker/)
+* Run the following command in your terminal,
+```sh
+docker run --rm -it --pid=host snpranav/vtop
+```
+
 Running
 ---
 
