@@ -1,10 +1,5 @@
 #########################
-#     # ##### #### ####
- #   #    #   #  # #  #
-  # #     #   #  # ####
-	 #      #   #### #
-#
-# Run VTOP by running
+# Run VTOP in a docker container by running
 # docker run --rm -it --net=host --pid=host snpranav/vtop
 #########################
 FROM node:12.18-buster 
