@@ -14,6 +14,11 @@ const App = ((() => {
   let themes = ''
   let program = blessed.program()
 
+  if (os.platform() === "win32") {
+    console.error("Windows is not yet supported.")
+    process.exit(1);
+  }
+  
   const files = glob.sync(path.join(__dirname, 'themes', '*.json'))
   for (var i = 0; i < files.length; i++) {
     let themeName = files[i].replace(path.join(__dirname, 'themes') + path.sep, '').replace('.json', '')
